@@ -1,0 +1,142 @@
+{
+  "id": "pair2",
+  "title": "서울 클라우드 회사와 대구 군위군 식품 회사 (가상, 기숙사 제공)",
+  "postings": [
+    {
+      "id": "A",
+      "text": "[예시테크(가상)] 데이터 엔지니어 신입 채용\n사업내용: 클라우드 서비스 개발\n기업형태: 중소기업\n근무지: 서울 강남구 역삼동\n고용형태: 정규직\n급여: 연봉 3,600만원\n복리후생: 재택근무 주 1회, 도서 구입비"
+    },
+    {
+      "id": "B",
+      "text": "[보기푸드(가상)] 품질관리 신입 채용\n사업내용: 식품 제조\n기업형태: 중소기업\n근무지: 대구 군위군 군위읍\n고용형태: 정규직\n급여: 연봉 3,300만원\n복리후생: 기숙사 제공, 통근버스"
+    }
+  ],
+  "savedExtract": {
+    "note": "LLM 미연결 개발용 임시 저장본. 마감 전에 실제 LLM 응답 저장본으로 바꾼다.",
+    "fields": {
+      "A": {
+        "companyName": {
+          "value": "예시테크(가상)",
+          "status": "extracted",
+          "evidence": "[예시테크(가상)] 데이터 엔지니어 신입 채용",
+          "note": null
+        },
+        "annualSalary": {
+          "value": 36000000,
+          "status": "extracted",
+          "evidence": "급여: 연봉 3,600만원",
+          "note": null
+        },
+        "workLocationText": {
+          "value": "서울 강남구 역삼동",
+          "status": "extracted",
+          "evidence": "근무지: 서울 강남구 역삼동",
+          "note": null
+        },
+        "employmentType": {
+          "value": "regular",
+          "status": "extracted",
+          "evidence": "고용형태: 정규직",
+          "note": null
+        },
+        "companySize": {
+          "value": "sme",
+          "status": "extracted",
+          "evidence": "기업형태: 중소기업",
+          "note": null
+        },
+        "industryText": {
+          "value": "클라우드 서비스 개발",
+          "status": "extracted",
+          "evidence": "사업내용: 클라우드 서비스 개발",
+          "note": null
+        },
+        "benefits": {
+          "mealAllowanceMonthly": {
+            "value": null,
+            "status": "missing",
+            "evidence": null,
+            "note": "공고에 언급 없음"
+          },
+          "dormitory": {
+            "value": null,
+            "status": "missing",
+            "evidence": null,
+            "note": "공고에 언급 없음"
+          },
+          "housingSupportMonthly": {
+            "value": null,
+            "status": "missing",
+            "evidence": null,
+            "note": "공고에 언급 없음"
+          },
+          "others": [
+            "재택근무 주 1회",
+            "도서 구입비"
+          ]
+        }
+      },
+      "B": {
+        "companyName": {
+          "value": "보기푸드(가상)",
+          "status": "extracted",
+          "evidence": "[보기푸드(가상)] 품질관리 신입 채용",
+          "note": null
+        },
+        "annualSalary": {
+          "value": 33000000,
+          "status": "extracted",
+          "evidence": "급여: 연봉 3,300만원",
+          "note": null
+        },
+        "workLocationText": {
+          "value": "대구 군위군 군위읍",
+          "status": "extracted",
+          "evidence": "근무지: 대구 군위군 군위읍",
+          "note": null
+        },
+        "employmentType": {
+          "value": "regular",
+          "status": "extracted",
+          "evidence": "고용형태: 정규직",
+          "note": null
+        },
+        "companySize": {
+          "value": "sme",
+          "status": "extracted",
+          "evidence": "기업형태: 중소기업",
+          "note": null
+        },
+        "industryText": {
+          "value": "식품 제조",
+          "status": "extracted",
+          "evidence": "사업내용: 식품 제조",
+          "note": null
+        },
+        "benefits": {
+          "mealAllowanceMonthly": {
+            "value": null,
+            "status": "missing",
+            "evidence": null,
+            "note": "공고에 언급 없음"
+          },
+          "dormitory": {
+            "value": true,
+            "status": "extracted",
+            "evidence": "복리후생: 기숙사 제공, 통근버스",
+            "note": null
+          },
+          "housingSupportMonthly": {
+            "value": null,
+            "status": "missing",
+            "evidence": null,
+            "note": "공고에 언급 없음"
+          },
+          "others": [
+            "통근버스"
+          ]
+        }
+      }
+    }
+  }
+}
