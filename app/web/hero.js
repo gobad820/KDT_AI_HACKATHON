@@ -4,8 +4,8 @@
      영상이 끝나면 0초부터 다시 출력해 pauseAt에서 멈춘다
    - 움직임 줄이기 설정, 자동 재생 거부, 불러오기 실패·지연이면 출력이 끝난 장면(still 이미지)을 보여 준다
    영수증 숫자는 hero.json(계산 모듈 출력, scripts/build_hero.py)을 media/printer/receipt_texture.js로 감열 인쇄해 렌더에 구운 것이다.
-   hero.json이 바뀌면 media/printer 의 텍스처와 영상을 다시 만든다(render_hero.py 머리말 참고).
-   아래 문장(heroFact, heroNote)도 같은 hero.json에서 만든다. */
+   영수증에 쓰는 1년차 값(jobs[]의 label·region·salary·taxAndInsurance·rentAnnual·remaining, rentPeriod)이 바뀌면 media/printer 의 텍스처와 영상을 다시 만든다(render_hero.py 머리말 참고).
+   아래 문장(heroFact, heroNote)도 같은 hero.json에서 만든다. 문장에는 1년 숫자와 누적(horizonYears년) 숫자를 함께 밝힌다. */
 (function () {
   'use strict';
   var hero = document.getElementById('hero');
@@ -97,13 +97,20 @@
     }).catch(still);
   }
 
+  // 1년 숫자(영수증과 같은 값)와 누적 숫자를 함께 쓴다. 누적 차이는 화면에서 곱하지 않고 hero.json comparison.difference(simulate 출력)를 쓴다
   function wire(data) {
     var A = data.jobs[0], B = data.jobs[1], win = A.remaining >= B.remaining ? A : B, lose = win === A ? B : A;
     var rich = A.salary >= B.salary ? A : B, poor = rich === A ? B : A;
-    document.getElementById('heroFact').innerHTML = win !== rich
-      ? '연봉이 <b>' + man(rich.salary - poor.salary) + '만 원</b> 낮은 ' + win.label + ' 공고가 1년에 <mark>' + man(win.remaining - lose.remaining) + '만 원</mark> 더 남습니다.'
-      : win.label + ' 공고가 1년에 <mark>' + man(win.remaining - lose.remaining) + '만 원</mark> 더 남습니다.';
-    document.getElementById('heroNote').textContent = '예시: ' + A.region + ' 연봉 ' + man(A.salary) + '만 원과 ' + B.region + ' 연봉 ' + man(B.salary) + '만 원, 1년차, 감면 없음.';
+    var c = data.comparison, n = data.horizonYears;
+    var many = c && n > 1 && c.betterJob === win.label;   // 누적에서도 같은 쪽이 더 남을 때만 이어 쓴다
+    var gap = many
+      ? '1년에 <b>' + man(win.remaining - lose.remaining) + '만 원</b>, ' + n + '년이면 <mark>' + man(c.difference) + '만 원</mark> 더 남습니다.'
+      : '1년에 <mark>' + man(win.remaining - lose.remaining) + '만 원</mark> 더 남습니다.';
+    document.getElementById('heroFact').innerHTML = (win !== rich
+      ? '연봉이 <b>' + man(rich.salary - poor.salary) + '만 원</b> 낮은 ' + win.label + ' 공고가 '
+      : win.label + ' 공고가 ') + gap;
+    document.getElementById('heroNote').textContent = '예시: ' + A.region + ' 연봉 ' + man(A.salary) + '만 원과 ' + B.region + ' 연봉 ' + man(B.salary) + '만 원, '
+      + (many ? '감면 없음. 영수증은 1년차 금액이고, ' + n + '년 금액은 같은 연봉과 월세가 이어진다고 보고 ' + n + '년을 더한 값입니다.' : '1년차, 감면 없음.');
   }
 
   var card = document.querySelector('#step1 .card');

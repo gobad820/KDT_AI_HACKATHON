@@ -1,4 +1,4 @@
-/* 남는 돈 비교
+/* 첫 직장, 10년 뒤 경제력
    바탕: 차가운 돌 회색 + 고운 입자. 물체는 감열지 영수증 한 장과 POS 프린터.
    강조색은 형광펜 노랑 하나. 금액 강조는 형광펜으로만 한다. */
 :root {
@@ -37,10 +37,12 @@ p { margin: 0 0 8px; }
 .lead { display: none; }
 
 /* 상단 */
-.topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 76px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 76px; }
+.brand { min-width: 0; }
+.brand-sub { margin: 2px 0 0 28px; font-size: .8rem; line-height: 1.45; color: var(--sub); word-break: keep-all; }
 .mark { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.03em; margin: 0; display: flex; align-items: center; gap: 10px; }
-.mark::before { content: ""; width: 18px; height: 22px; border-radius: 2px; background: var(--panel); box-shadow: 0 0 0 1.5px var(--ink) inset, 0 4px 0 -2px var(--hl) inset; }
-.stepper { display: flex; gap: 4px; list-style: none; padding: 4px; margin: 0; background: rgba(255,255,255,.55); border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); }
+.mark::before { content: ""; flex-shrink: 0; width: 18px; height: 22px; border-radius: 2px; background: var(--panel); box-shadow: 0 0 0 1.5px var(--ink) inset, 0 4px 0 -2px var(--hl) inset; }
+.stepper { display: flex; flex-shrink: 0; gap: 4px; list-style: none; padding: 4px; margin: 0; background: rgba(255,255,255,.55); border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); }
 .stepper li { font-size: .84rem; font-weight: 600; color: var(--faint); padding: 6px 12px 6px 8px; border-radius: 999px; display: flex; align-items: center; gap: 6px; }
 .stepper li span { width: 20px; height: 20px; border-radius: 50%; display: inline-grid; place-items: center; font-size: .72rem; background: rgba(19,20,22,.07); font-variant-numeric: tabular-nums; }
 .stepper li.done { color: var(--sub); }
@@ -276,7 +278,9 @@ a:hover { text-decoration-color: var(--ink); }
 @media (max-width: 720px) {
   body { font-size: 15px; }
   .wrap { padding: 0 16px; }
-  .topbar { height: auto; padding: 14px 16px; flex-wrap: wrap; }
+  .topbar { height: auto; padding: 14px 16px; flex-wrap: wrap; row-gap: 10px; }
+  .brand { flex: 1 1 100%; }
+  .brand-sub { font-size: .76rem; }
   .stepper li { padding: 5px 9px 5px 6px; }
   .hero-title { font-size: 2.6rem; }
   .hero-shot { border-radius: 22px; }

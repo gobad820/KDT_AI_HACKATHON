@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-2026 대한민국 청년 CAREER FAIR AI 해커톤(대한상공회의소) 출품 프로젝트 "남는 돈 비교".
+2026 대한민국 청년 CAREER FAIR AI 해커톤(대한상공회의소) 출품 프로젝트 "첫 직장, 10년 뒤 경제력". 채용공고 두 개를 넣으면 세금과 월세를 빼고 10년 동안 남는 돈을 비교한다(11/22 대표자 결정으로 이름을 바꾸고 결과 화면 기본 누적 기간을 10년으로 바꿈. 배포 주소 `nammeun-don`과 GitHub 저장소 이름은 옛 이름 그대로 둔다).
 대회 주제: AI 에이전트로 푸는 청년의 일·생활 문제. 제출 마감 11/23(월) 17:00.
 
 **팀원(이동한, 정상훈)은 `docs/team-1122.md`부터 읽고 자기 이름 부분만 맡는다.** 그 밖의 작업은 시작하기 전에 `HANDOFF.md`를 읽는다. `HANDOFF.md`에는 현재 상태, `.env` 상태, 작업 순서(T1~T15)가 있다. 작업을 끝내면 그 파일의 체크박스를 고치고 커밋한다. 최신 현황은 `docs/status-2026-11-21.md`.
@@ -47,7 +47,7 @@ python3 -m pytest -k netpay                   # 이름으로 고르기
 - 화면만 볼 때는 `http://localhost:8000/?mock=1`. `app/web/mock.js`가 서버 응답을 대신한다.
 - 수집·통계 스크립트(`scripts/collect_rent.py`, `build_rent_stats.py`, `build_regions.py`)의 사용법은 각 스크립트의 `--help`와 `HANDOFF.md` 5장(T4~T9)에 있다.
 - 월세 통계(`data/rent_stats.json`)를 다시 만들면 `python3 scripts/build_hero.py`로 첫 화면 숫자(`app/web/hero.json`)도 다시 만든다. 화면 금액은 계산 코드 출력만 쓴다는 규칙 때문이다.
-- 첫 화면 영상(`app/web/img/hero_print.mp4`)의 영수증 숫자는 `hero.json`을 Blender 렌더에 구운 것이다. `hero.json`이 바뀌면 텍스처(`media/printer/receipt_texture.js` → `save_texture.py`) → `render_hero.py`(약 35분) → `make_video.sh` 순서로 다시 만든다. 자세한 절차는 `render_hero.py` 머리말에 있다.
+- 첫 화면 영상(`app/web/img/hero_print.mp4`)의 영수증은 `hero.json`의 1년차 값(`jobs[]`의 `label`·`region`·`salary`·`taxAndInsurance`·`rentAnnual`·`remaining`과 `rentPeriod`)을 Blender 렌더에 구운 것이다. 10년 누적 값(`jobs[].cumulativeRemaining`, `comparison`)은 첫 화면 문장에만 쓴다. 영수증에 쓰는 값이 바뀌면 텍스처(`media/printer/receipt_texture.js` → `save_texture.py`) → `render_hero.py`(약 35분) → `make_video.sh` 순서로 다시 만든다. 자세한 절차는 `render_hero.py` 머리말에 있다.
 - `scripts/calc_ref.py`는 계산 모듈과 따로 짠 대조용 구현이다. `app/calc/`를 고치면 두 결과가 같은지 본다.
 
 ## 아키텍처 (여러 파일을 읽어야 보이는 것)

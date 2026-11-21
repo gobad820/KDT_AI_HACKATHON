@@ -90,6 +90,15 @@ def test_api_spec_example_numbers():
     assert {s["url"] for s in EXAMPLE_RES["sources"]} == {s["url"] for s in got["sources"]}
 
 
+def test_default_horizon_is_10_years():
+    """options를 빼면 10년 누적으로 계산한다(11/22 대표자 결정). 금액은 10년 예시 응답과 같다."""
+    data = json.loads(json.dumps(EXAMPLE_REQ))
+    del data["options"]
+    res = run_compare(CompareRequest.model_validate(data), deps())
+    assert all(len(s.yearly) == 10 for j in res.jobs for s in j.scenarios)
+    assert dump(res)["comparison"] == EXAMPLE_RES["comparison"]
+
+
 def test_scope_widening_and_pref_candidate_notice():
     res = run_compare(request(**{"postings.1.confirmed.sggCode": "27720"}), deps())
     job = next(j for j in res.jobs if j.id == "B")

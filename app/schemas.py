@@ -161,7 +161,7 @@ class Profile(ApiModel):
 
 
 class CompareOptions(ApiModel):
-    horizon_years: Literal[1, 3, 5, 10] = 5
+    horizon_years: Literal[1, 3, 5, 10] = 10     # 11/22 대표자 결정으로 5 → 10
     explanation: Literal["ai", "template"] = "ai"     # template: LLM 설명문 없이 금액부터 (화면은 /api/explain으로 나중에 받음)
 
 

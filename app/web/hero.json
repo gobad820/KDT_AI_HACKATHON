@@ -8,7 +8,8 @@
    "taxAndInsurance": 4590194,
    "rentAnnual": 10290000,
    "rentMonthly": 857500,
-   "remaining": 23119806
+   "remaining": 23119806,
+   "cumulativeRemaining": 231198060
   },
   {
    "label": "부산",
@@ -18,10 +19,17 @@
    "taxAndInsurance": 3711704,
    "rentAnnual": 5400000,
    "rentMonthly": 450000,
-   "remaining": 24888296
+   "remaining": 24888296,
+   "cumulativeRemaining": 248882960
   }
  ],
+ "horizonYears": 10,
+ "comparison": {
+  "scenarioId": "none",
+  "betterJob": "부산",
+  "difference": 17684900
+ },
  "rentVersion": "2026-11-21",
  "rentPeriod": "2026-05~2026-10",
- "assumption": "1년차, 감면 없음, 비과세 식대 월 20만 원, 원룸 월세 중위값"
+ "assumption": "1년차와 10년 누적(같은 연봉·월세 유지), 감면 없음, 비과세 식대 월 20만 원, 원룸 월세 중위값"
 }
