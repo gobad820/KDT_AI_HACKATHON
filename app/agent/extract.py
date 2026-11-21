@@ -17,7 +17,7 @@ from .llm import LLMClient, LLMUnavailable
 from .mask import mask_pii
 from .salary import normalize_monthly_amount, normalize_salary
 
-PROMPT_VERSION = "extract_v1"
+PROMPT_VERSION = "extract_v2"   # v2(11/21): 회사 규모 단서만 있을 때 값을 sme로 고정(v1은 실행마다 unknown/sme가 갈림)
 SYSTEM_PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf-8")
 
 

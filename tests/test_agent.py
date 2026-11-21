@@ -338,3 +338,15 @@ def test_classify_caches_only_real_llm_success(monkeypatch):
     Cl.classify_industry("식품 제조", client)                         # 실패 → 키워드 규칙, 캐시하지 않음
     assert ("m-cache", "식품 제조") not in Cl._CACHE
     Cl._CACHE.clear()
+
+
+def test_salary_evidence_accepts_korean_unit_forms():
+    from app.agent.evidence import verify_salary
+    from app.schemas import ExtractedField
+    src = "저희 카타랩(가상)은 백엔드 개발자를 모십니다. 연봉은 4천만원이며 스톡옵션을 드립니다. 팀장급은 1억 2천만원입니다."
+    f = ExtractedField[int](value=40_000_000, status="extracted", evidence="연봉은 4천만원이며", note=None)
+    assert verify_salary(f, src, 4000).value == 40_000_000
+    g = ExtractedField[int](value=120_000_000, status="extracted", evidence="팀장급은 1억 2천만원입니다", note=None)
+    assert verify_salary(g, src, 12000).value == 120_000_000
+    h = ExtractedField[int](value=50_000_000, status="extracted", evidence="연봉은 4천만원이며", note=None)
+    assert verify_salary(h, src, 5000).value is None                # 근거에 없는 금액은 여전히 막는다
