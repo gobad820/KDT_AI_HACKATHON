@@ -123,7 +123,7 @@ def run_compare(req: CompareRequest, deps: Deps,
         regions[p.id] = region
         if c.housing.mode == "dormitory":
             rents[p.id], housing_monthly[p.id] = None, 0
-            assumptions_housing.append(f"공고 {p.id}: 기숙사를 이용한다고 보고 주거비를 0원으로 계산했습니다.")
+            assumptions_housing.append(f"공고 {p.id}: 기숙사나 본가에서 다닌다고 보고 주거비를 0원으로 계산했습니다.")
         elif c.housing.mode == "custom":
             rents[p.id], housing_monthly[p.id] = None, int(c.housing.custom_monthly)
             assumptions_housing.append(f"공고 {p.id}: 입력한 월 주거비 {int(c.housing.custom_monthly):,}원으로 계산했습니다.")

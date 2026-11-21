@@ -519,7 +519,7 @@
       col.appendChild(ni);
       col.appendChild(h('label', { class: 'small', text: '주거' }));
       var sel = h('select', { 'data-role': 'housing-mode', 'aria-label': '공고 ' + pid + ' 주거', on: { change: function () { m.housing.mode = sel.value; syncHousing(pid); } } }, [
-        h('option', { value: 'market_rent', text: '월세 통계' }), h('option', { value: 'dormitory', text: '기숙사(주거비 0원)' }), h('option', { value: 'custom', text: '직접 입력' })
+        h('option', { value: 'market_rent', text: '월세 통계' }), h('option', { value: 'dormitory', text: '기숙사·본가(주거비 0원)' }), h('option', { value: 'custom', text: '직접 입력' })
       ]);
       var amt = h('input', { type: 'number', inputmode: 'numeric', min: '0', placeholder: '월 주거비(원)', 'data-role': 'housing-amt', 'aria-label': '공고 ' + pid + ' 월 주거비', on: { input: function () {
         m.housing.custom = amt.value === '' ? null : Number(amt.value);
@@ -817,7 +817,7 @@
       if (!r.sufficient) card.appendChild(h('p', { class: 'small', text: '표본이 30건 미만이라 통계가 불안정할 수 있습니다.' }));
     } else {
       var mode = state.lastReq ? (byId(state.lastReq.postings, j.id) || { confirmed: { housing: {} } }).confirmed.housing.mode : '';
-      card.appendChild(h('p', { text: mode === 'dormitory' ? '기숙사' : (mode === 'custom' ? '직접 입력' : '월세 통계 없음') + ' (월 ' + won(j.housingMonthly) + ')' }));
+      card.appendChild(h('p', { text: mode === 'dormitory' ? '기숙사·본가 (주거비 0원)' : (mode === 'custom' ? '직접 입력' : '월세 통계 없음') + ' (월 ' + won(j.housingMonthly) + ')' }));
     }
     // 감면 대상 가능성
     var el = j.eligibility;
