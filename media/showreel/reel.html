@@ -4,57 +4,50 @@
 <meta charset="utf-8">
 <title>남는 돈 비교 15초</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm_code/style.css">
 <style>
-:root { --desk: #2e3238; --paper: #fafaf6; --ink: #222326; --grey: #8d939c; --amber: #f2b84b; --sub: #a9adb4; }
+:root { --bg: #e4e5e8; --ink: #131416; --sub: #5b5f66; --faint: #8b9097; --hl: #f4ea45;
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 html, body { margin: 0; background: #0c0d0f; overflow: hidden; }
-#stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--desk);
-  font-family: "Pretendard Variable", Pretendard, sans-serif; color: #fff; transform-origin: 0 0; }
+#stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg);
+  font-family: "Pretendard Variable", Pretendard, sans-serif; color: var(--ink); transform-origin: 0 0; letter-spacing: -0.015em; }
 .layer { position: absolute; inset: 0; }
 .abs { position: absolute; left: 0; top: 0; will-change: transform; }
-#desk { background:
-  radial-gradient(ellipse at 50% 40%, rgba(255,255,255,.06), rgba(0,0,0,0) 60%),
-  radial-gradient(rgba(255,255,255,.04) 1px, transparent 1.2px) 0 0 / 5px 5px, var(--desk); }
-.neo { font-family: "NeoDunggeunmo Code", monospace; -webkit-font-smoothing: none; letter-spacing: 0; }
-/* 감열지 */
-.paper { width: 560px; background: var(--paper); color: var(--ink); padding: 26px 24px 18px; box-sizing: border-box; }
-.paper .l { white-space: pre; font-size: 32px; line-height: 38px; height: 38px; }
-.paper .l.dbl { font-size: 64px; line-height: 70px; height: 70px; }
-.paper .l.rev { background: var(--ink); color: var(--paper); }
-.paper .l.tall { height: 96px; display: flex; align-items: center; }
-.paper .l.tall span { display: block; width: 100%; transform: scaleY(2); line-height: 38px; }
-.paper .bc { display: flex; justify-content: center; height: 64px; margin-top: 8px; }
-.paper .bc i { display: block; height: 100%; background: var(--ink); }
-.streaks { position: absolute; inset: 0; pointer-events: none;
-  background: repeating-linear-gradient(90deg, transparent 0 131px, rgba(250,250,246,.8) 131px 133px, transparent 133px 287px, rgba(250,250,246,.6) 287px 288px); }
+#desk { background: radial-gradient(1500px 900px at 72% 8%, rgba(255,255,255,.85), rgba(255,255,255,0) 62%), var(--bg); }
+#desk::after { content: ""; position: absolute; inset: 0; background-image: var(--noise); opacity: .16; mix-blend-mode: multiply; }
+.paper { width: 560px; background: linear-gradient(180deg, #fbfbf8, #f6f6f2); overflow: hidden;
+  box-shadow: 0 0 0 .5px rgba(0,0,0,.05), 0 36px 44px -34px rgba(0,0,0,.5), -22px 12px 44px -34px rgba(0,0,0,.4); }
+.paper::before { content: ""; position: absolute; inset: 0; background-image: var(--noise); opacity: .07; pointer-events: none; }
+.paper img { position: relative; display: block; width: 560px; }
+.paper .shade { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,.07), rgba(0,0,0,0) 7%, rgba(0,0,0,0) 90%, rgba(0,0,0,.08)),
+              linear-gradient(104deg, rgba(255,255,255,0) 34%, rgba(255,255,255,.5) 47%, rgba(255,255,255,0) 60%); }
+.marker { position: absolute; background: var(--hl); mix-blend-mode: multiply; opacity: .9; transform-origin: 0 50%;
+  border-radius: 5px 12px 6px 13px / 9px 5px 11px 6px; }
 .wrinkle { position: absolute; inset: 0; opacity: 0; pointer-events: none;
-  background: repeating-linear-gradient(33deg, rgba(0,0,0,0) 0 40px, rgba(0,0,0,.18) 41px 45px, rgba(255,255,255,.55) 46px 48px),
-              repeating-linear-gradient(-58deg, rgba(0,0,0,0) 0 56px, rgba(0,0,0,.15) 57px 61px, rgba(255,255,255,.5) 62px 64px),
+  background: repeating-linear-gradient(33deg, rgba(0,0,0,0) 0 40px, rgba(0,0,0,.17) 41px 45px, rgba(255,255,255,.6) 46px 48px),
+              repeating-linear-gradient(-58deg, rgba(0,0,0,0) 0 56px, rgba(0,0,0,.14) 57px 61px, rgba(255,255,255,.55) 62px 64px),
               radial-gradient(circle at 38% 34%, rgba(255,255,255,.35), rgba(0,0,0,.3)); }
-/* 프린터 */
-.printer { width: 620px; height: 200px; border-radius: 22px 22px 0 0;
-  background: linear-gradient(180deg, #3a3e45 0, #24272c 18px, #1d2024 100%);
-  box-shadow: 0 -2px 0 rgba(255,255,255,.08) inset, 0 30px 60px rgba(0,0,0,.5); }
-.printer .mouth { position: absolute; left: 20px; right: 20px; top: 8px; height: 10px; border-radius: 5px; background: #0b0c0e; box-shadow: inset 0 3px 4px rgba(0,0,0,.8); }
-.printer .glow { position: absolute; left: 30px; right: 30px; top: 9px; height: 3px; background: #ffd99a; filter: blur(2px); opacity: 0; }
-.printer .led { position: absolute; right: 34px; top: 44px; width: 10px; height: 10px; border-radius: 50%; background: #3ad07a; box-shadow: 0 0 10px #3ad07a; }
-.printer .brand { position: absolute; left: 34px; top: 38px; font-size: 20px; color: #6d727a; letter-spacing: .02em; }
-/* 막대 */
+.printer { width: 640px; height: 170px; border-radius: 34px 34px 0 0;
+  background: linear-gradient(180deg, #44474e 0, #2c2e33 16%, #222327 55%, #1b1c1f 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -14px 24px rgba(0,0,0,.35), 0 40px 60px -26px rgba(0,0,0,.55); }
+.printer .mouth { position: absolute; left: 30px; right: 30px; top: 18px; height: 12px; border-radius: 6px; background: #0b0c0d; box-shadow: inset 0 3px 3px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.1); }
+.printer .led { position: absolute; right: 44px; top: 62px; width: 11px; height: 11px; border-radius: 50%; background: #4fd187; box-shadow: 0 0 10px #4fd187; }
+.printer.busy .led { background: #ffc94a; box-shadow: 0 0 12px #ffc94a; }
+.printer .btn { position: absolute; right: 70px; top: 60px; width: 40px; height: 15px; border-radius: 8px; background: linear-gradient(#3a3c42, #26282c); box-shadow: inset 0 1px 0 rgba(255,255,255,.15); }
 .seg { position: absolute; left: 0; width: 130px; box-sizing: border-box; }
-.seg.lbl { display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--ink); font-weight: 700; font-size: 20px; line-height: 1.15; text-align: center; }
-.odo { display: inline-flex; align-items: flex-start; line-height: 1em; height: 1em; overflow: hidden; }
+.seg.remain { background: #fbfbf8; box-shadow: 0 0 0 1px rgba(19,20,22,.06), 0 24px 30px -24px rgba(0,0,0,.35); }
+.seg.lbl { display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: 750; font-size: 21px; line-height: 1.15; text-align: center; }
+.odo { display: inline-flex; align-items: flex-start; line-height: 1em; height: 1em; overflow: hidden; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
 .odo .oc { display: inline-block; height: 1em; overflow: hidden; }
 .odo .os { display: block; }
-.odo .os b { display: block; height: 1em; font-weight: 400; }
-.chip { background: #111316; color: #fff; padding: 6px 12px; border-radius: 6px; white-space: nowrap; }
-/* 글자 */
-.mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .04em .08em; }
+.odo .os b { display: block; height: 1em; font-weight: inherit; }
+.chip { background: var(--ink); color: #fff; padding: 8px 16px; border-radius: 12px; white-space: nowrap; font-weight: 800; font-variant-numeric: tabular-nums; }
+.mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .04em .1em; }
 .mask > span { display: inline-block; will-change: transform; }
-#grain { position: absolute; inset: -50%; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-#vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
-#endcard { background: var(--paper); color: var(--ink); }
-#endcard .streaks { background: repeating-linear-gradient(90deg, transparent 0 211px, rgba(0,0,0,.035) 211px 213px, transparent 213px 487px, rgba(0,0,0,.025) 487px 488px); }
+#grain { position: absolute; inset: -50%; pointer-events: none; opacity: .1; mix-blend-mode: multiply; background-image: var(--noise); }
+#vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 60%, rgba(0,0,0,.16) 100%); }
+#endcard { background: #131416; color: #fff; }
+#endcard::after { content: ""; position: absolute; inset: 0; background-image: var(--noise); opacity: .12; mix-blend-mode: screen; }
 </style>
 </head>
 <body>
@@ -67,114 +60,143 @@ html, body { margin: 0; background: #0c0d0f; overflow: hidden; }
 </div>
 <script>
 'use strict';
-/* ===== 시간 도구 ===== */
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const P = (t, a, b) => clamp((t - a) / (b - a));
 const lerp = (a, b, p) => a + (b - a) * p;
 const E = {
-  lin: p => p,
   outCubic: p => 1 - Math.pow(1 - p, 3), inCubic: p => p * p * p,
   inOutCubic: p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2,
-  outExpo: p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p), inExpo: p => p <= 0 ? 0 : Math.pow(2, 10 * p - 10),
+  outExpo: p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p),
   outBack: p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); },
   inBack: p => { const c1 = 1.70158, c3 = c1 + 1; return c3 * p * p * p - c1 * p * p; },
-  outQuint: p => 1 - Math.pow(1 - p, 5), inQuad: p => p * p,
+  inQuad: p => p * p,
 };
 function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function el(tag, cls, parent, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; (parent || document.body).appendChild(e); return e; }
-function T(e, x, y, s = 1, r = 0, extra = '') { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})${extra}`; }
+function T(e, x, y, s = 1, r = 0) { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; }
 const won = n => Math.round(n).toLocaleString('ko-KR');
 const man = n => Math.round(n / 10000).toLocaleString('ko-KR');
 function mixColor(a, b, p) { const pa = a.match(/\w\w/g).map(h => parseInt(h, 16)), pb = b.match(/\w\w/g).map(h => parseInt(h, 16)); return 'rgb(' + pa.map((v, i) => Math.round(lerp(v, pb[i], p))).join(',') + ')'; }
 
-/* ===== 영수증 조판: 한 줄 32칸, 한글 2칸 ===== */
-const W = 32;
-function cols(s) { let n = 0; for (const ch of s) { const c = ch.codePointAt(0); n += ((c >= 0x1100 && c <= 0x115f) || (c >= 0x2e80 && c <= 0xa4cf) || (c >= 0xac00 && c <= 0xd7a3) || (c >= 0xff00 && c <= 0xff60)) ? 2 : 1; } return n; }
+/* 감열 인쇄: 576점 폭, 한 줄 32칸(16점), 한글 2칸 */
+const DOTS = 576, W = 32, CELL = 16, ROW = 40, MARGIN = (DOTS - W * CELL) / 2, K = 560 / DOTS;
+const FONT = '"Pretendard Variable", Pretendard, sans-serif';
+const wide = c => (c >= 0x1100 && c <= 0x115f) || (c >= 0x2e80 && c <= 0xa4cf) || (c >= 0xac00 && c <= 0xd7a3) || (c >= 0xff00 && c <= 0xff60);
+function cols(s) { let n = 0; for (const ch of s) n += wide(ch.codePointAt(0)) ? 2 : 1; return n; }
 const sp = n => ' '.repeat(Math.max(0, n));
 const lr = (l, r, w = W) => l + sp(Math.max(1, w - cols(l) - cols(r))) + r;
 const center = (s, w = W) => sp(Math.floor((w - cols(s)) / 2)) + s;
 const rule = ch => ch.repeat(W);
 
-/* ===== 계기판 숫자 ===== */
-function makeOdo(parent, nDigits, cls) {
-  const box = el('div', 'odo neo ' + (cls || ''), parent);
-  const cols = [];
+function typeset(L, seed) {
+  let y = 40; const rows = [];
+  for (const ln of L) { const h = ln.barcode ? 110 : (ln.size || 1) * ROW; rows.push({ y, h, ln }); y += h; }
+  const H = y + 34, c = document.createElement('canvas'); c.width = DOTS; c.height = H;
+  const g = c.getContext('2d'); g.fillStyle = '#000'; const r = rng(seed);
+  for (const rw of rows) {
+    const ln = rw.ln;
+    if (ln.barcode) { let x = MARGIN + 70; while (x < DOTS - MARGIN - 70) { const w = 2 + Math.floor(r() * 3) * 2; if (r() > .4) g.fillRect(x, rw.y + 10, w, 84); x += w + 2 + Math.floor(r() * 2) * 2; } continue; }
+    const s = ln.size || 1, text = ln.t || ''; let col = 0;
+    for (const ch of text) {
+      const wd = wide(ch.codePointAt(0)), cw = (wd ? 2 : 1) * CELL * s, x = MARGIN + col * CELL;
+      if (ch === '-') g.fillRect(x + 1, rw.y + 20 * s, CELL - 2, 2);
+      else if (ch === '=') { g.fillRect(x + 1, rw.y + 15, CELL - 2, 2); g.fillRect(x + 1, rw.y + 23, CELL - 2, 2); }
+      else if (ch !== ' ') {
+        g.font = (wd ? '600 ' + 29 * s : '700 ' + 25 * s) + 'px ' + FONT;
+        const m = g.measureText(ch).width, x0 = x + (cw - m) / 2, by = rw.y + 29 * s;
+        g.fillText(ch, x0, by); if (ln.bold || s === 2) g.fillText(ch, x0 + 1, by);
+      }
+      col += cw / CELL;
+    }
+  }
+  return { c, rows, H };
+}
+function burn(ts, seed) {
+  const c = ts.c, g = c.getContext('2d'), img = g.getImageData(0, 0, c.width, c.height), px = img.data, r = rng(seed), Wd = c.width, H = c.height;
+  const band = [], streak = new Array(Wd).fill(1);
+  for (let y = 0; y < H; y++) band.push(.86 + .07 * Math.sin(y / 9.5 + r() * .8) + r() * .08);
+  [97, 98, 301, 433].forEach(x => streak[x] = .25);
+  for (let i = 0; i < Wd * H; i++) {
+    const a = px[i * 4 + 3] / 255; let on = a > .44 + (r() - .5) * .22; if (on && r() < .015) on = false;
+    const d = on ? Math.min(1, band[(i / Wd) | 0] * streak[i % Wd] * (.84 + r() * .2)) : 0;
+    px[i * 4] = 38; px[i * 4 + 1] = 38; px[i * 4 + 2] = 42; px[i * 4 + 3] = Math.round(d * 240);
+  }
+  g.putImageData(img, 0, 0); return c.toDataURL('image/png');
+}
+
+function makeOdo(parent, nDigits) {
+  const box = el('div', 'odo', parent); const cs = [];
   for (let k = nDigits - 1; k >= 0; k--) {
-    const c = el('span', 'oc', box); const s = el('span', 'os', c, '0123456789'.split('').concat(['0']).map(d => '<b>' + d + '</b>').join(''));
-    const col = { k, c, s }; cols.push(col);
-    if (k > 0 && k % 3 === 0) col.comma = el('span', 'oc', box, ',');
+    const c = el('span', 'oc', box); const s = el('span', 'os', c, '01234567890'.split('').map(d => '<b>' + d + '</b>').join(''));
+    const col = { k, c, s }; cs.push(col); if (k > 0 && k % 3 === 0) col.comma = el('span', 'oc', box, ',');
   }
   return { box, set(v) {
     v = Math.max(0, v); const lead = String(Math.round(v)).length;
-    for (const col of cols) {
-      const p = Math.pow(10, col.k);
-      const d = col.k === 0 ? v % 10 : Math.floor(v / p) % 10 + clamp((v % p) - (p - 1));
+    for (const col of cs) {
+      const p = Math.pow(10, col.k), d = col.k === 0 ? v % 10 : Math.floor(v / p) % 10 + clamp((v % p) - (p - 1));
       col.s.style.transform = `translateY(${-d}em)`;
-      const vis = col.k < Math.max(1, lead);
-      col.c.style.display = vis ? 'inline-block' : 'none';
+      col.c.style.display = col.k < Math.max(1, lead) ? 'inline-block' : 'none';
       if (col.comma) col.comma.style.display = lead > col.k ? 'inline-block' : 'none';
     }
   } };
 }
 
-/* ===== 데이터와 장면 구성 ===== */
 let D, S = {};
 const SLOT_Y = 930, PAPER_W = 560, BAR_W = 130, GAP = 30, GROUP_W = PAPER_W + GAP + BAR_W;
-const SCALE = 560 / 38000000;     // 막대: 원 → px
+const SCALE = 560 / 38000000;
 const LEFT_CENTER = (1920 - GROUP_W) / 2, LEFT_A = 190, LEFT_B = 1010;
 
-function receiptLines(j, isWinner, gap, winnerLabel) {
-  const L = [];
-  L.push({ t: center('[남는 돈 계산서]', W / 2), c: 'dbl' });
-  L.push({ t: '' });
-  L.push({ t: '근무지 ' + j.region });
-  L.push({ t: '기준   ' + D.rentPeriod + ' 월세' });
-  L.push({ t: rule('-') });
-  L.push({ t: lr('연봉', won(j.salary)), k: 'salary' });
-  L.push({ t: lr('세금과 4대보험', '-' + won(j.taxAndInsurance)), k: 'tax' });
-  L.push({ t: lr('월세 ' + won(j.rentMonthly) + ' x 12', '-' + won(j.rentAnnual)), k: 'rent' });
-  L.push({ t: rule('=') });
-  L.push({ t: '남는 돈' });
-  L.push({ t: lr('', won(j.remaining), W / 2), c: 'dbl' });
-  L.push({ t: rule('='), k: 'total' });
-  if (isWinner) L.push({ t: center(winnerLabel + '이 ' + won(gap) + '원 더 남음'), c: 'rev tall', k: 'band' });
-  else L.push({ t: center('* 연봉은 높아도 덜 남음 *'), k: 'band' });
-  L.push({ t: '' });
-  return L;
+function receiptLines(j, isWinner, gap) {
+  return [
+    { t: center('남는 돈 계산서', W / 2), size: 2 },
+    { t: center('nammeun-don.vercel.app') },
+    { t: '근무지 ' + j.region },
+    { t: '기준   ' + D.rentPeriod + ' 월세' },
+    { t: rule('-') },
+    { t: lr('연봉', won(j.salary)), k: 'salary' },
+    { t: lr('세금과 4대보험', '-' + won(j.taxAndInsurance)), k: 'tax' },
+    { t: lr('월세 ' + won(j.rentMonthly) + ' x 12', '-' + won(j.rentAnnual)), k: 'rent' },
+    { t: rule('=') },
+    { t: '남는 돈', bold: true },
+    { t: lr('', won(j.remaining), W / 2), size: 2, k: 'num', hl: isWinner ? [MARGIN + 6 * 2 * CELL - 10, MARGIN + W * CELL + 6] : null },
+    { t: rule('='), k: 'total' },
+    isWinner ? { t: lr('1년 차이', '+' + won(gap)), bold: true, k: 'band', hl: [MARGIN + 21 * CELL, MARGIN + W * CELL + 6] }
+             : { t: center('* 연봉은 높아도 덜 남음 *'), k: 'band' },
+    { t: '' },
+    { barcode: true },
+    { t: center('연봉 말고 남는 돈으로') },
+  ];
 }
-function barcodeHtml(seed) { const r = rng(seed); let s = ''; for (let i = 0; i < 52; i++) s += `<i style="width:${1 + Math.floor(r() * 3) * 1.5}px;margin-right:${1 + Math.floor(r() * 3)}px"></i>`; return s; }
-
 function buildPaper(lines, seed) {
-  const p = el('div', 'paper neo abs', S.world);
-  const ends = {};
-  for (const ln of lines) {
-    const d = el('div', 'l ' + (ln.c || ''), p);
-    if ((ln.c || '').includes('tall')) el('span', '', d).textContent = ln.t; else d.textContent = ln.t;
-    if (ln.k) ln.el = d;
+  const p = el('div', 'paper abs', S.world);
+  const img = el('img', '', p); el('div', 'shade', p);
+  const wr = el('div', 'wrinkle', p);
+  return { p, img, wr, lines, seed, markers: [], ends: {}, H: 0 };
+}
+function typesetPaper(R) {
+  const ts = typeset(R.lines, R.seed); R.img.src = burn(ts, R.seed + 3);
+  R.H = ts.H * K; R.img.style.height = R.H + 'px'; R.p.style.height = R.H + 'px';
+  for (const rw of ts.rows) {
+    if (rw.ln.k) R.ends[rw.ln.k] = (rw.y + rw.h) * K;
+    if (rw.ln.hl) {
+      const m = el('i', 'marker', R.p);
+      m.style.left = rw.ln.hl[0] * K + 'px'; m.style.width = (rw.ln.hl[1] - rw.ln.hl[0]) * K + 'px';
+      m.style.top = (rw.y - 2) * K + 'px'; m.style.height = (rw.h + 2) * K + 'px'; m.style.transform = 'scaleX(0)';
+      R.markers.push({ m, y: (rw.y + rw.h / 2) * K, x0: rw.ln.hl[0] * K, x1: rw.ln.hl[1] * K });
+    }
   }
-  el('div', 'bc', p, barcodeHtml(seed));
-  el('div', 'streaks', p); const wr = el('div', 'wrinkle', p);
-  return { p, lines, wr };
+  return R.img.decode ? R.img.decode().catch(() => {}) : Promise.resolve();
 }
-function measure(paper) {
-  const H = paper.p.offsetHeight, ends = {};
-  for (const ln of paper.lines) if (ln.k) ends[ln.k] = ln.el.offsetTop + ln.el.offsetHeight;
-  paper.H = H; paper.ends = ends;
-}
-function buildPrinter() { const pr = el('div', 'printer abs', S.world); el('div', 'mouth', pr); const g = el('div', 'glow', pr); el('div', 'led', pr); el('div', 'brand', pr, 'THERMAL 80'); return { pr, g }; }
+function buildPrinter() { const pr = el('div', 'printer abs', S.world); el('div', 'mouth', pr); el('div', 'btn', pr); el('div', 'led', pr); return { pr }; }
 function buildBar(job) {
   const root = el('div', 'abs', S.world); root.style.width = BAR_W + 'px';
   const hR = job.remaining * SCALE, hRent = job.rentAnnual * SCALE, hTax = job.taxAndInsurance * SCALE, total = job.salary * SCALE;
-  const remain = el('div', 'seg', root); remain.style.background = '#fafaf6';
-  remain.style.height = hR + 'px'; remain.style.top = (total - hR) + 'px';
+  const remain = el('div', 'seg remain', root); remain.style.height = hR + 'px'; remain.style.top = (total - hR) + 'px';
   const slabs = [];
-  for (let i = 0; i < 12; i++) {   // 아래(1월)부터 위(12월)로 쌓는다. 위에서부터 떨어진다
-    const s = el('div', 'seg', root); s.style.height = (hRent / 12 + .6) + 'px';
-    s.style.top = (total - hR - (i + 1) * hRent / 12) + 'px'; slabs.push(s);
-  }
+  for (let i = 0; i < 12; i++) { const s = el('div', 'seg', root); s.style.height = (hRent / 12 + .6) + 'px'; s.style.top = (total - hR - (i + 1) * hRent / 12) + 'px'; slabs.push(s); }
   const rentLbl = el('div', 'seg lbl', root, '월세<br>' + man(job.rentMonthly) + '만 x 12'); rentLbl.style.height = hRent + 'px'; rentLbl.style.top = (total - hR - hRent) + 'px';
   const tax = el('div', 'seg lbl', root, '세금<br>' + man(job.taxAndInsurance) + '만'); tax.style.height = hTax + 'px'; tax.style.top = '0px';
-  const odo = makeOdo(S.world, 8); odo.box.classList.add('abs'); odo.box.style.fontSize = '32px'; odo.box.style.color = '#fff';
+  const odo = makeOdo(S.world, 8); odo.box.classList.add('abs'); odo.box.style.fontSize = '34px';
   return { root, remain, slabs, rentLbl, tax, odo, total, hR, hRent, hTax, job };
 }
 
@@ -182,142 +204,99 @@ function init(data) {
   D = data;
   S.stage = document.getElementById('stage'); S.world = document.getElementById('world');
   S.overlay = document.getElementById('overlay'); S.scene = document.getElementById('scene'); S.end = document.getElementById('endcard');
-  const [A, B] = D.jobs;
-  S.A = A; S.B = B; S.gap = Math.abs(A.remaining - B.remaining);
-  S.win = A.remaining >= B.remaining ? A : B; S.lose = S.win === A ? B : A;
+  const [A, B] = D.jobs; S.A = A; S.B = B;
+  S.gap = Math.abs(A.remaining - B.remaining); S.win = A.remaining >= B.remaining ? A : B; S.lose = S.win === A ? B : A;
 
-  // 1) 훅: 큰 글자 + 계기판
-  S.hook = el('div', 'abs', S.world); S.hook.style.width = '1920px'; S.hook.style.textAlign = 'center'; S.hook.style.top = '300px';
-  S.hookWords = ['연봉이', '높으면', '더 남을까?'].map((w, i) => {
-    const m = el('span', 'mask', S.hook); m.style.fontSize = '150px'; m.style.fontWeight = '800'; m.style.letterSpacing = '-0.05em'; m.style.margin = '0 .12em';
+  S.hook = el('div', 'abs', S.world); S.hook.style.cssText += 'width:1920px;text-align:center;top:300px';
+  S.hookWords = ['연봉이', '높으면', '더 남을까?'].map(w => {
+    const m = el('span', 'mask', S.hook); m.style.cssText = 'font-size:156px;font-weight:850;letter-spacing:-0.06em;margin:0 .12em';
     return el('span', '', m, w);
   });
-  S.line = el('div', 'abs', S.world); S.line.style.height = '6px'; S.line.style.background = '#fafaf6'; S.line.style.top = '560px';
-  S.hookLbl = el('div', 'abs', S.world, A.region + ' 공고의 연봉'); S.hookLbl.style.cssText += 'font-size:34px;color:#a9adb4;width:1920px;text-align:center;top:600px';
-  S.hookOdo = makeOdo(S.world, 8); S.hookOdo.box.classList.add('abs'); S.hookOdo.box.style.fontSize = '112px';
+  S.line = el('div', 'abs', S.world); S.line.style.cssText += 'height:6px;background:#131416;top:552px';
+  S.hookLbl = el('div', 'abs', S.world, A.region + ' 공고의 연봉'); S.hookLbl.style.cssText += 'font-size:34px;font-weight:600;color:#5b5f66;width:1920px;text-align:center;top:600px';
+  S.hookOdo = makeOdo(S.world, 8); S.hookOdo.box.classList.add('abs'); S.hookOdo.box.style.fontSize = '120px';
 
-  // 2) 프린터·영수증·막대
   S.PA = buildPrinter(); S.PB = buildPrinter();
-  S.RA = buildPaper(receiptLines(A, S.win === A, S.gap, S.win.label), 11);
-  S.RB = buildPaper(receiptLines(B, S.win === B, S.gap, S.win.label), 29);
+  S.RA = buildPaper(receiptLines(A, S.win === A, S.gap), 11);
+  S.RB = buildPaper(receiptLines(B, S.win === B, S.gap), 29);
   S.BA = buildBar(A); S.BB = buildBar(B);
-  S.cmpLine = el('div', 'abs', S.world); S.cmpLine.style.cssText += 'height:0;border-top:4px dashed #fafaf6';
-  S.cmpHi = el('div', 'abs', S.world); S.cmpHi.style.cssText += `width:${BAR_W}px;background:repeating-linear-gradient(135deg,#fafaf6 0 6px,#222326 6px 12px)`;
-  S.cmpLbl = el('div', 'abs neo chip', S.world, '+' + won(S.gap) + '원'); S.cmpLbl.style.fontSize = '32px';
+  S.cmpLine = el('div', 'abs', S.world); S.cmpLine.style.cssText += 'height:0;border-top:4px dashed #131416';
+  S.cmpHi = el('div', 'abs', S.world); S.cmpHi.style.cssText += `width:${BAR_W}px;background:#f4ea45`;
+  S.cmpLbl = el('div', 'abs chip', S.world, '+' + won(S.gap) + '원'); S.cmpLbl.style.fontSize = '34px';
   for (const e of [S.cmpLine, S.cmpHi, S.cmpLbl]) e.style.zIndex = 12;
+  S.pen = el('div', 'abs', S.world, `<svg width="210" height="70" viewBox="0 0 210 70"><g transform="rotate(-28 105 35)"><rect x="40" y="22" width="150" height="30" rx="9" fill="#1d1f23"/><rect x="40" y="22" width="150" height="8" rx="4" fill="rgba(255,255,255,.18)"/><rect x="30" y="24" width="20" height="26" rx="3" fill="#2c2f34"/><path d="M8 30 L30 25 L30 49 L8 44 Z" fill="#f4ea45"/></g></svg>`);
+  S.pen.style.zIndex = 14;
   S.capWrap = el('div', 'abs', S.overlay); S.capWrap.style.cssText += 'width:1920px;text-align:center;top:56px';
-  S.caption = el('div', '', S.capWrap); S.caption.style.cssText = 'display:inline-block;padding:14px 30px 18px;border-radius:14px;background:rgba(17,19,22,.88);font-size:56px;font-weight:800;letter-spacing:-0.04em';
-  const rich = A.salary >= B.salary ? A : B;
+  S.caption = el('div', '', S.capWrap); S.caption.style.cssText = 'display:inline-block;padding:16px 32px 20px;border-radius:18px;background:rgba(19,20,22,.92);color:#fff;font-size:56px;font-weight:800;letter-spacing:-0.04em';
   S.capWords = [S.win.label + '은', '연봉이 ' + man(Math.abs(A.salary - B.salary)) + '만 원', '적은데도', '1년에 ' + man(S.gap) + '만 원', '더 남는다'].map(w => { const m = el('span', 'mask', S.caption); m.style.margin = '0 .14em'; return el('span', '', m, w); });
 
-  // 5) 휴지통
-  S.bin = el('div', 'abs', S.world, `<svg width="170" height="190" viewBox="0 0 170 190"><path d="M10 20 L160 20 L144 186 L26 186 Z" fill="#15171a"/></svg>`);
-  S.binFront = el('div', 'abs', S.world, `<svg width="170" height="190" viewBox="0 0 170 190"><path d="M6 14 h158 v12 h-158z" fill="#9aa0a8"/><path d="M14 26 L156 26 L142 186 L28 186 Z" fill="#6b7179"/>${[0,1,2,3,4].map(i=>`<path d="M${38+i*24} 40 L${36+i*24.5} 172" stroke="#565b62" stroke-width="6" stroke-linecap="round"/>`).join('')}</svg>`);
+  S.bin = el('div', 'abs', S.world, `<svg width="170" height="190" viewBox="0 0 170 190"><path d="M10 20 L160 20 L144 186 L26 186 Z" fill="#3a3d42"/></svg>`);
+  S.binFront = el('div', 'abs', S.world, `<svg width="170" height="190" viewBox="0 0 170 190"><path d="M6 14 h158 v12 h-158z" fill="#c5c9ce"/><path d="M14 26 L156 26 L142 186 L28 186 Z" fill="#a4a9b0"/>${[0,1,2,3,4].map(i=>`<path d="M${38+i*24} 40 L${36+i*24.5} 172" stroke="#8c9198" stroke-width="6" stroke-linecap="round"/>`).join('')}</svg>`);
 
-  // 6) 전국 롤
-  S.roll = el('div', 'paper neo abs', S.world);
-  el('div', 'l', S.roll).textContent = center('[전국 원룸 월세 중위값]');
-  el('div', 'l', S.roll).textContent = center(D.rentPeriod + ', 원');
-  el('div', 'l', S.roll).textContent = rule('=');
-  for (const r of D.rows) el('div', 'l', S.roll).textContent = lr(r.name, won(r.median));
-  el('div', 'streaks', S.roll);
+  S.roll = buildPaper([{ t: center('[전국 원룸 월세 중위값]') }, { t: center(D.rentPeriod + ', 단위 원') }, { t: rule('=') }]
+    .concat(D.rows.map(r => ({ t: lr(r.name, won(r.median)) }))), 53);
   S.stat = el('div', 'abs', S.world); S.stat.style.cssText += 'left:190px;top:250px;width:760px';
-  S.statLbl1 = el('div', '', S.stat, '전국 월세를 계산하려고 읽은'); S.statLbl1.style.cssText = 'font-size:34px;color:#a9adb4;margin-bottom:14px';
+  el('div', '', S.stat, '전국 월세를 계산하려고 읽은').style.cssText = 'font-size:34px;font-weight:600;color:#5b5f66;margin-bottom:10px';
   const row1 = el('div', '', S.stat); row1.style.cssText = 'display:flex;align-items:flex-end;gap:14px';
-  S.odoDeals = makeOdo(row1, 7); S.odoDeals.box.style.fontSize = '112px';
-  el('div', '', row1, '건').style.cssText = 'font-size:56px;font-weight:800;margin-bottom:8px';
-  S.statLbl2 = el('div', '', S.stat, '전월세 실거래'); S.statLbl2.style.cssText = 'font-size:34px;color:#a9adb4;margin:10px 0 54px';
+  S.odoDeals = makeOdo(row1, 7); S.odoDeals.box.style.fontSize = '128px';
+  el('div', '', row1, '건').style.cssText = 'font-size:60px;font-weight:800;margin-bottom:10px';
+  el('div', '', S.stat, '전월세 실거래').style.cssText = 'font-size:34px;font-weight:600;color:#5b5f66;margin:8px 0 54px';
   const row2 = el('div', '', S.stat); row2.style.cssText = 'display:flex;align-items:flex-end;gap:14px';
-  S.odoSgg = makeOdo(row2, 3); S.odoSgg.box.style.fontSize = '112px';
-  el('div', '', row2, '개 시군구').style.cssText = 'font-size:56px;font-weight:800;margin-bottom:8px';
+  S.odoSgg = makeOdo(row2, 3); S.odoSgg.box.style.fontSize = '128px';
+  el('div', '', row2, '개 시군구').style.cssText = 'font-size:60px;font-weight:800;margin-bottom:10px';
 
-  // 7) 가위와 엔드카드
-  S.cut = el('div', 'abs', S.overlay); S.cut.style.cssText += 'top:538px;height:0;border-top:4px dashed #fafaf6';
-  S.sc = el('div', 'abs', S.overlay, `<svg width="96" height="96" viewBox="0 0 96 96"><g fill="none" stroke="#fafaf6" stroke-width="6" stroke-linecap="round"><circle cx="20" cy="26" r="13"/><circle cx="20" cy="70" r="13"/><path class="b1" d="M31 33 L88 56"/><path class="b2" d="M31 63 L88 40"/></g></svg>`);
-  el('div', 'streaks', S.end);
-  S.endTitle = el('div', 'abs', S.end); S.endTitle.style.cssText += 'width:1920px;text-align:center;top:300px;font-size:168px;font-weight:800;letter-spacing:-0.055em;color:#222326';
-  S.endChars = [...'남는 돈 비교'].map(ch => { const m = el('span', 'mask', S.endTitle); m.style.padding = '0'; return el('span', '', m, ch === ' ' ? '&nbsp;' : ch); });
-  S.endTag = el('div', 'abs', S.end, '연봉 말고, 남는 돈으로 고르세요.'); S.endTag.style.cssText += 'width:1920px;text-align:center;top:520px;font-size:52px;font-weight:700;letter-spacing:-0.03em;color:#222326';
-  S.endRule = el('div', 'abs neo', S.end); S.endRule.style.cssText += 'width:1920px;text-align:center;top:620px;font-size:32px;color:#222326;white-space:pre';
-  S.endUrl = el('div', 'abs neo', S.end); S.endUrl.style.cssText += 'width:1920px;text-align:center;top:680px;font-size:48px;color:#222326;white-space:pre';
-  S.endFoot = el('div', 'abs', S.end, '2026 대한민국 청년 CAREER FAIR AI 해커톤 출품작'); S.endFoot.style.cssText += 'width:1920px;text-align:center;top:930px;font-size:26px;color:#6d6a63';
+  S.cut = el('div', 'abs', S.overlay); S.cut.style.cssText += 'top:538px;height:0;border-top:4px dashed #131416';
+  S.sc = el('div', 'abs', S.overlay, `<svg width="96" height="96" viewBox="0 0 96 96"><g fill="none" stroke="#131416" stroke-width="6" stroke-linecap="round"><circle cx="20" cy="26" r="13"/><circle cx="20" cy="70" r="13"/><path class="b1" d="M31 33 L88 56"/><path class="b2" d="M31 63 L88 40"/></g></svg>`);
+  S.endTitle = el('div', 'abs', S.end); S.endTitle.style.cssText += 'width:1920px;text-align:center;top:300px;font-size:176px;font-weight:850;letter-spacing:-0.06em';
+  S.endMark = el('div', 'abs', S.endTitle); S.endMark.style.cssText += 'background:#f4ea45;transform-origin:0 50%;border-radius:8px 18px 10px 20px / 14px 8px 16px 10px';
+  S.endChars = [...'남는 돈 비교'].map(ch => { const m = el('span', 'mask', S.endTitle); m.style.padding = '0'; m.style.position = 'relative'; return el('span', '', m, ch === ' ' ? '&nbsp;' : ch); });
+  S.endTag = el('div', 'abs', S.end, '연봉 말고, 남는 돈으로 고르세요.'); S.endTag.style.cssText += 'width:1920px;text-align:center;top:540px;font-size:54px;font-weight:700;letter-spacing:-0.035em;color:#d6d8dc';
+  S.endRule = el('div', 'abs', S.end); S.endRule.style.cssText += 'left:660px;top:650px;width:600px;height:0;border-top:3px dashed #5b5f66;transform-origin:0 50%';
+  S.endUrl = el('div', 'abs', S.end); S.endUrl.style.cssText += 'width:1920px;text-align:center;top:690px;font-size:46px;font-weight:600;color:#fff;white-space:pre;letter-spacing:0';
+  S.endFoot = el('div', 'abs', S.end, '2026 대한민국 청년 CAREER FAIR AI 해커톤 출품작'); S.endFoot.style.cssText += 'width:1920px;text-align:center;top:930px;font-size:26px;color:#8b9097';
   S.grain = document.getElementById('grain'); S.vig = document.getElementById('vignette');
 }
-function layout() {
-  measure(S.RA); measure(S.RB);
-  S.rollH = S.roll.offsetHeight;
+async function layout() {
+  await Promise.all([typesetPaper(S.RA), typesetPaper(S.RB), typesetPaper(S.roll)]);
+  const t = S.endTitle.getBoundingClientRect(), a = S.endChars[0].parentNode.getBoundingClientRect(), b = S.endChars[3].parentNode.getBoundingClientRect();
+  const sc = S.stage.getBoundingClientRect().width / 1920;
+  S.endMark.style.left = ((a.left - t.left) / sc - 10) + 'px'; S.endMark.style.width = ((b.right - a.left) / sc + 20) + 'px';
+  S.endMark.style.top = ((a.top - t.top) / sc + (a.height / sc) * .1) + 'px'; S.endMark.style.height = (a.height / sc * .82) + 'px';
   S.splitClone = null;
 }
 
-/* ===== 영수증 출력: 줄 단위로 덜컥덜컥 ===== */
-function stepFeed(p, fromPx, toPx) {
-  const n = Math.max(1, Math.round((toPx - fromPx) / 19));
-  const x = p * n, k = Math.floor(x), f = x - k;
-  const q = p >= 1 ? 1 : (k + E.outCubic(clamp(f * 2.2))) / n;
-  return lerp(fromPx, toPx, q);
-}
-function feedAt(t, plan) {   // plan: [[t0,t1,targetPx],...]
-  let px = 0, printing = 0;
-  for (const [t0, t1, to] of plan) {
-    if (t >= t1) { px = to; continue; }
-    if (t > t0) { printing = 1; px = stepFeed(P(t, t0, t1), px, to); }
-    break;
-  }
-  return { px, printing };
-}
-function placePaper(R, left, L) {   // 종이는 출구(SLOT_Y)에서 위로 자란다. 아직 안 나온 부분은 잘라 숨긴다
+function stepFeed(p, from, to) { const n = Math.max(1, Math.round((to - from) / 20)), x = p * n, k = Math.floor(x), f = x - k; return lerp(from, to, p >= 1 ? 1 : (k + E.outCubic(clamp(f * 2.2))) / n); }
+function feedAt(t, plan) { let px = 0, printing = 0; for (const [t0, t1, to] of plan) { if (t >= t1) { px = to; continue; } if (t > t0) { printing = 1; px = stepFeed(P(t, t0, t1), px, to); } break; } return { px, printing }; }
+function placePaper(R, left, L) {
   R.p.style.left = left + 'px'; R.p.style.top = (SLOT_Y - L) + 'px';
-  R.p.style.clipPath = `inset(0 0 ${Math.max(0, R.H - L)}px 0)`;
-  R.p.style.transform = 'none'; R.p.style.opacity = L > 0 ? 1 : 0;
+  R.p.style.clipPath = `inset(0 0 ${Math.max(0, R.H - L)}px 0)`; R.p.style.transform = 'none'; R.p.style.opacity = L > 0 ? 1 : 0;
 }
-
-/* ===== 막대: 덩어리가 떨어진다 ===== */
-function fall(t, t0, vx, vy, w) { const d = Math.max(0, t - t0); return { x: vx * d, y: vy * d + 0.5 * 5200 * d * d, r: w * d }; }
-function renderBar(Bs, t, left, tl) {   // tl: {grow0,grow1,taxHi,taxFall,rentHi,rentFall,stagger,sink}
-  const { root, remain, slabs, rentLbl, tax, odo, total, hR, hRent, hTax, job } = Bs;
-  const g = E.outExpo(P(t, tl.grow0, tl.grow1));
-  const sink = E.inBack(P(t, tl.sink, tl.sink + .35));
-  root.style.left = (left + PAPER_W + GAP) + 'px';
-  const baseTop = SLOT_Y - total;
-  root.style.top = baseTop + 'px';
-  root.style.height = total + 'px';
+function fall(t, t0, vx, vy, w) { const d = Math.max(0, t - t0); return { x: vx * d, y: vy * d + .5 * 5200 * d * d, r: w * d }; }
+function renderBar(Bs, t, left, tl) {
+  const { root, slabs, rentLbl, tax, odo, total, job } = Bs;
+  const g = E.outExpo(P(t, tl.grow0, tl.grow1)), sink = E.inBack(P(t, tl.sink, tl.sink + .35));
+  root.style.left = (left + PAPER_W + GAP) + 'px'; root.style.top = (SLOT_Y - total) + 'px'; root.style.height = total + 'px';
   root.style.transformOrigin = '50% 100%';
-  root.style.transform = `translateY(${sink * 700}px) scaleY(${t < tl.grow1 ? Math.max(g, .0001) : 1})`;
+  root.style.transform = `translateY(${sink * 760}px) scaleY(${t < tl.grow1 ? Math.max(g, .0001) : 1})`;
   root.style.opacity = g > 0 ? 1 : 0;
-  // 세금
   const th = P(t, tl.taxHi, tl.taxHi + .15);
-  tax.style.background = mixColor('fafaf6', '8d939c', th);
-  tax.style.color = th > .5 ? '#222326' : 'transparent';
-  const tf = fall(t, tl.taxFall, 160, -420, 70);
-  T(tax, tf.x, tf.y, 1, tf.r);
-  // 월세
+  tax.style.background = mixColor('fbfbf8', 'b9bdc3', th); tax.style.color = th > .5 ? '#131416' : 'transparent';
+  const tf = fall(t, tl.taxFall, 160, -420, 70); T(tax, tf.x, tf.y, 1, tf.r);
   const rh = P(t, tl.rentHi, tl.rentHi + .15);
-  rentLbl.style.color = rh > .5 ? '#222326' : 'transparent';
-  rentLbl.style.opacity = 1 - P(t, tl.rentFall, tl.rentFall + .12);
-  const r = rng(job.salary % 9973);
-  let fallen = 0;
+  rentLbl.style.color = rh > .5 ? '#ffffff' : 'transparent'; rentLbl.style.opacity = 1 - P(t, tl.rentFall, tl.rentFall + .12);
+  const r = rng(job.salary % 9973); let fallen = 0;
   slabs.forEach((s, i) => {
-    s.style.background = mixColor('fafaf6', 'f2b84b', rh);
-    const order = 11 - i;                         // 위(12월)부터
-    const t0 = tl.rentFall + order * tl.stagger;
-    const vx = (r() - .5) * 260, vy = -180 - r() * 220, w = (r() - .5) * 600;
-    const f = fall(t, t0, vx, vy, w); T(s, f.x, f.y, 1, f.r);
-    fallen += clamp((t - t0) / .12);
+    s.style.background = mixColor('fbfbf8', '43474e', rh);
+    const t0 = tl.rentFall + (11 - i) * tl.stagger, f = fall(t, t0, (r() - .5) * 260, -180 - r() * 220, (r() - .5) * 600);
+    T(s, f.x, f.y, 1, f.r); fallen += clamp((t - t0) / .12);
   });
-  // 계기판: 막대 꼭대기를 따라간다
-  let v = job.salary;
-  v -= job.taxAndInsurance * E.outCubic(P(t, tl.taxFall, tl.taxFall + .4));
-  v -= job.rentMonthly * fallen;
+  const v = job.salary - job.taxAndInsurance * E.outCubic(P(t, tl.taxFall, tl.taxFall + .4)) - job.rentMonthly * fallen;
   const curTop = SLOT_Y - (t < tl.grow1 ? total * g : v * SCALE);
   odo.set(t < tl.taxFall ? job.salary : v);
-  odo.box.style.left = (left + PAPER_W + GAP + BAR_W / 2) + 'px';
-  odo.box.style.top = (curTop - 56 + sink * 700) + 'px';
+  odo.box.style.left = (left + PAPER_W + GAP + BAR_W / 2) + 'px'; odo.box.style.top = (curTop - 60 + sink * 760) + 'px';
   odo.box.style.transform = 'translateX(-50%)';
   odo.box.style.opacity = P(t, tl.grow1 - .25, tl.grow1) * (1 - P(t, tl.sink, tl.sink + .2));
-  return { curTop };
 }
-
-/* ===== 구기기 ===== */
 function crumplePoly(w, h, seed, amount) {
   const r = rng(seed), pts = [], n = 26, cx = w / 2, cy = h / 2, R = Math.min(w, h) * .34;
   for (let i = 0; i < n; i++) {
@@ -328,195 +307,156 @@ function crumplePoly(w, h, seed, amount) {
   }
   return `polygon(${pts.join(',')})`;
 }
-
-/* ===== 카메라 ===== */
 function camera(t) {
-  // 부산 반전 인쇄 줄로 다가갔다가 돌아온다
-  const bandY = SLOT_Y - (S.RB.H - S.RB.ends.band) - 48, bandX = LEFT_B + PAPER_W / 2;
-  const zin = E.outBack(P(t, 9.22, 9.6)), zout = E.inOutCubic(P(t, 9.95, 10.35));
-  const s = 1 + .14 * zin * (1 - zout);
-  const sh = Math.max(0, 1 - (t - 9.22) / .3) * (t >= 9.22 ? 1 : 0);
-  const shx = Math.sin(t * 90) * 10 * sh, shy = Math.cos(t * 77) * 8 * sh;
-  return { s, fx: bandX, fy: bandY, shx, shy };
+  const R = S.RB, m = R.markers[0];
+  const fx = LEFT_B + (m ? (m.x0 + m.x1) / 2 : PAPER_W / 2), fy = SLOT_Y - R.H + (m ? m.y : R.H / 2) + 30;
+  const zin = E.inOutCubic(P(t, 8.85, 9.3)), zout = E.inOutCubic(P(t, 9.95, 10.35));
+  return { s: 1 + .2 * zin * (1 - zout), fx, fy };
 }
 
-/* ===== 한 프레임 그리기 ===== */
-let lastT = -1;
 function renderScene(t) {
   const A = S.A, B = S.B, RA = S.RA, RB = S.RB;
-  // --- 1. 훅
   S.hookWords.forEach((w, i) => {
     const pin = E.outExpo(P(t, .25 + i * .12, .85 + i * .12)), pout = E.inBack(P(t, 1.75 + i * .06, 2.1 + i * .06));
     w.style.transform = `translateY(${(1 - pin) * 110 - pout * 120}%)`;
   });
   S.hook.style.opacity = t < 2.3 ? 1 : 0;
   const lw = 760 * E.outExpo(P(t, .1, .5)) * (1 - E.inCubic(P(t, 1.75, 2.05)));
-  S.line.style.width = lw + 'px'; S.line.style.left = (960 - lw / 2) + 'px'; S.line.style.top = '552px';
+  S.line.style.width = lw + 'px'; S.line.style.left = (960 - lw / 2) + 'px';
   S.hookLbl.style.opacity = P(t, .9, 1.15) * (1 - P(t, 1.75, 1.9));
   S.hookLbl.style.transform = `translateY(${(1 - E.outCubic(P(t, .9, 1.2))) * 20}px)`;
-  const cnt = E.outExpo(P(t, .95, 1.65));
-  S.hookOdo.set(A.salary * cnt);
-  const fly = E.inCubic(P(t, 1.95, 2.35));
-  const slotCx = LEFT_CENTER + PAPER_W / 2;
-  const nx = lerp(960, slotCx, fly), ny = lerp(735, SLOT_Y + 4, fly);
-  const sc = lerp(1, .12, fly);
-  S.hookOdo.box.style.transformOrigin = '50% 50%';
-  S.hookOdo.box.style.left = nx + 'px'; S.hookOdo.box.style.top = ny + 'px';
+  S.hookOdo.set(A.salary * E.outExpo(P(t, .95, 1.65)));
+  const fly = E.inCubic(P(t, 1.95, 2.35)), sc = lerp(1, .12, fly);
+  S.hookOdo.box.style.left = lerp(960, LEFT_CENTER + PAPER_W / 2, fly) + 'px'; S.hookOdo.box.style.top = lerp(740, SLOT_Y + 6, fly) + 'px';
   S.hookOdo.box.style.transform = `translate(-50%,-50%) scale(${sc},${sc * (1 - .7 * P(t, 2.25, 2.35))})`;
   S.hookOdo.box.style.opacity = P(t, .9, 1.0) * (1 - P(t, 2.3, 2.36));
 
-  // --- 위치: 서울은 가운데에서 왼쪽으로, 부산은 오른쪽에서 들어온다
-  const leftA = lerp(LEFT_CENTER, LEFT_A, E.inOutCubic(P(t, 5.9, 6.5)));
-  const leftB = LEFT_B;
-  // 프린터 몸체
-  const prA_y = SLOT_Y - 8 + (1 - E.outBack(P(t, 1.8, 2.2))) * 240 + E.inBack(P(t, 10.85, 11.2)) * 260;
-  S.PA.pr.style.left = (leftA - 30) + 'px'; S.PA.pr.style.top = prA_y + 'px';
-  const prB_y = SLOT_Y - 8 + (1 - E.outBack(P(t, 6.1, 6.45))) * 260;
-  S.PB.pr.style.left = (leftB - 30) + 'px'; S.PB.pr.style.top = prB_y + 'px';
-
-  // --- 2. 서울 영수증 출력 (막대와 맞춘다)
+  const leftA = lerp(LEFT_CENTER, LEFT_A, E.inOutCubic(P(t, 5.9, 6.5))), leftB = LEFT_B;
   const eA = RA.ends, eB = RB.ends;
-  const fa = feedAt(t, [[2.35, 2.95, eA.salary], [3.55, 3.75, eA.tax], [4.25, 4.45, eA.rent], [5.2, 5.55, eA.total], [5.55, 5.8, eA.band], [5.8, 5.95, RA.H]]);
-  S.PA.g.style.opacity = fa.printing ? .9 : 0;
-  const fb = feedAt(t, [[6.5, 6.85, eB.salary], [7.05, 7.2, eB.tax], [7.4, 7.55, eB.rent], [7.85, 8.1, eB.total], [9.0, 9.22, eB.band], [9.6, 9.85, RB.H]]);
-  S.PB.g.style.opacity = fb.printing ? .9 : 0;
+  const fa = feedAt(t, [[2.35, 2.95, eA.salary], [3.55, 3.75, eA.tax], [4.25, 4.45, eA.rent], [5.2, 5.55, eA.total], [5.55, 5.8, eA.band], [5.8, 5.98, RA.H]]);
+  const fb = feedAt(t, [[6.5, 6.85, eB.salary], [7.05, 7.2, eB.tax], [7.4, 7.55, eB.rent], [7.85, 8.1, eB.total], [8.1, 8.42, RB.H]]);
+  const rollP = P(t, 12.25, 13.6), rolling = rollP > 0 && rollP < 1;
+  S.PA.pr.classList.toggle('busy', !!fa.printing); S.PB.pr.classList.toggle('busy', !!fb.printing || rolling);
+  const bzA = fa.printing ? Math.sin(t * 180) * .8 : 0, bzB = (fb.printing || rolling) ? Math.sin(t * 180) * .8 : 0;
+  S.PA.pr.style.left = (leftA - 40) + 'px';
+  S.PA.pr.style.top = (SLOT_Y - 18 + (1 - E.outBack(P(t, 1.8, 2.2))) * 260 + E.inBack(P(t, 10.85, 11.2)) * 280 + bzA) + 'px';
+  S.PB.pr.style.left = (leftB - 40) + 'px';
+  S.PB.pr.style.top = (SLOT_Y - 18 + (1 - E.outBack(P(t, 6.1, 6.45))) * 280 + bzB) + 'px';
 
-  // 서울 영수증: 출력 → (10.3) 당김 → 찢김 → 구김 → 휴지통
   const tug = E.outCubic(P(t, 10.3, 10.42)) * (1 - E.inCubic(P(t, 10.42, 10.5)));
-  if (t < 10.45) {
-    placePaper(RA, leftA, fa.px);
-    RA.p.style.transform = `translateY(${tug * 18}px)`;
-    RA.wr.style.opacity = 0;
-  } else {
-    const w = PAPER_W, h = RA.H;
-    RA.p.style.left = leftA + 'px'; RA.p.style.top = (SLOT_Y - h) + 'px';
-    const cr = E.inOutCubic(P(t, 10.45, 10.95));
-    RA.p.style.clipPath = crumplePoly(w, h, 7, cr);
-    RA.wr.style.opacity = P(t, 10.5, 10.85);
-    const c0x = leftA + w / 2, c0y = SLOT_Y - h / 2;
-    const binX = 330 + 85, binY = 912;
-    const th = P(t, 10.95, 11.55);
-    const bx = lerp(c0x, binX, th), by = lerp(c0y - 40 * cr, binY, th) - 330 * 4 * th * (1 - th);
-    const s = lerp(1, .26, cr);
+  if (t < 10.45) { placePaper(RA, leftA, fa.px); RA.p.style.transform = `translateY(${-tug * 22}px)`; RA.wr.style.opacity = 0; }
+  else {
+    const w = PAPER_W, h = RA.H; RA.p.style.left = leftA + 'px'; RA.p.style.top = (SLOT_Y - h) + 'px';
+    const cr = E.inOutCubic(P(t, 10.45, 10.95)); RA.p.style.clipPath = crumplePoly(w, h, 7, cr); RA.wr.style.opacity = P(t, 10.5, 10.85);
+    const c0x = leftA + w / 2, c0y = SLOT_Y - h / 2, th = P(t, 10.95, 11.55);
+    const bx = lerp(c0x, 415, th), by = lerp(c0y - 40 * cr, 912, th) - 330 * 4 * th * (1 - th);
     RA.p.style.transformOrigin = `${w / 2}px ${h / 2}px`;
-    RA.p.style.transform = `translate(${bx - c0x}px,${by - c0y + 40 * 0}px) rotate(${-50 * cr - 540 * th}deg) scale(${s})`;
-    RA.p.style.opacity = t < 11.6 ? 1 : 0;
-    RA.p.style.zIndex = 5;
+    RA.p.style.transform = `translate(${bx - c0x}px,${by - c0y}px) rotate(${-50 * cr - 540 * th}deg) scale(${lerp(1, .26, cr)})`;
+    RA.p.style.opacity = t < 11.6 ? 1 : 0; RA.p.style.zIndex = 5;
   }
-  // 휴지통
   const binIn = E.outBack(P(t, 10.95, 11.3)), binOut = E.inBack(P(t, 11.85, 12.15));
-  const squash = t > 11.55 ? 1 - .12 * Math.sin(P(t, 11.55, 11.8) * Math.PI) : 1;
-  const binTop = 900 + (1 - binIn) * 330 + binOut * 330;
+  const squash = t > 11.55 ? 1 - .12 * Math.sin(P(t, 11.55, 11.8) * Math.PI) : 1, binTop = 900 + (1 - binIn) * 330 + binOut * 330;
   for (const b of [S.bin, S.binFront]) { b.style.left = '330px'; b.style.top = binTop + 'px'; b.style.transformOrigin = '85px 190px'; b.style.transform = `scale(${2 - squash},${squash})`; }
   S.bin.style.zIndex = 4; S.binFront.style.zIndex = 6;
 
-  // 부산 영수증: 출력 → (12.0) 날려 버림
   if (t < 12.0) { placePaper(RB, leftB, fb.px); RB.p.style.zIndex = 3; }
-  else {
-    placePaper(RB, leftB, RB.H);
-    const q = E.inQuad(P(t, 12.0, 12.45));
-    RB.p.style.transformOrigin = '50% 100%';
-    RB.p.style.transform = `translate(${q * 620}px,${-q * 1150}px) rotate(${q * 28}deg)`;
+  else { placePaper(RB, leftB, RB.H); const q = E.inQuad(P(t, 12.0, 12.45)); RB.p.style.transformOrigin = '50% 100%'; RB.p.style.transform = `translate(${q * 640}px,${-q * 1180}px) rotate(${q * 28}deg)`; }
+
+  // 형광펜: 남는 돈 → 1년 차이
+  const mk = [[9.02, 9.42], [9.5, 9.8]];
+  let penX = null, penY = null;
+  RB.markers.forEach((m, i) => {
+    const p = E.inOutCubic(P(t, mk[i][0], mk[i][1])); m.m.style.transform = `scaleX(${p})`;
+    if (t >= mk[i][0] && t <= mk[i][1]) { penX = leftB + m.x0 + (m.x1 - m.x0) * p; penY = SLOT_Y - RB.H + m.y; }
+  });
+  if (penX === null && RB.markers.length) {
+    let m, x;
+    if (t < mk[0][0]) { m = RB.markers[0]; x = m.x0; }
+    else if (t < mk[1][0]) { const a = RB.markers[0], b = RB.markers[1] || a, q = E.inOutCubic(P(t, mk[0][1], mk[1][0])); penX = leftB + lerp(a.x1, b.x0, q); penY = SLOT_Y - RB.H + lerp(a.y, b.y, q) - Math.sin(q * Math.PI) * 30; }
+    else { m = RB.markers[1] || RB.markers[0]; x = m.x1; }
+    if (penX === null) { penX = leftB + x; penY = SLOT_Y - RB.H + m.y; }
   }
+  const lift = E.inCubic(P(t, 9.82, 9.98)), drop = 1 - E.outCubic(P(t, 8.88, 9.02));
+  S.pen.style.left = ((penX || 0) - 14) + 'px'; S.pen.style.top = ((penY || 0) - 62) + 'px';
+  S.pen.style.transform = `translate(${lift * 160 + drop * 120}px,${-lift * 220 - drop * 160}px) rotate(${Math.sin(t * 30) * 1.5}deg)`;
+  S.pen.style.opacity = t > 8.88 && t < 9.98 ? 1 : 0;
 
-  // 막대
-  renderBar(S.BA, t, leftA, { grow0: 2.5, grow1: 3.1, taxHi: 3.35, taxFall: 3.58, rentHi: 4.05, rentFall: 4.3, stagger: .065, sink: 8.7 });
-  renderBar(S.BB, t, leftB, { grow0: 6.55, grow1: 7.0, taxHi: 6.95, taxFall: 7.08, rentHi: 7.3, rentFall: 7.42, stagger: .045, sink: 8.75 });
+  renderBar(S.BA, t, leftA, { grow0: 2.5, grow1: 3.1, taxHi: 3.35, taxFall: 3.58, rentHi: 4.05, rentFall: 4.3, stagger: .065, sink: 8.62 });
+  renderBar(S.BB, t, leftB, { grow0: 6.55, grow1: 7.0, taxHi: 6.95, taxFall: 7.08, rentHi: 7.3, rentFall: 7.42, stagger: .045, sink: 8.66 });
 
-  // 비교선
-  const yA = SLOT_Y - A.remaining * SCALE, yB = SLOT_Y - B.remaining * SCALE;
-  const yHi = Math.min(yA, yB), yLo = Math.max(yA, yB);
-  const cl = E.outExpo(P(t, 8.15, 8.5)) * (1 - P(t, 8.7, 8.85));
-  const x0 = LEFT_A + PAPER_W + GAP, x1 = LEFT_B + PAPER_W + GAP + BAR_W;
-  S.cmpLine.style.left = x0 + 'px'; S.cmpLine.style.top = (yLo - 2) + 'px'; S.cmpLine.style.width = ((x1 - x0) * E.outExpo(P(t, 8.15, 8.5))) + 'px';
-  S.cmpLine.style.opacity = cl;
+  const yA = SLOT_Y - A.remaining * SCALE, yB = SLOT_Y - B.remaining * SCALE, yHi = Math.min(yA, yB), yLo = Math.max(yA, yB);
+  const gone = 1 - P(t, 8.6, 8.75), x0 = LEFT_A + PAPER_W + GAP, x1 = LEFT_B + PAPER_W + GAP + BAR_W;
+  S.cmpLine.style.left = x0 + 'px'; S.cmpLine.style.top = (yLo - 2) + 'px'; S.cmpLine.style.width = ((x1 - x0) * E.outExpo(P(t, 8.15, 8.45))) + 'px';
+  S.cmpLine.style.opacity = P(t, 8.1, 8.15) * gone;
   const winLeft = (S.win === A ? LEFT_A : LEFT_B) + PAPER_W + GAP;
   S.cmpHi.style.left = winLeft + 'px'; S.cmpHi.style.top = yHi + 'px'; S.cmpHi.style.height = (yLo - yHi) + 'px';
-  S.cmpHi.style.opacity = P(t, 8.35, 8.45) * (1 - P(t, 8.7, 8.85));
-  S.cmpLbl.style.left = (winLeft - 260) + 'px'; S.cmpLbl.style.top = (yHi - 30) + 'px';
-  S.cmpLbl.style.opacity = P(t, 8.4, 8.5) * (1 - P(t, 8.7, 8.85));
-  S.cmpLbl.style.transform = `scale(${lerp(.6, 1, E.outBack(P(t, 8.4, 8.6)))})`;
+  S.cmpHi.style.transformOrigin = '0 50%'; S.cmpHi.style.transform = `scaleX(${E.outCubic(P(t, 8.3, 8.45))})`; S.cmpHi.style.opacity = gone;
+  S.cmpLbl.style.left = (winLeft - 290) + 'px'; S.cmpLbl.style.top = (yHi - 34) + 'px';
+  S.cmpLbl.style.opacity = P(t, 8.35, 8.42) * gone; S.cmpLbl.style.transform = `scale(${lerp(.7, 1, E.outBack(P(t, 8.35, 8.55)))})`;
 
-  // --- 4. 자막
   S.capWords.forEach((w, i) => {
     const pin = E.outExpo(P(t, 9.35 + i * .08, 9.85 + i * .08)), pout = E.inBack(P(t, 10.15 + i * .03, 10.4 + i * .03));
     w.style.transform = `translateY(${(1 - pin) * 115 - pout * 120}%)`;
   });
   S.capWrap.style.opacity = (t > 9.3 && t < 10.5 ? 1 : 0) * E.outCubic(P(t, 9.3, 9.45)) * (1 - P(t, 10.3, 10.45));
 
-  // --- 6. 전국 롤 + 숫자
-  const rollP = P(t, 12.25, 13.6);
-  const L = 5600 * Math.pow(rollP, 2.1);
-  S.roll.style.left = leftB + 'px'; S.roll.style.top = (SLOT_Y - L) + 'px';
-  S.roll.style.clipPath = `inset(${Math.max(0, L - SLOT_Y - 40)}px 0 ${Math.max(0, S.rollH - L)}px 0)`;
-  S.roll.style.opacity = L > 0 ? 1 : 0;
-  const speed = 5600 * 2.1 * Math.pow(Math.max(rollP, .001), 1.1) / 1.35;
-  S.roll.style.filter = `blur(${clamp(speed / 3000, 0, 3.2).toFixed(2)}px)`;
-  S.PB.g.style.opacity = rollP > 0 && rollP < 1 ? .9 : S.PB.g.style.opacity;
-  const sIn = E.outExpo(P(t, 12.15, 12.5));
-  S.stat.style.opacity = sIn; S.stat.style.transform = `translateY(${(1 - sIn) * 40}px)`;
-  S.odoDeals.set(D.deals * E.outExpo(P(t, 12.25, 13.25)));
-  S.odoSgg.set(D.sggCount * E.outExpo(P(t, 12.5, 13.25)));
+  const L = 5800 * Math.pow(rollP, 2.1), R = S.roll;
+  R.p.style.left = leftB + 'px'; R.p.style.top = (SLOT_Y - L) + 'px';
+  R.p.style.clipPath = `inset(${Math.max(0, L - SLOT_Y - 40)}px 0 ${Math.max(0, R.H - L)}px 0)`;
+  R.p.style.opacity = L > 0 ? 1 : 0;
+  R.p.style.filter = `blur(${clamp(5800 * 2.1 * Math.pow(Math.max(rollP, .001), 1.1) / 1.35 / 3000, 0, 3.2).toFixed(2)}px)`;
+  const sIn = E.outExpo(P(t, 12.15, 12.5)); S.stat.style.opacity = sIn; S.stat.style.transform = `translateY(${(1 - sIn) * 40}px)`;
+  S.odoDeals.set(D.deals * E.outExpo(P(t, 12.25, 13.25))); S.odoSgg.set(D.sggCount * E.outExpo(P(t, 12.5, 13.25)));
 }
 
 function render(t) {
-  const tScene = Math.min(t, 13.62);
-  renderScene(tScene);
-  const cam = camera(tScene);
-  S.world.style.transform = `translate(${cam.shx}px,${cam.shy}px) translate(${cam.fx}px,${cam.fy}px) scale(${cam.s}) translate(${-cam.fx}px,${-cam.fy}px)`;
-
-  // --- 7. 가위로 잘라 위아래를 버린다
+  const ts = Math.min(t, 13.62);
+  renderScene(ts);
+  const cam = camera(ts);
+  S.world.style.transform = `translate(${cam.fx}px,${cam.fy}px) scale(${cam.s}) translate(${-cam.fx}px,${-cam.fy}px)`;
   const cutP = E.inOutCubic(P(t, 13.45, 13.78));
-  S.cut.style.left = '0px'; S.cut.style.width = (1920 * cutP) + 'px';
-  S.cut.style.opacity = t < 13.85 ? (t > 13.43 ? 1 : 0) : 0;
-  const scx = 1920 * cutP - 48, snip = Math.sin(t * 60) * 14;
-  S.sc.style.left = scx + 'px'; S.sc.style.top = '492px'; S.sc.style.opacity = t > 13.43 && t < 13.82 ? 1 : 0;
-  S.sc.querySelector('.b1').setAttribute('transform', `rotate(${-snip} 31 48)`);
-  S.sc.querySelector('.b2').setAttribute('transform', `rotate(${snip} 31 48)`);
+  S.cut.style.width = (1920 * cutP) + 'px'; S.cut.style.opacity = t > 13.43 && t < 13.85 ? 1 : 0;
+  const snip = Math.sin(t * 60) * 14;
+  S.sc.style.left = (1920 * cutP - 48) + 'px'; S.sc.style.top = '492px'; S.sc.style.opacity = t > 13.43 && t < 13.82 ? 1 : 0;
+  S.sc.querySelector('.b1').setAttribute('transform', `rotate(${-snip} 31 48)`); S.sc.querySelector('.b2').setAttribute('transform', `rotate(${snip} 31 48)`);
   const split = E.inCubic(P(t, 13.78, 14.25));
   if (t >= 13.78) {
     if (!S.splitClone) { S.splitClone = S.scene.cloneNode(true); S.splitClone.removeAttribute('id'); S.stage.insertBefore(S.splitClone, S.overlay); }
-    S.scene.style.clipPath = 'inset(0 0 50% 0)';
-    S.scene.style.transform = `translateY(${-split * 640}px) rotate(${-split * 5}deg)`;
-    S.splitClone.style.clipPath = 'inset(50% 0 0 0)';
-    S.splitClone.style.transform = `translateY(${split * 640}px) rotate(${split * 4}deg)`;
+    S.scene.style.clipPath = 'inset(0 0 50% 0)'; S.scene.style.transform = `translateY(${-split * 640}px) rotate(${-split * 5}deg)`;
+    S.splitClone.style.clipPath = 'inset(50% 0 0 0)'; S.splitClone.style.transform = `translateY(${split * 640}px) rotate(${split * 4}deg)`;
   } else {
     if (S.splitClone) { S.splitClone.remove(); S.splitClone = null; }
     S.scene.style.clipPath = 'none'; S.scene.style.transform = 'none';
   }
-  // 엔드카드
   S.endChars.forEach((c, i) => { const p = E.outExpo(P(t, 13.95 + i * .045, 14.45 + i * .045)); c.style.transform = `translateY(${(1 - p) * 110}%)`; });
+  const mp = E.inOutCubic(P(t, 14.32, 14.6));
+  S.endMark.style.transform = `scaleX(${mp})`;
+  S.endChars.slice(0, 4).forEach(c => c.style.color = mixColor('ffffff', '131416', clamp(mp * 1.6 - .3)));
   const tg = E.outExpo(P(t, 14.2, 14.55)); S.endTag.style.opacity = tg; S.endTag.style.transform = `translateY(${(1 - tg) * 30}px)`;
-  const ruleN = Math.round(40 * P(t, 14.25, 14.5)); S.endRule.textContent = '='.repeat(ruleN) + ' '.repeat(40 - ruleN);
+  S.endRule.style.transform = `scaleX(${E.outExpo(P(t, 14.25, 14.55))})`;
   const url = 'nammeun-don.vercel.app', un = Math.round(url.length * P(t, 14.35, 14.72));
-  S.endUrl.textContent = url.slice(0, un) + (t > 14.3 && Math.floor(t * 4) % 2 === 0 ? '_' : ' ') + ' '.repeat(url.length - un);
+  S.endUrl.textContent = url.slice(0, un) + (t > 14.3 && Math.floor(t * 4) % 2 === 0 ? '|' : ' ') + ' '.repeat(url.length - un);
   S.endFoot.style.opacity = P(t, 14.5, 14.7);
-  S.vig.style.opacity = 1 - .75 * E.inOutCubic(P(t, 13.85, 14.3));
-  // 필름 입자
-  const fr = Math.floor(t * 60), r = rng(fr + 1);
-  S.grain.style.transform = `translate(${Math.floor(r() * 200 - 100)}px,${Math.floor(r() * 200 - 100)}px)`;
+  S.vig.style.opacity = 1 - E.inOutCubic(P(t, 13.85, 14.3));
+  const r = rng(Math.floor(t * 60) + 1); S.grain.style.transform = `translate(${Math.floor(r() * 200 - 100)}px,${Math.floor(r() * 200 - 100)}px)`;
 }
 
-/* ===== 시작 ===== */
 window.READY = false;
 async function boot() {
   const data = await (await fetch('data.json', { cache: 'no-cache' })).json();
   init(data);
+  const all = [S.RA, S.RB, S.roll].map(R => R.lines.map(l => l.t || '').join('')).join('');
+  if (document.fonts) await Promise.all([document.fonts.load('600 29px "Pretendard Variable"', all), document.fonts.load('700 25px "Pretendard Variable"', '0123456789,-+.x'),
+    document.fonts.load('600 58px "Pretendard Variable"', all), document.fonts.load('700 50px "Pretendard Variable"', '0123456789,')]).catch(() => {});
   await document.fonts.ready;
-  layout();
-  for (const t of [0, 1, 3, 6, 9, 12.5, 14.9]) render(t);   // 쓰는 글자의 글꼴 조각을 미리 받는다
-  await document.fonts.ready;
-  await new Promise(r => setTimeout(r, 600));
-  await document.fonts.ready;
-  layout(); render(0);
-  window.renderAt = t => render(t);
-  window.READY = true;
+  for (const t of [0, 1, 3, 6, 9, 12.5, 14.9]) { try { render(t); } catch (e) {} }
+  await document.fonts.ready; await new Promise(r => setTimeout(r, 500)); await document.fonts.ready;
+  await layout(); render(0);
+  window.renderAt = t => render(t); window.READY = true;
   if (!/render/.test(location.search)) {
     const fit = () => { const s = Math.min(innerWidth / 1920, innerHeight / 1080); S.stage.style.transform = `scale(${s})`; };
     fit(); addEventListener('resize', fit);
-    const t0 = performance.now();
-    const loop = now => { render(((now - t0) / 1000) % 15.6); requestAnimationFrame(loop); };
-    requestAnimationFrame(loop);
+    const t0 = performance.now(); const loop = now => { render(((now - t0) / 1000) % 15.6); requestAnimationFrame(loop); }; requestAnimationFrame(loop);
   }
 }
 boot();
