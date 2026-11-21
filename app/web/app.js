@@ -657,6 +657,12 @@
       body.appendChild(h('div', { class: 'band', text: '설명용 임의 월세 데이터입니다. 실제 실거래가가 아닙니다' }));
     }
     body.appendChild(renderConclusion());
+    if (window.MoneyFlow) {   // 돈 흐름 시각화(flow.js). 실패해도 나머지 결과는 그대로 보인다
+      var fl = h('div', { class: 'card flow' }, [h('h2', { text: '1년 동안 돈이 흘러가는 모습' }),
+        h('p', { class: 'hint', text: '점 하나하나가 돈입니다. 4대보험·세금·월세만큼 폭포처럼 떨어지고, 끝까지 흘러간 점이 남는 돈입니다.' })]);
+      body.appendChild(fl);
+      try { window.MoneyFlow.mount(fl, R, { A: state.names.A || '공고 A', B: state.names.B || '공고 B' }, state.tab); } catch (e) { if (fl.parentNode) fl.parentNode.removeChild(fl); }
+    }
     var hz = h('div', { class: 'card' }, [
       h('div', { class: 'row' }, [h('strong', { text: '누적 기간' }), horizonSeg(state.horizon, onHorizon)])
     ]);
