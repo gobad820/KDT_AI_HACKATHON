@@ -83,7 +83,7 @@
 
 ### 오늘(토) 24시 전
 
-- [ ] **T1. git 연결.** `git status`가 실패하면 아래를 실행한다. 이 폴더는 원격 도구로 복사해서 `.git`이 없을 수 있다.
+- [x] **T1. git 연결.** `git status`가 실패하면 아래를 실행한다. 이 폴더는 원격 도구로 복사해서 `.git`이 없을 수 있다.
   ```
   git init -b main
   git remote add origin https://github.com/gobad820/KDT_AI_HACKATHON.git
@@ -94,7 +94,7 @@
   ```
   `git status`에 변경이 없어야 한다. 있으면 멈추고 보고한다.
 - [ ] **T2. `.env` 정리.** `=`가 없는 줄을 지운다. 값을 출력하지 않는다. 예: `python3 -c "p='.env'; L=open(p).read().splitlines(); open(p,'w').write('\n'.join(l for l in L if not l.strip() or l.lstrip().startswith('#') or '=' in l)+'\n')"`
-- [ ] **T3. 패키지 설치와 테스트.** `python3 -m pip install -r requirements-dev.txt` 다음 `python3 -m pytest`.
+- [x] **T3. 패키지 설치와 테스트.** `python3 -m pip install -r requirements-dev.txt` 다음 `python3 -m pytest`.
 - [ ] **T4. 데이터포털 키 확인.** `python3 scripts/collect_rent.py --codes 11680 --months 2026-10:2026-10`
   - 인증 오류(`SERVICE_KEY_IS_NOT_REGISTERED` 등)면 멈춘다. 승인 직후에는 1시간쯤 걸릴 수 있다고 보고한다.
 - [ ] **T5. 응답 형식 확인.** `data/rent.sqlite`에서 유형별 거래 3건을 꺼내 `docs/data-spec.md` 2장의 필드 이름, 금액 단위(만 원), `contractType` 값과 비교한다. 다르면 스크립트를 고치기 전에 보고한다.

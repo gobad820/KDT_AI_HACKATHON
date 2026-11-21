@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 2026 대한민국 청년 CAREER FAIR AI 해커톤(대한상공회의소) 출품 프로젝트 "남는 돈 비교".
 대회 주제: AI 에이전트로 푸는 청년의 일·생활 문제. 제출 마감 11/23(월) 17:00.
 
@@ -18,6 +20,36 @@
 - 기술 스택: Python 3.11+, FastAPI, pydantic v2, pytest. 화면은 정적 HTML/JS(빌드 없음). 한 서버가 API와 화면을 같이 올린다
 - LLM: Claude(Anthropic API, `app/agent/llm.py`의 `AnthropicClient`). 모델명은 `.env`의 `LLM_MODEL`. 확정한 모델명은 소개서 04와 AI 활용내역에 적는다
 - 미정: <!-- TODO 서비스용 Claude 모델 확정 / 배포 위치 -->
+
+## 명령
+
+```bash
+/opt/homebrew/bin/python3.11 -m venv .venv && source .venv/bin/activate   # 기본 python3(miniconda)는 sqlite3가 깨져 있다
+pip install -r requirements-dev.txt
+uvicorn app.main:app --reload                 # http://localhost:8000, API 문서 /api/docs
+python3 -m pytest                             # 전체 (pytest.ini: testpaths=tests, -q)
+python3 -m pytest tests/test_api.py::test_health   # 단일 테스트
+python3 -m pytest -k netpay                   # 이름으로 고르기
+```
+
+- 화면만 볼 때는 `http://localhost:8000/?mock=1`. `app/web/mock.js`가 서버 응답을 대신한다.
+- 수집·통계 스크립트(`scripts/collect_rent.py`, `build_rent_stats.py`, `build_regions.py`)의 사용법은 각 스크립트의 `--help`와 `HANDOFF.md` 5장(T4~T9)에 있다.
+- `scripts/calc_ref.py`는 계산 모듈과 따로 짠 대조용 구현이다. `app/calc/`를 고치면 두 결과가 같은지 본다.
+
+## 아키텍처 (여러 파일을 읽어야 보이는 것)
+
+- 요청 흐름은 두 단계다. `POST /api/extract`(공고 → 추출값·근거·질문)에서 사용자가 확인하고 답한 뒤 `POST /api/compare`(확인된 조건 → 금액)로 간다. 둘 다 `app/main.py`에 있다.
+- `/api/compare`는 `app/pipeline.py`의 `run_compare`가 처리한다. 월세 조회 → 감면 판정 → `simulate` → 설명 순서로 도구를 고정 순서로 부르는 결정적 파이프라인이다. LLM이 없어도 금액은 똑같이 나온다. 조건이 모자라면 `NeedsInputResponse`를 돌려준다.
+- 도구는 `pipeline.Deps` 데이터클래스로 주입한다. `main.build_deps(llm)`이 실제 함수를 묶고, 테스트는 가짜를 넣는다. `main.get_llm`도 테스트에서 바꿔 끼우려고 함수로 둔다.
+- LLM 장애 대체 경로는 세 곳에 있다.
+  1. 추출: `LLMUnavailable`이면 `data/samples/*.json`의 `savedExtract`를 공고 본문(공백 정규화)으로 찾아 쓰고 `degraded=true`를 붙인다. 샘플이 아닌 공고면 `LLM_UNAVAILABLE` 오류를 낸다.
+  2. 업종 분류: 키워드 규칙으로 처리하거나 `unknown`을 돌려준다.
+  3. 설명문: 숫자 검증(`agent/numbers.py`)을 두 번 통과하지 못하면 템플릿 문장을 쓰고 `ai_generated=False`로 둔다.
+- `app/agent/llm.py`의 `get_llm()`: `LLM_PROVIDER`가 비면 `None`을 돌려준다. 값은 있는데 키나 모델이 비면 `LLMUnavailable`을 던진다. 어댑터는 `anthropic`, `openai` 두 개다.
+- `app/config.py`는 import 시점에 저장소 루트의 `.env`를 읽는다. 이미 있는 환경변수가 우선한다. `=`가 없는 줄은 건너뛴다.
+- 월세 데이터는 `data/rent_stats.json`이 있으면 그 파일을, 없으면 `rent_stats.sample.json`(임의값, `isSample=True`)을 읽는다. `APP_ENV=prod`이면 샘플이나 `-partial` 스냅샷일 때 lifespan에서 서버가 시작을 거부한다. `Dockerfile`은 `APP_ENV=prod`로 고정되어 있다.
+- API 타입은 `app/schemas.py`에 snake_case로 정의하고, JSON 출력은 `schemas.dump(model)`로 camelCase로 내보낸다. 응답을 만들 때 직접 `model_dump`를 부르지 않는다.
+- 프롬프트는 `app/agent/prompts/*_v1.md`에 버전을 붙여 둔다.
 
 ## 문서
 
