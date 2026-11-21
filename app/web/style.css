@@ -16,7 +16,7 @@
   --warn-ink: #6e4b00;
   --accent: var(--red);
   --accent-soft: var(--red-soft);
-  --mono: "Nanum Gothic Coding", "D2Coding", ui-monospace, Menlo, monospace;
+  --mono: "NeoDunggeunmo Code", ui-monospace, Menlo, monospace;
   --zz: 9px;
 }
 * { box-sizing: border-box; }
@@ -37,7 +37,7 @@ p { margin: 0 0 8px; }
 .hint { color: var(--sub); margin-bottom: 14px; }
 .small { font-size: .84rem; color: var(--sub); }
 
-.stepper { display: flex; gap: 18px; list-style: none; padding: 0; margin: 0 0 6px; font-family: var(--mono); }
+.stepper { display: flex; gap: 18px; list-style: none; padding: 0; margin: 0 0 6px; }
 .stepper li { color: var(--desk-sub); font-size: .88rem; display: flex; gap: 6px; align-items: center; opacity: .7; }
 .stepper li span::before { content: "#"; }
 .stepper li.done { opacity: .85; }
@@ -71,7 +71,7 @@ textarea { resize: vertical; min-height: 220px; font-size: .95rem; line-height: 
 textarea::placeholder, input::placeholder { color: var(--faint); }
 textarea:focus, input:focus, select:focus { outline: none; border: 1px solid var(--ink); background-color: #fff; }
 button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
-.count { text-align: right; font-family: var(--mono); font-size: .78rem; color: var(--faint); margin-top: 4px; }
+.count { text-align: right; font-size: .78rem; color: var(--faint); margin-top: 4px; }
 .count.full { color: var(--red); font-weight: 700; }
 .samples { margin-bottom: 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 #sampleButtons { display: inline-flex; gap: 8px; flex-wrap: wrap; }
@@ -110,9 +110,9 @@ th { font-weight: 600; color: var(--faint); font-size: .78rem; white-space: nowr
 table.yearly { min-width: 440px; }
 td.r, th.r { text-align: right; }
 tr.relief td:first-child { box-shadow: inset 3px 0 0 var(--red); }
-.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.num { font-family: var(--mono); font-size: 16px; letter-spacing: 0; -webkit-font-smoothing: none; }
 
-.badge { display: inline-block; font-size: .72rem; font-weight: 700; line-height: 1; padding: 4px 6px; border: 1px solid var(--rule); color: var(--sub); white-space: nowrap; margin: 1px 4px 1px 0; font-family: var(--mono); }
+.badge { display: inline-block; font-size: .72rem; font-weight: 700; line-height: 1; padding: 4px 6px; border: 1px solid var(--rule); color: var(--sub); white-space: nowrap; margin: 1px 4px 1px 0; }
 .badge.extracted { background: var(--paper-2); }
 .badge.inferred { border-style: dashed; border-color: var(--ink); color: var(--ink); }
 .badge.missing { border-color: #c9a24a; color: var(--warn-ink); background: var(--warn-bg); }
@@ -122,7 +122,7 @@ tr.relief td:first-child { box-shadow: inset 3px 0 0 var(--red); }
 .evidence { color: var(--sub); font-size: .84rem; }
 .evidence q { quotes: "\201C" "\201D"; }
 td.val { min-width: 190px; }
-td.val .unit { font-family: var(--mono); font-size: .78rem; color: var(--faint); }
+td.val .unit { font-size: .78rem; color: var(--faint); }
 .q { border-top: 1px dashed var(--rule); padding: 16px 0 4px; margin-top: 12px; }
 .q label.t { display: block; font-weight: 700; margin-bottom: 8px; }
 .q.pending { background: var(--red-soft); border: 1px dashed var(--red); padding: 14px 16px; }
@@ -140,11 +140,11 @@ td.val .unit { font-family: var(--mono); font-size: .78rem; color: var(--faint);
 /* 결과: 결론은 영수증 합계 */
 .conclusion { padding: 34px 26px 30px; margin-bottom: 14px; position: relative; text-align: center; }
 .conclusion .big { font-size: 1.08rem; font-weight: 700; line-height: 1.55; margin: 0 0 12px; }
-.conclusion .big .num { display: block; color: var(--red); font-size: clamp(2.4rem, 7vw, 3.4rem); font-weight: 700; line-height: 1.15; margin: 10px 0 4px; }
+.conclusion .big .num { display: block; color: var(--ink); font-size: 48px; font-weight: 400; line-height: 1.15; margin: 10px 0 4px; }
 .conclusion .small { color: var(--sub); }
 @media (prefers-reduced-motion: no-preference) {
-  .conclusion .big .num { animation: thud .45s cubic-bezier(.3, 1.6, .5, 1) both .15s; }
-  @keyframes thud { from { opacity: 0; transform: scale(1.35); } to { opacity: 1; transform: none; } }
+  .conclusion .big .num { animation: printline .6s steps(6, end) both .2s; }
+  @keyframes printline { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 }
 
 .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -155,10 +155,10 @@ td.val .unit { font-family: var(--mono); font-size: .78rem; color: var(--faint);
 .col { border: 1px dashed var(--rule); padding: 16px; min-width: 0; }
 .col.active { border: 1px solid var(--ink); }
 .col .diff { font-size: 1.02rem; font-weight: 700; margin-bottom: 4px; }
-.col .diff .num { font-size: 1.35rem; color: var(--red); }
+.col .diff .num { font-size: 32px; font-weight: 400; color: var(--ink); }
 .jobs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
 .job { padding: 30px 22px; min-width: 0; }
-.job .money { font-family: var(--mono); font-size: 1.7rem; font-weight: 700; line-height: 1.25; margin: 4px 0 8px; }
+.job .money { font-family: var(--mono); font-size: 32px; font-weight: 400; line-height: 1.25; margin: 4px 0 8px; }
 .job dl { margin: 10px 0; display: grid; grid-template-columns: auto 1fr; gap: 0 12px; font-size: .9rem; }
 .job dt, .job dd { padding: 5px 0; border-bottom: 1px dashed var(--rule); }
 .job dt { color: var(--sub); }
@@ -176,44 +176,48 @@ ul.plain li, ol.plain li { margin-bottom: 4px; }
 ol.trace { padding-left: 20px; margin: 4px 0; }
 ol.trace li { margin-bottom: 6px; }
 details { padding: 18px 24px; margin-bottom: 14px; }
-summary { cursor: pointer; font-weight: 700; padding: 8px 0; font-family: var(--mono); }
+summary { cursor: pointer; font-weight: 700; padding: 8px 0; }
 a { color: var(--red); word-break: break-all; text-underline-offset: 3px; }
 .foot { color: var(--desk-sub); font-size: .78rem; padding-bottom: 36px; }
 #resultBody > .small, #resultBody > p.small { color: var(--desk-sub); }
 
-/* ---------- 첫 화면: 영수증 출력 ---------- */
+/* ---------- 첫 화면: 한국 POS 감열지 영수증 ---------- */
 .hero { margin: 6px 0 18px; }
 .hero-title { color: #fff; font-size: clamp(1.6rem, 4.6vw, 2.5rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.2; margin: 6px 0 18px; }
 .hero-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
-.printer { position: relative; }
-.slot { height: 16px; border-radius: 8px; background: #1b1e23; box-shadow: inset 0 3px 4px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.08); position: relative; z-index: 2; }
-.feed { overflow: hidden; margin: -8px 10px 0; padding-top: 8px; }
-.receipt { --zz: 7px; padding: 20px 18px 22px; font-family: var(--mono); color: var(--ink); position: relative; transform: translateY(-101%); }
-.printer.go .receipt { transform: none; transition: transform 2s steps(14, end); }
-.r-head { text-align: center; font-weight: 700; font-size: 1rem; }
-.r-sub { text-align: center; font-size: .74rem; color: var(--sub); margin-bottom: 6px; }
-.r-rule { border-top: 1px dashed var(--ink); margin: 8px 0; }
-.r-line { display: flex; justify-content: space-between; gap: 8px; font-size: .86rem; padding: 3px 0; }
-.r-line span:first-child { font-family: "Pretendard Variable", Pretendard, sans-serif; }
-.r-line.total { font-size: 1.05rem; font-weight: 700; padding-top: 4px; }
-.r-line.total .num { font-size: 1.35rem; }
-.r-stampzone { height: 78px; position: relative; }
-.r-cut { border-top: 1px dashed var(--rule); margin: 0 -18px; position: relative; }
-.r-cut::after { content: "\2702"; position: absolute; left: 10px; top: -11px; font-size: 14px; color: var(--faint); background: var(--paper); padding: 0 4px; }
-.stamp { position: absolute; left: 50%; top: 50%; margin: -30px 0 0 -62px; width: 124px; display: flex; flex-direction: column; align-items: center; gap: 2px; border: 3px solid var(--red); color: var(--red); padding: 6px 10px 4px; text-align: center; line-height: 1.15;
-  transform: rotate(-9deg) scale(1.6); opacity: 0; mix-blend-mode: multiply; border-radius: 4px; }
-.stamp b { display: block; font-size: 1.15rem; line-height: 1.2; white-space: nowrap; }
-.stamp span { display: block; font-family: "Pretendard Variable", Pretendard, sans-serif; font-weight: 800; font-size: .85rem; line-height: 1.2; }
-.hero.stamped .stamp { opacity: .92; transform: rotate(-9deg) scale(1); transition: transform .22s cubic-bezier(.3, 1.8, .5, 1), opacity .1s; }
+.printer { position: relative; display: flex; flex-direction: column; align-items: center; }
+.slot { width: 100%; max-width: 420px; height: 16px; border-radius: 8px; background: #1b1e23; box-shadow: inset 0 3px 4px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.08); position: relative; z-index: 2; }
+.feed { overflow: hidden; margin-top: -8px; padding-top: 8px; width: 380px; max-width: calc(100% - 20px); }
+/* 감열지: 약간 푸른 흰 종이, 진하기가 고르지 않은 검은 인쇄, 헤드 점이 빠진 세로 줄 */
+.receipt.thermal { --zz: 6px; background: #fafaf6; color: #222326; padding: 22px 0 10px; position: relative; transform: translateY(-101%); overflow: hidden; }
+.printer.go .receipt { transform: none; transition: transform 2.2s steps(18, end); }
+.thermal::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(90deg, transparent 0 97px, rgba(250,250,246,.75) 97px 98px, transparent 98px 211px, rgba(250,250,246,.6) 211px 212px),
+              linear-gradient(180deg, rgba(250,250,246,0) 0 60%, rgba(250,250,246,.18) 100%); }
+.tp { margin: 0 auto; width: 336px; font-family: "NeoDunggeunmo Code", monospace; font-size: 16px; line-height: 20px;
+  white-space: pre; -webkit-font-smoothing: none; font-smooth: never; text-rendering: optimizeSpeed; letter-spacing: 0; }
+.tp .pl.dbl { font-size: 32px; line-height: 36px; }
+.tp .pl.rev { background: #222326; color: #fafaf6; }
+.tp .pl.tall { display: inline-block; width: 100%; transform: scaleY(2); transform-origin: center; margin: 10px 0; }
+.bc { display: flex; justify-content: center; height: 44px; margin: 10px auto 0; width: 336px; }
+.bc i { display: block; height: 100%; background: #222326; }
+.feedtail { height: 26px; }
 .hero-caption { color: #fff; font-size: 1.1rem; font-weight: 700; margin: 18px 0 4px; opacity: 0; transition: opacity .5s; }
 .hero.printed .hero-caption { opacity: 1; }
 .hero-foot { display: flex; gap: 12px; align-items: flex-end; justify-content: space-between; }
 .hero-foot .small { color: var(--desk-sub); font-size: .76rem; margin: 0; }
-.hero-replay { flex: none; padding: 6px 12px; font-size: .8rem; background: transparent; color: var(--desk-ink); border: 1px dashed var(--desk-sub); font-family: var(--mono); }
+.hero-replay { flex: none; padding: 6px 12px; font-size: .8rem; background: transparent; color: var(--desk-ink); border: 1px dashed var(--desk-sub); }
 .hero-replay:hover { background: rgba(255,255,255,.08); }
+/* 버려지는 영수증 */
+#trashLayer { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+.receipt.discarding { position: fixed; margin: 0; transform-origin: 50% 50%; transform: none; transition: none; }
+.wrinkle { position: absolute; inset: 0; opacity: 0; pointer-events: none;
+  background: repeating-linear-gradient(33deg, rgba(0,0,0,0) 0 22px, rgba(0,0,0,.16) 23px 25px, rgba(255,255,255,.5) 26px 27px),
+              repeating-linear-gradient(-58deg, rgba(0,0,0,0) 0 30px, rgba(0,0,0,.13) 31px 33px, rgba(255,255,255,.45) 34px 35px),
+              radial-gradient(circle at 40% 35%, rgba(255,255,255,.4), rgba(0,0,0,.25)); }
 @media (prefers-reduced-motion: reduce) {
   .receipt, .printer.go .receipt { transform: none; transition: none; }
-  .hero.stamped .stamp, .hero-caption { transition: none; }
+  .hero-caption { transition: none; }
 }
 
 @media (max-width: 720px) {
