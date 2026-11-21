@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-21-partial",
+  "version": "2026-11-21",
   "dataAsOf": "2026-11-21",
   "depositBasis": 10000000,
   "conversionRate": 0.06,
@@ -10,6 +10,578 @@
   ],
   "note": "환산월세 = 월세 + (보증금 - 1,000만 원) x 전환율 / 12. 전환율은 가정값이며 관리비는 포함하지 않는다. 면적 33㎡ 이하, 갱신 계약 제외, 계약월 기준. 오피스텔·연립다세대는 전용면적, 단독/다가구는 계약면적 기준.",
   "stats": {
+    "11110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1434,
+        "p25": 500000,
+        "monthlyMedian": 650000,
+        "p75": 850000,
+        "countsByType": {
+          "officetel": 573,
+          "detached_multi": 662,
+          "row_multi": 199
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3287,
+        "p25": 500000,
+        "monthlyMedian": 630000,
+        "p75": 790000,
+        "countsByType": {
+          "officetel": 1195,
+          "detached_multi": 1563,
+          "row_multi": 529
+        }
+      }
+    },
+    "11140": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 990,
+        "p25": 586250,
+        "monthlyMedian": 750000,
+        "p75": 978750,
+        "countsByType": {
+          "officetel": 443,
+          "detached_multi": 300,
+          "row_multi": 247
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2340,
+        "p25": 555000,
+        "monthlyMedian": 730000,
+        "p75": 950000,
+        "countsByType": {
+          "officetel": 1018,
+          "detached_multi": 715,
+          "row_multi": 607
+        }
+      }
+    },
+    "11170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 970,
+        "p25": 600000,
+        "monthlyMedian": 800000,
+        "p75": 1200000,
+        "countsByType": {
+          "officetel": 278,
+          "detached_multi": 385,
+          "row_multi": 307
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2261,
+        "p25": 556000,
+        "monthlyMedian": 750000,
+        "p75": 1100000,
+        "countsByType": {
+          "officetel": 569,
+          "detached_multi": 1021,
+          "row_multi": 671
+        }
+      }
+    },
+    "11200": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1805,
+        "p25": 500000,
+        "monthlyMedian": 650000,
+        "p75": 870000,
+        "countsByType": {
+          "officetel": 538,
+          "detached_multi": 987,
+          "row_multi": 280
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4346,
+        "p25": 500000,
+        "monthlyMedian": 640000,
+        "p75": 850000,
+        "countsByType": {
+          "officetel": 1141,
+          "detached_multi": 2511,
+          "row_multi": 694
+        }
+      }
+    },
+    "11215": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4500,
+        "p25": 475000,
+        "monthlyMedian": 620000,
+        "p75": 850000,
+        "countsByType": {
+          "officetel": 723,
+          "detached_multi": 2810,
+          "row_multi": 967
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 10557,
+        "p25": 475000,
+        "monthlyMedian": 600000,
+        "p75": 820000,
+        "countsByType": {
+          "officetel": 1698,
+          "detached_multi": 6506,
+          "row_multi": 2353
+        }
+      }
+    },
+    "11230": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3981,
+        "p25": 465000,
+        "monthlyMedian": 595000,
+        "p75": 775000,
+        "countsByType": {
+          "officetel": 1425,
+          "detached_multi": 2137,
+          "row_multi": 419
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 9995,
+        "p25": 450000,
+        "monthlyMedian": 575000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 3525,
+          "detached_multi": 5410,
+          "row_multi": 1060
+        }
+      }
+    },
+    "11260": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2158,
+        "p25": 375000,
+        "monthlyMedian": 500000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 249,
+          "detached_multi": 1312,
+          "row_multi": 597
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4651,
+        "p25": 375000,
+        "monthlyMedian": 500000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 522,
+          "detached_multi": 2839,
+          "row_multi": 1290
+        }
+      }
+    },
+    "11290": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2127,
+        "p25": 425000,
+        "monthlyMedian": 550000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 161,
+          "detached_multi": 1499,
+          "row_multi": 467
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 5769,
+        "p25": 435000,
+        "monthlyMedian": 550000,
+        "p75": 680000,
+        "countsByType": {
+          "officetel": 447,
+          "detached_multi": 3968,
+          "row_multi": 1354
+        }
+      }
+    },
+    "11305": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1587,
+        "p25": 345000,
+        "monthlyMedian": 450000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 237,
+          "detached_multi": 1022,
+          "row_multi": 328
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3649,
+        "p25": 355000,
+        "monthlyMedian": 455000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 583,
+          "detached_multi": 2357,
+          "row_multi": 709
+        }
+      }
+    },
+    "11320": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 861,
+        "p25": 375000,
+        "monthlyMedian": 520000,
+        "p75": 695000,
+        "countsByType": {
+          "officetel": 319,
+          "detached_multi": 411,
+          "row_multi": 131
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2015,
+        "p25": 375000,
+        "monthlyMedian": 500000,
+        "p75": 675000,
+        "countsByType": {
+          "officetel": 745,
+          "detached_multi": 955,
+          "row_multi": 315
+        }
+      }
+    },
+    "11350": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1005,
+        "p25": 375000,
+        "monthlyMedian": 450000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 91,
+          "detached_multi": 708,
+          "row_multi": 206
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3367,
+        "p25": 375000,
+        "monthlyMedian": 450000,
+        "p75": 500000,
+        "countsByType": {
+          "officetel": 228,
+          "detached_multi": 2449,
+          "row_multi": 690
+        }
+      }
+    },
+    "11380": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1824,
+        "p25": 460000,
+        "monthlyMedian": 600000,
+        "p75": 710000,
+        "countsByType": {
+          "officetel": 690,
+          "detached_multi": 597,
+          "row_multi": 537
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4168,
+        "p25": 450000,
+        "monthlyMedian": 600000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 1552,
+          "detached_multi": 1344,
+          "row_multi": 1272
+        }
+      }
+    },
+    "11410": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2825,
+        "p25": 475000,
+        "monthlyMedian": 600000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 537,
+          "detached_multi": 1754,
+          "row_multi": 534
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7141,
+        "p25": 475000,
+        "monthlyMedian": 600000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 1489,
+          "detached_multi": 4257,
+          "row_multi": 1395
+        }
+      }
+    },
+    "11440": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3639,
+        "p25": 595000,
+        "monthlyMedian": 725000,
+        "p75": 850000,
+        "countsByType": {
+          "officetel": 1449,
+          "detached_multi": 1216,
+          "row_multi": 974
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 8514,
+        "p25": 580000,
+        "monthlyMedian": 700000,
+        "p75": 850000,
+        "countsByType": {
+          "officetel": 3380,
+          "detached_multi": 2928,
+          "row_multi": 2206
+        }
+      }
+    },
+    "11470": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1095,
+        "p25": 450000,
+        "monthlyMedian": 600000,
+        "p75": 850000,
+        "countsByType": {
+          "officetel": 149,
+          "detached_multi": 481,
+          "row_multi": 465
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2376,
+        "p25": 430000,
+        "monthlyMedian": 600000,
+        "p75": 850888,
+        "countsByType": {
+          "officetel": 353,
+          "detached_multi": 999,
+          "row_multi": 1024
+        }
+      }
+    },
+    "11500": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 5264,
+        "p25": 550000,
+        "monthlyMedian": 730000,
+        "p75": 910000,
+        "countsByType": {
+          "officetel": 3398,
+          "detached_multi": 760,
+          "row_multi": 1106
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 11039,
+        "p25": 550000,
+        "monthlyMedian": 720000,
+        "p75": 900000,
+        "countsByType": {
+          "officetel": 7172,
+          "detached_multi": 1551,
+          "row_multi": 2316
+        }
+      }
+    },
+    "11530": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2525,
+        "p25": 375000,
+        "monthlyMedian": 525000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 1093,
+          "detached_multi": 1093,
+          "row_multi": 339
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 5335,
+        "p25": 385000,
+        "monthlyMedian": 545000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 2393,
+          "detached_multi": 2219,
+          "row_multi": 723
+        }
+      }
+    },
+    "11545": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2604,
+        "p25": 415000,
+        "monthlyMedian": 595000,
+        "p75": 800000,
+        "countsByType": {
+          "officetel": 1156,
+          "detached_multi": 1055,
+          "row_multi": 393
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 5416,
+        "p25": 415000,
+        "monthlyMedian": 580000,
+        "p75": 790000,
+        "countsByType": {
+          "officetel": 2408,
+          "detached_multi": 2123,
+          "row_multi": 885
+        }
+      }
+    },
+    "11560": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4587,
+        "p25": 481250,
+        "monthlyMedian": 695000,
+        "p75": 1000000,
+        "countsByType": {
+          "officetel": 2246,
+          "detached_multi": 1629,
+          "row_multi": 712
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 9839,
+        "p25": 500000,
+        "monthlyMedian": 700000,
+        "p75": 1000000,
+        "countsByType": {
+          "officetel": 4945,
+          "detached_multi": 3233,
+          "row_multi": 1661
+        }
+      }
+    },
+    "11590": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3748,
+        "p25": 450000,
+        "monthlyMedian": 550000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 223,
+          "detached_multi": 2840,
+          "row_multi": 685
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 9430,
+        "p25": 450000,
+        "monthlyMedian": 550000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 483,
+          "detached_multi": 7237,
+          "row_multi": 1710
+        }
+      }
+    },
+    "11620": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 7399,
+        "p25": 425000,
+        "monthlyMedian": 550000,
+        "p75": 740000,
+        "countsByType": {
+          "officetel": 1424,
+          "detached_multi": 5077,
+          "row_multi": 898
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 17225,
+        "p25": 425000,
+        "monthlyMedian": 550000,
+        "p75": 710000,
+        "countsByType": {
+          "officetel": 3221,
+          "detached_multi": 11833,
+          "row_multi": 2171
+        }
+      }
+    },
+    "11650": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2118,
+        "p25": 610000,
+        "monthlyMedian": 800000,
+        "p75": 1000000,
+        "countsByType": {
+          "officetel": 662,
+          "detached_multi": 658,
+          "row_multi": 798
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4823,
+        "p25": 630000,
+        "monthlyMedian": 800000,
+        "p75": 1030000,
+        "countsByType": {
+          "officetel": 1566,
+          "detached_multi": 1440,
+          "row_multi": 1817
+        }
+      }
+    },
     "11680": {
       "sgg": {
         "period": "2026-05~2026-10",
@@ -33,6 +605,788 @@
           "officetel": 2376,
           "detached_multi": 2383,
           "row_multi": 2363
+        }
+      }
+    },
+    "11710": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4429,
+        "p25": 600000,
+        "monthlyMedian": 840000,
+        "p75": 1050000,
+        "countsByType": {
+          "officetel": 1631,
+          "detached_multi": 725,
+          "row_multi": 2073
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 9715,
+        "p25": 600000,
+        "monthlyMedian": 850000,
+        "p75": 1050000,
+        "countsByType": {
+          "officetel": 3622,
+          "detached_multi": 1591,
+          "row_multi": 4502
+        }
+      }
+    },
+    "11740": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2954,
+        "p25": 470000,
+        "monthlyMedian": 617500,
+        "p75": 850000,
+        "countsByType": {
+          "officetel": 871,
+          "detached_multi": 1175,
+          "row_multi": 908
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 6332,
+        "p25": 460000,
+        "monthlyMedian": 600000,
+        "p75": 850000,
+        "countsByType": {
+          "officetel": 1905,
+          "detached_multi": 2447,
+          "row_multi": 1980
+        }
+      }
+    },
+    "12110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 129,
+        "p25": 260000,
+        "monthlyMedian": 305000,
+        "p75": 355000,
+        "countsByType": {
+          "officetel": 36,
+          "detached_multi": 87,
+          "row_multi": 6
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 301,
+        "p25": 260000,
+        "monthlyMedian": 305000,
+        "p75": 355000,
+        "countsByType": {
+          "officetel": 100,
+          "detached_multi": 191,
+          "row_multi": 10
+        }
+      }
+    },
+    "12130": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 309,
+        "p25": 305000,
+        "monthlyMedian": 360000,
+        "p75": 410000,
+        "countsByType": {
+          "officetel": 36,
+          "detached_multi": 241,
+          "row_multi": 32
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 963,
+        "p25": 260000,
+        "monthlyMedian": 340000,
+        "p75": 390000,
+        "countsByType": {
+          "officetel": 91,
+          "detached_multi": 758,
+          "row_multi": 114
+        }
+      }
+    },
+    "12150": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 435,
+        "p25": 310000,
+        "monthlyMedian": 360000,
+        "p75": 435000,
+        "countsByType": {
+          "officetel": 8,
+          "detached_multi": 374,
+          "row_multi": 53
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1180,
+        "p25": 290000,
+        "monthlyMedian": 345000,
+        "p75": 410000,
+        "countsByType": {
+          "officetel": 21,
+          "detached_multi": 997,
+          "row_multi": 162
+        }
+      }
+    },
+    "12170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 353,
+        "p25": 345000,
+        "monthlyMedian": 385000,
+        "p75": 435000,
+        "countsByType": {
+          "officetel": 277,
+          "detached_multi": 73,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 949,
+        "p25": 345000,
+        "monthlyMedian": 365000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 783,
+          "detached_multi": 154,
+          "row_multi": 12
+        }
+      }
+    },
+    "12190": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 82,
+        "p25": 285000,
+        "monthlyMedian": 340000,
+        "p75": 380000,
+        "countsByType": {
+          "detached_multi": 81,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 159,
+        "p25": 267500,
+        "monthlyMedian": 310000,
+        "p75": 360000,
+        "countsByType": {
+          "detached_multi": 156,
+          "row_multi": 3
+        }
+      }
+    },
+    "12210": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 309,
+        "p25": 325000,
+        "monthlyMedian": 415000,
+        "p75": 485000,
+        "countsByType": {
+          "officetel": 149,
+          "detached_multi": 134,
+          "row_multi": 26
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1037,
+        "p25": 285000,
+        "monthlyMedian": 365000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 337,
+          "detached_multi": 598,
+          "row_multi": 102
+        }
+      }
+    },
+    "12240": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1000,
+        "p25": 315000,
+        "monthlyMedian": 368500,
+        "p75": 465000,
+        "countsByType": {
+          "officetel": 362,
+          "detached_multi": 616,
+          "row_multi": 22
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2438,
+        "p25": 310000,
+        "monthlyMedian": 365000,
+        "p75": 456875,
+        "countsByType": {
+          "officetel": 906,
+          "detached_multi": 1452,
+          "row_multi": 80
+        }
+      }
+    },
+    "12270": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 312,
+        "p25": 310000,
+        "monthlyMedian": 385000,
+        "p75": 465000,
+        "countsByType": {
+          "officetel": 63,
+          "detached_multi": 232,
+          "row_multi": 17
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 857,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 445000,
+        "countsByType": {
+          "officetel": 195,
+          "detached_multi": 594,
+          "row_multi": 68
+        }
+      }
+    },
+    "12300": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 474,
+        "p25": 260000,
+        "monthlyMedian": 310000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 46,
+          "detached_multi": 395,
+          "row_multi": 33
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1406,
+        "p25": 260000,
+        "monthlyMedian": 310000,
+        "p75": 370000,
+        "countsByType": {
+          "officetel": 119,
+          "detached_multi": 1220,
+          "row_multi": 67
+        }
+      }
+    },
+    "12330": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 914,
+        "p25": 300000,
+        "monthlyMedian": 365000,
+        "p75": 465000,
+        "countsByType": {
+          "officetel": 181,
+          "detached_multi": 681,
+          "row_multi": 52
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2130,
+        "p25": 280000,
+        "monthlyMedian": 360000,
+        "p75": 465000,
+        "countsByType": {
+          "officetel": 422,
+          "detached_multi": 1597,
+          "row_multi": 111
+        }
+      }
+    },
+    "12710": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 227500,
+        "monthlyMedian": 285000,
+        "p75": 342500,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4,
+        "p25": 305000,
+        "monthlyMedian": 357500,
+        "p75": 373750,
+        "countsByType": {
+          "detached_multi": 3,
+          "row_multi": 1
+        }
+      }
+    },
+    "12720": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3,
+        "p25": 320000,
+        "monthlyMedian": 325000,
+        "p75": 345000,
+        "countsByType": {
+          "detached_multi": 2,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 6,
+        "p25": 307500,
+        "monthlyMedian": 320000,
+        "p75": 355000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 4,
+          "row_multi": 1
+        }
+      }
+    },
+    "12730": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 5,
+        "p25": 375000,
+        "monthlyMedian": 385000,
+        "p75": 425000,
+        "countsByType": {
+          "detached_multi": 5
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7,
+        "p25": 375000,
+        "monthlyMedian": 385000,
+        "p75": 425000,
+        "countsByType": {
+          "detached_multi": 7
+        }
+      }
+    },
+    "12740": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4,
+        "p25": 350000,
+        "monthlyMedian": 400000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7,
+        "p25": 375000,
+        "monthlyMedian": 425000,
+        "p75": 450000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 5
+        }
+      }
+    },
+    "12750": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 238750,
+        "monthlyMedian": 267500,
+        "p75": 296250,
+        "countsByType": {
+          "detached_multi": 1,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4,
+        "p25": 296250,
+        "monthlyMedian": 340000,
+        "p75": 368750,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 1,
+          "row_multi": 1
+        }
+      }
+    },
+    "12760": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 8,
+        "p25": 257500,
+        "monthlyMedian": 270000,
+        "p75": 296250,
+        "countsByType": {
+          "detached_multi": 8
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 18,
+        "p25": 261250,
+        "monthlyMedian": 292500,
+        "p75": 440000,
+        "countsByType": {
+          "detached_multi": 18
+        }
+      }
+    },
+    "12770": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 51,
+        "p25": 265000,
+        "monthlyMedian": 332500,
+        "p75": 390000,
+        "countsByType": {
+          "detached_multi": 38,
+          "row_multi": 13
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 140,
+        "p25": 275000,
+        "monthlyMedian": 345000,
+        "p75": 370000,
+        "countsByType": {
+          "detached_multi": 107,
+          "row_multi": 33
+        }
+      }
+    },
+    "12780": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 14,
+        "p25": 378750,
+        "monthlyMedian": 425000,
+        "p75": 425000,
+        "countsByType": {
+          "detached_multi": 10,
+          "row_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 20,
+        "p25": 368750,
+        "monthlyMedian": 405000,
+        "p75": 425000,
+        "countsByType": {
+          "detached_multi": 14,
+          "row_multi": 6
+        }
+      }
+    },
+    "12790": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 9,
+        "p25": 275000,
+        "monthlyMedian": 375000,
+        "p75": 500000,
+        "countsByType": {
+          "detached_multi": 6,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 37,
+        "p25": 350000,
+        "monthlyMedian": 375000,
+        "p75": 500000,
+        "countsByType": {
+          "detached_multi": 26,
+          "row_multi": 11
+        }
+      }
+    },
+    "12800": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 7,
+        "p25": 340000,
+        "monthlyMedian": 445000,
+        "p75": 445000,
+        "countsByType": {
+          "detached_multi": 7
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 9,
+        "p25": 315000,
+        "monthlyMedian": 377500,
+        "p75": 445000,
+        "countsByType": {
+          "detached_multi": 8,
+          "row_multi": 1
+        }
+      }
+    },
+    "12810": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 100,
+        "p25": 295375,
+        "monthlyMedian": 345000,
+        "p75": 357500,
+        "countsByType": {
+          "officetel": 86,
+          "detached_multi": 14
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 486,
+        "p25": 251625,
+        "monthlyMedian": 325000,
+        "p75": 345000,
+        "countsByType": {
+          "officetel": 285,
+          "detached_multi": 195,
+          "row_multi": 6
+        }
+      }
+    },
+    "12820": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1,
+        "p25": 310000,
+        "monthlyMedian": 310000,
+        "p75": 310000,
+        "countsByType": {
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2,
+        "p25": 306250,
+        "monthlyMedian": 307500,
+        "p75": 308750,
+        "countsByType": {
+          "row_multi": 2
+        }
+      }
+    },
+    "12830": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 5,
+        "p25": 240000,
+        "monthlyMedian": 251500,
+        "p75": 300000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 19,
+        "p25": 258250,
+        "monthlyMedian": 345000,
+        "p75": 420000,
+        "countsByType": {
+          "officetel": 5,
+          "detached_multi": 12,
+          "row_multi": 2
+        }
+      }
+    },
+    "12840": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 6,
+        "p25": 321250,
+        "monthlyMedian": 350000,
+        "p75": 390000,
+        "countsByType": {
+          "detached_multi": 5,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 19,
+        "p25": 310000,
+        "monthlyMedian": 360000,
+        "p75": 465000,
+        "countsByType": {
+          "detached_multi": 18,
+          "row_multi": 1
+        }
+      }
+    },
+    "12850": {
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4,
+        "p25": 347500,
+        "monthlyMedian": 360000,
+        "p75": 380000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 2,
+          "row_multi": 1
+        }
+      }
+    },
+    "12860": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1,
+        "p25": 375000,
+        "monthlyMedian": 375000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2,
+        "p25": 322500,
+        "monthlyMedian": 340000,
+        "p75": 357500,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      }
+    },
+    "26110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 558,
+        "p25": 361250,
+        "monthlyMedian": 465000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 388,
+          "detached_multi": 27,
+          "row_multi": 143
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1401,
+        "p25": 345000,
+        "monthlyMedian": 445000,
+        "p75": 520000,
+        "countsByType": {
+          "officetel": 942,
+          "detached_multi": 62,
+          "row_multi": 397
+        }
+      }
+    },
+    "26140": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 479,
+        "p25": 305000,
+        "monthlyMedian": 355000,
+        "p75": 430000,
+        "countsByType": {
+          "officetel": 212,
+          "detached_multi": 32,
+          "row_multi": 235
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1530,
+        "p25": 305000,
+        "monthlyMedian": 365000,
+        "p75": 440000,
+        "countsByType": {
+          "officetel": 675,
+          "detached_multi": 70,
+          "row_multi": 785
+        }
+      }
+    },
+    "26170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 601,
+        "p25": 375000,
+        "monthlyMedian": 475000,
+        "p75": 550000,
+        "countsByType": {
+          "officetel": 493,
+          "detached_multi": 28,
+          "row_multi": 80
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1403,
+        "p25": 375000,
+        "monthlyMedian": 470000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 1144,
+          "detached_multi": 67,
+          "row_multi": 192
+        }
+      }
+    },
+    "26200": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 134,
+        "p25": 296250,
+        "monthlyMedian": 375000,
+        "p75": 470000,
+        "countsByType": {
+          "officetel": 83,
+          "detached_multi": 23,
+          "row_multi": 28
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 407,
+        "p25": 275000,
+        "monthlyMedian": 335000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 208,
+          "detached_multi": 85,
+          "row_multi": 114
         }
       }
     },
@@ -62,6 +1416,497 @@
         }
       }
     },
+    "26260": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 817,
+        "p25": 302500,
+        "monthlyMedian": 395000,
+        "p75": 510000,
+        "countsByType": {
+          "officetel": 418,
+          "detached_multi": 58,
+          "row_multi": 341
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1944,
+        "p25": 305000,
+        "monthlyMedian": 400000,
+        "p75": 501250,
+        "countsByType": {
+          "officetel": 998,
+          "detached_multi": 162,
+          "row_multi": 784
+        }
+      }
+    },
+    "26290": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1096,
+        "p25": 295000,
+        "monthlyMedian": 370000,
+        "p75": 470000,
+        "countsByType": {
+          "officetel": 335,
+          "detached_multi": 130,
+          "row_multi": 631
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3830,
+        "p25": 285000,
+        "monthlyMedian": 360000,
+        "p75": 460000,
+        "countsByType": {
+          "officetel": 1138,
+          "detached_multi": 393,
+          "row_multi": 2299
+        }
+      }
+    },
+    "26320": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 316,
+        "p25": 278750,
+        "monthlyMedian": 345000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 136,
+          "detached_multi": 54,
+          "row_multi": 126
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 774,
+        "p25": 270000,
+        "monthlyMedian": 347500,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 317,
+          "detached_multi": 141,
+          "row_multi": 316
+        }
+      }
+    },
+    "26350": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1163,
+        "p25": 325000,
+        "monthlyMedian": 385000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 961,
+          "detached_multi": 56,
+          "row_multi": 146
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2520,
+        "p25": 325000,
+        "monthlyMedian": 375000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 2105,
+          "detached_multi": 111,
+          "row_multi": 304
+        }
+      }
+    },
+    "26380": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 620,
+        "p25": 275000,
+        "monthlyMedian": 350000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 302,
+          "detached_multi": 117,
+          "row_multi": 201
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1911,
+        "p25": 275000,
+        "monthlyMedian": 350000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 985,
+          "detached_multi": 308,
+          "row_multi": 618
+        }
+      }
+    },
+    "26410": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 668,
+        "p25": 265000,
+        "monthlyMedian": 325000,
+        "p75": 405000,
+        "countsByType": {
+          "officetel": 156,
+          "detached_multi": 219,
+          "row_multi": 293
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2727,
+        "p25": 265000,
+        "monthlyMedian": 305000,
+        "p75": 378650,
+        "countsByType": {
+          "officetel": 464,
+          "detached_multi": 1046,
+          "row_multi": 1217
+        }
+      }
+    },
+    "26440": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 543,
+        "p25": 325000,
+        "monthlyMedian": 425000,
+        "p75": 455000,
+        "countsByType": {
+          "officetel": 359,
+          "detached_multi": 183,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1194,
+        "p25": 325000,
+        "monthlyMedian": 415000,
+        "p75": 455000,
+        "countsByType": {
+          "officetel": 757,
+          "detached_multi": 433,
+          "row_multi": 4
+        }
+      }
+    },
+    "26470": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1102,
+        "p25": 325000,
+        "monthlyMedian": 402500,
+        "p75": 530000,
+        "countsByType": {
+          "officetel": 666,
+          "detached_multi": 47,
+          "row_multi": 389
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2659,
+        "p25": 325000,
+        "monthlyMedian": 405000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 1623,
+          "detached_multi": 124,
+          "row_multi": 912
+        }
+      }
+    },
+    "26500": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1742,
+        "p25": 325000,
+        "monthlyMedian": 420000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 679,
+          "detached_multi": 148,
+          "row_multi": 915
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3750,
+        "p25": 315000,
+        "monthlyMedian": 405000,
+        "p75": 520000,
+        "countsByType": {
+          "officetel": 1515,
+          "detached_multi": 310,
+          "row_multi": 1925
+        }
+      }
+    },
+    "26530": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 768,
+        "p25": 316875,
+        "monthlyMedian": 390000,
+        "p75": 470000,
+        "countsByType": {
+          "officetel": 480,
+          "detached_multi": 70,
+          "row_multi": 218
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2153,
+        "p25": 295000,
+        "monthlyMedian": 375000,
+        "p75": 455000,
+        "countsByType": {
+          "officetel": 1217,
+          "detached_multi": 271,
+          "row_multi": 665
+        }
+      }
+    },
+    "26710": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 431,
+        "p25": 315000,
+        "monthlyMedian": 335000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 185,
+          "detached_multi": 203,
+          "row_multi": 43
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 905,
+        "p25": 315000,
+        "monthlyMedian": 330000,
+        "p75": 405000,
+        "countsByType": {
+          "officetel": 395,
+          "detached_multi": 433,
+          "row_multi": 77
+        }
+      }
+    },
+    "27110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 766,
+        "p25": 305000,
+        "monthlyMedian": 415000,
+        "p75": 508750,
+        "countsByType": {
+          "officetel": 403,
+          "detached_multi": 351,
+          "row_multi": 12
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1788,
+        "p25": 300000,
+        "monthlyMedian": 415000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 936,
+          "detached_multi": 823,
+          "row_multi": 29
+        }
+      }
+    },
+    "27140": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 635,
+        "p25": 265000,
+        "monthlyMedian": 345000,
+        "p75": 405000,
+        "countsByType": {
+          "officetel": 278,
+          "detached_multi": 353,
+          "row_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1616,
+        "p25": 265000,
+        "monthlyMedian": 335000,
+        "p75": 405000,
+        "countsByType": {
+          "officetel": 705,
+          "detached_multi": 893,
+          "row_multi": 18
+        }
+      }
+    },
+    "27170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 151,
+        "p25": 240000,
+        "monthlyMedian": 265000,
+        "p75": 350000,
+        "countsByType": {
+          "detached_multi": 138,
+          "row_multi": 13
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 325,
+        "p25": 245000,
+        "monthlyMedian": 265000,
+        "p75": 335000,
+        "countsByType": {
+          "detached_multi": 305,
+          "row_multi": 20
+        }
+      }
+    },
+    "27200": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 564,
+        "p25": 260000,
+        "monthlyMedian": 310000,
+        "p75": 400000,
+        "countsByType": {
+          "officetel": 32,
+          "detached_multi": 527,
+          "row_multi": 5
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1641,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 400000,
+        "countsByType": {
+          "officetel": 97,
+          "detached_multi": 1531,
+          "row_multi": 13
+        }
+      }
+    },
+    "27230": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 562,
+        "p25": 255000,
+        "monthlyMedian": 287500,
+        "p75": 455000,
+        "countsByType": {
+          "officetel": 206,
+          "detached_multi": 350,
+          "row_multi": 6
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1767,
+        "p25": 250000,
+        "monthlyMedian": 265000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 463,
+          "detached_multi": 1280,
+          "row_multi": 24
+        }
+      }
+    },
+    "27260": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 513,
+        "p25": 260000,
+        "monthlyMedian": 315000,
+        "p75": 435000,
+        "countsByType": {
+          "officetel": 108,
+          "detached_multi": 405
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1213,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 259,
+          "detached_multi": 953,
+          "row_multi": 1
+        }
+      }
+    },
+    "27290": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 805,
+        "p25": 250000,
+        "monthlyMedian": 275000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 70,
+          "detached_multi": 705,
+          "row_multi": 30
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2320,
+        "p25": 255000,
+        "monthlyMedian": 265000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 193,
+          "detached_multi": 2063,
+          "row_multi": 64
+        }
+      }
+    },
+    "27710": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 233,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 450000,
+        "countsByType": {
+          "officetel": 89,
+          "detached_multi": 138,
+          "row_multi": 6
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 543,
+        "p25": 260000,
+        "monthlyMedian": 300000,
+        "p75": 440000,
+        "countsByType": {
+          "officetel": 191,
+          "detached_multi": 336,
+          "row_multi": 16
+        }
+      }
+    },
     "27720": {
       "sgg": {
         "period": "2026-05~2026-10",
@@ -81,6 +1926,549 @@
         "p75": 452500,
         "countsByType": {
           "detached_multi": 71
+        }
+      }
+    },
+    "28125": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 135,
+        "p25": 340000,
+        "monthlyMedian": 425000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 105,
+          "detached_multi": 14,
+          "row_multi": 16
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 319,
+        "p25": 347500,
+        "monthlyMedian": 405000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 254,
+          "detached_multi": 31,
+          "row_multi": 34
+        }
+      }
+    },
+    "28155": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1290,
+        "p25": 350000,
+        "monthlyMedian": 465000,
+        "p75": 555000,
+        "countsByType": {
+          "officetel": 818,
+          "detached_multi": 466,
+          "row_multi": 6
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2659,
+        "p25": 360000,
+        "monthlyMedian": 465000,
+        "p75": 545000,
+        "countsByType": {
+          "officetel": 1783,
+          "detached_multi": 868,
+          "row_multi": 8
+        }
+      }
+    },
+    "28177": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 727,
+        "p25": 315000,
+        "monthlyMedian": 390000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 320,
+          "detached_multi": 283,
+          "row_multi": 124
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1740,
+        "p25": 315000,
+        "monthlyMedian": 405000,
+        "p75": 575000,
+        "countsByType": {
+          "officetel": 774,
+          "detached_multi": 711,
+          "row_multi": 255
+        }
+      }
+    },
+    "28185": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1022,
+        "p25": 385000,
+        "monthlyMedian": 625000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 732,
+          "detached_multi": 269,
+          "row_multi": 21
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2182,
+        "p25": 385000,
+        "monthlyMedian": 625000,
+        "p75": 675000,
+        "countsByType": {
+          "officetel": 1562,
+          "detached_multi": 570,
+          "row_multi": 50
+        }
+      }
+    },
+    "28200": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1032,
+        "p25": 315000,
+        "monthlyMedian": 405000,
+        "p75": 481250,
+        "countsByType": {
+          "officetel": 587,
+          "detached_multi": 317,
+          "row_multi": 128
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2204,
+        "p25": 315000,
+        "monthlyMedian": 410000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 1319,
+          "detached_multi": 636,
+          "row_multi": 249
+        }
+      }
+    },
+    "28237": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 830,
+        "p25": 325000,
+        "monthlyMedian": 400000,
+        "p75": 495000,
+        "countsByType": {
+          "officetel": 292,
+          "detached_multi": 378,
+          "row_multi": 160
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1697,
+        "p25": 325000,
+        "monthlyMedian": 400000,
+        "p75": 500000,
+        "countsByType": {
+          "officetel": 637,
+          "detached_multi": 740,
+          "row_multi": 320
+        }
+      }
+    },
+    "28245": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 468,
+        "p25": 285000,
+        "monthlyMedian": 345000,
+        "p75": 395000,
+        "countsByType": {
+          "officetel": 196,
+          "detached_multi": 193,
+          "row_multi": 79
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 955,
+        "p25": 295000,
+        "monthlyMedian": 345000,
+        "p75": 392500,
+        "countsByType": {
+          "officetel": 378,
+          "detached_multi": 430,
+          "row_multi": 147
+        }
+      }
+    },
+    "28275": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1103,
+        "p25": 345000,
+        "monthlyMedian": 430000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 589,
+          "detached_multi": 416,
+          "row_multi": 98
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2398,
+        "p25": 345000,
+        "monthlyMedian": 425000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 1363,
+          "detached_multi": 832,
+          "row_multi": 203
+        }
+      }
+    },
+    "28290": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 508,
+        "p25": 275000,
+        "monthlyMedian": 350000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 30,
+          "detached_multi": 457,
+          "row_multi": 21
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1161,
+        "p25": 265000,
+        "monthlyMedian": 345000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 85,
+          "detached_multi": 1024,
+          "row_multi": 52
+        }
+      }
+    },
+    "28710": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 47,
+        "p25": 325000,
+        "monthlyMedian": 375000,
+        "p75": 412500,
+        "countsByType": {
+          "detached_multi": 37,
+          "row_multi": 10
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 94,
+        "p25": 317500,
+        "monthlyMedian": 375000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 68,
+          "row_multi": 25
+        }
+      }
+    },
+    "28720": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 9,
+        "p25": 300000,
+        "monthlyMedian": 350000,
+        "p75": 452500,
+        "countsByType": {
+          "detached_multi": 5,
+          "row_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 27,
+        "p25": 290000,
+        "monthlyMedian": 301500,
+        "p75": 351500,
+        "countsByType": {
+          "detached_multi": 14,
+          "row_multi": 13
+        }
+      }
+    },
+    "30110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 918,
+        "p25": 270000,
+        "monthlyMedian": 350000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 24,
+          "detached_multi": 876,
+          "row_multi": 18
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3041,
+        "p25": 260000,
+        "monthlyMedian": 330500,
+        "p75": 450000,
+        "countsByType": {
+          "officetel": 70,
+          "detached_multi": 2921,
+          "row_multi": 50
+        }
+      }
+    },
+    "30140": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 949,
+        "p25": 300500,
+        "monthlyMedian": 375000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 930,
+          "row_multi": 17
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2005,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 5,
+          "detached_multi": 1970,
+          "row_multi": 30
+        }
+      }
+    },
+    "30170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3092,
+        "p25": 310000,
+        "monthlyMedian": 375000,
+        "p75": 480000,
+        "countsByType": {
+          "officetel": 84,
+          "detached_multi": 2967,
+          "row_multi": 41
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7441,
+        "p25": 310000,
+        "monthlyMedian": 375000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 182,
+          "detached_multi": 7179,
+          "row_multi": 80
+        }
+      }
+    },
+    "30200": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2224,
+        "p25": 305000,
+        "monthlyMedian": 375000,
+        "p75": 500000,
+        "countsByType": {
+          "officetel": 284,
+          "detached_multi": 1929,
+          "row_multi": 11
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 5969,
+        "p25": 295000,
+        "monthlyMedian": 375000,
+        "p75": 490000,
+        "countsByType": {
+          "officetel": 667,
+          "detached_multi": 5275,
+          "row_multi": 27
+        }
+      }
+    },
+    "30230": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 342,
+        "p25": 266250,
+        "monthlyMedian": 325000,
+        "p75": 400000,
+        "countsByType": {
+          "officetel": 4,
+          "detached_multi": 333,
+          "row_multi": 5
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 877,
+        "p25": 265000,
+        "monthlyMedian": 335000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 9,
+          "detached_multi": 854,
+          "row_multi": 14
+        }
+      }
+    },
+    "31110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 405,
+        "p25": 325000,
+        "monthlyMedian": 400000,
+        "p75": 545000,
+        "countsByType": {
+          "officetel": 173,
+          "detached_multi": 208,
+          "row_multi": 24
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 898,
+        "p25": 325000,
+        "monthlyMedian": 395000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 385,
+          "detached_multi": 463,
+          "row_multi": 50
+        }
+      }
+    },
+    "31140": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1246,
+        "p25": 345000,
+        "monthlyMedian": 425000,
+        "p75": 550000,
+        "countsByType": {
+          "officetel": 424,
+          "detached_multi": 671,
+          "row_multi": 151
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2938,
+        "p25": 325000,
+        "monthlyMedian": 415000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 952,
+          "detached_multi": 1591,
+          "row_multi": 395
+        }
+      }
+    },
+    "31170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 443,
+        "p25": 310000,
+        "monthlyMedian": 355000,
+        "p75": 412500,
+        "countsByType": {
+          "officetel": 53,
+          "detached_multi": 370,
+          "row_multi": 20
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 881,
+        "p25": 310000,
+        "monthlyMedian": 340000,
+        "p75": 395000,
+        "countsByType": {
+          "officetel": 77,
+          "detached_multi": 769,
+          "row_multi": 35
+        }
+      }
+    },
+    "31200": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 311,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 8,
+          "detached_multi": 298,
+          "row_multi": 5
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 536,
+        "p25": 295000,
+        "monthlyMedian": 362500,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 18,
+          "detached_multi": 501,
+          "row_multi": 17
+        }
+      }
+    },
+    "31710": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 662,
+        "p25": 341250,
+        "monthlyMedian": 365000,
+        "p75": 410000,
+        "countsByType": {
+          "officetel": 124,
+          "detached_multi": 513,
+          "row_multi": 25
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1442,
+        "p25": 355000,
+        "monthlyMedian": 385000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 284,
+          "detached_multi": 1110,
+          "row_multi": 48
         }
       }
     },
@@ -109,41 +2497,4322 @@
           "row_multi": 438
         }
       }
+    },
+    "41110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 5864,
+        "p25": 335000,
+        "monthlyMedian": 425000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 1602,
+          "detached_multi": 2893,
+          "row_multi": 1369
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 13926,
+        "p25": 335000,
+        "monthlyMedian": 425000,
+        "p75": 591500,
+        "countsByType": {
+          "officetel": 3873,
+          "detached_multi": 6805,
+          "row_multi": 3248
+        }
+      }
+    },
+    "41111": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1064,
+        "p25": 325000,
+        "monthlyMedian": 395000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 17,
+          "detached_multi": 751,
+          "row_multi": 296
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2992,
+        "p25": 325000,
+        "monthlyMedian": 395000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 38,
+          "detached_multi": 2011,
+          "row_multi": 943
+        }
+      }
+    },
+    "41113": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1511,
+        "p25": 315000,
+        "monthlyMedian": 385000,
+        "p75": 522500,
+        "countsByType": {
+          "officetel": 336,
+          "detached_multi": 713,
+          "row_multi": 462
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3161,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 505000,
+        "countsByType": {
+          "officetel": 840,
+          "detached_multi": 1340,
+          "row_multi": 981
+        }
+      }
+    },
+    "41115": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1226,
+        "p25": 325000,
+        "monthlyMedian": 415000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 251,
+          "detached_multi": 443,
+          "row_multi": 532
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2791,
+        "p25": 335000,
+        "monthlyMedian": 415000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 602,
+          "detached_multi": 1045,
+          "row_multi": 1144
+        }
+      }
+    },
+    "41117": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2063,
+        "p25": 375000,
+        "monthlyMedian": 570000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 998,
+          "detached_multi": 986,
+          "row_multi": 79
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4982,
+        "p25": 375000,
+        "monthlyMedian": 545000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 2393,
+          "detached_multi": 2409,
+          "row_multi": 180
+        }
+      }
+    },
+    "41130": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3676,
+        "p25": 405000,
+        "monthlyMedian": 575000,
+        "p75": 800000,
+        "countsByType": {
+          "officetel": 1280,
+          "detached_multi": 2330,
+          "row_multi": 66
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 8408,
+        "p25": 410000,
+        "monthlyMedian": 550000,
+        "p75": 800000,
+        "countsByType": {
+          "officetel": 2883,
+          "detached_multi": 5377,
+          "row_multi": 148
+        }
+      }
+    },
+    "41131": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1189,
+        "p25": 360000,
+        "monthlyMedian": 470000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 189,
+          "detached_multi": 975,
+          "row_multi": 25
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2870,
+        "p25": 365000,
+        "monthlyMedian": 475000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 444,
+          "detached_multi": 2363,
+          "row_multi": 63
+        }
+      }
+    },
+    "41133": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 861,
+        "p25": 365000,
+        "monthlyMedian": 500000,
+        "p75": 780000,
+        "countsByType": {
+          "officetel": 340,
+          "detached_multi": 484,
+          "row_multi": 37
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1791,
+        "p25": 355000,
+        "monthlyMedian": 500000,
+        "p75": 775000,
+        "countsByType": {
+          "officetel": 726,
+          "detached_multi": 985,
+          "row_multi": 80
+        }
+      }
+    },
+    "41135": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1626,
+        "p25": 530000,
+        "monthlyMedian": 650000,
+        "p75": 950000,
+        "countsByType": {
+          "officetel": 751,
+          "detached_multi": 871,
+          "row_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3747,
+        "p25": 500000,
+        "monthlyMedian": 650000,
+        "p75": 920000,
+        "countsByType": {
+          "officetel": 1713,
+          "detached_multi": 2029,
+          "row_multi": 5
+        }
+      }
+    },
+    "41150": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 949,
+        "p25": 315000,
+        "monthlyMedian": 395000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 260,
+          "detached_multi": 574,
+          "row_multi": 115
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2037,
+        "p25": 320000,
+        "monthlyMedian": 390000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 603,
+          "detached_multi": 1177,
+          "row_multi": 257
+        }
+      }
+    },
+    "41170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1102,
+        "p25": 375000,
+        "monthlyMedian": 500000,
+        "p75": 650000,
+        "countsByType": {
+          "officetel": 322,
+          "detached_multi": 585,
+          "row_multi": 195
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2399,
+        "p25": 375000,
+        "monthlyMedian": 490000,
+        "p75": 630000,
+        "countsByType": {
+          "officetel": 690,
+          "detached_multi": 1234,
+          "row_multi": 475
+        }
+      }
+    },
+    "41171": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 635,
+        "p25": 335000,
+        "monthlyMedian": 445000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 185,
+          "detached_multi": 331,
+          "row_multi": 119
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1403,
+        "p25": 355000,
+        "monthlyMedian": 450000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 406,
+          "detached_multi": 685,
+          "row_multi": 312
+        }
+      }
+    },
+    "41173": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 467,
+        "p25": 437500,
+        "monthlyMedian": 550000,
+        "p75": 677500,
+        "countsByType": {
+          "officetel": 137,
+          "detached_multi": 254,
+          "row_multi": 76
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 996,
+        "p25": 425000,
+        "monthlyMedian": 550000,
+        "p75": 650000,
+        "countsByType": {
+          "officetel": 284,
+          "detached_multi": 549,
+          "row_multi": 163
+        }
+      }
+    },
+    "41190": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2322,
+        "p25": 325000,
+        "monthlyMedian": 415000,
+        "p75": 505000,
+        "countsByType": {
+          "officetel": 876,
+          "detached_multi": 986,
+          "row_multi": 460
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4685,
+        "p25": 335000,
+        "monthlyMedian": 425000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 1937,
+          "detached_multi": 1837,
+          "row_multi": 911
+        }
+      }
+    },
+    "41192": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1676,
+        "p25": 350000,
+        "monthlyMedian": 425000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 822,
+          "detached_multi": 566,
+          "row_multi": 288
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3447,
+        "p25": 355000,
+        "monthlyMedian": 430000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 1787,
+          "detached_multi": 1072,
+          "row_multi": 588
+        }
+      }
+    },
+    "41194": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 356,
+        "p25": 278750,
+        "monthlyMedian": 365000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 54,
+          "detached_multi": 264,
+          "row_multi": 38
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 679,
+        "p25": 300000,
+        "monthlyMedian": 375000,
+        "p75": 500000,
+        "countsByType": {
+          "officetel": 149,
+          "detached_multi": 464,
+          "row_multi": 66
+        }
+      }
+    },
+    "41196": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 290,
+        "p25": 296250,
+        "monthlyMedian": 375000,
+        "p75": 445000,
+        "countsByType": {
+          "detached_multi": 156,
+          "row_multi": 134
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 559,
+        "p25": 275000,
+        "monthlyMedian": 365000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 301,
+          "row_multi": 257
+        }
+      }
+    },
+    "41210": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 688,
+        "p25": 408750,
+        "monthlyMedian": 595000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 416,
+          "detached_multi": 251,
+          "row_multi": 21
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1435,
+        "p25": 430000,
+        "monthlyMedian": 600000,
+        "p75": 690000,
+        "countsByType": {
+          "officetel": 930,
+          "detached_multi": 460,
+          "row_multi": 45
+        }
+      }
+    },
+    "41220": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4430,
+        "p25": 375000,
+        "monthlyMedian": 462500,
+        "p75": 565000,
+        "countsByType": {
+          "officetel": 245,
+          "detached_multi": 3105,
+          "row_multi": 1080
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 9796,
+        "p25": 360000,
+        "monthlyMedian": 425000,
+        "p75": 515000,
+        "countsByType": {
+          "officetel": 559,
+          "detached_multi": 6783,
+          "row_multi": 2454
+        }
+      }
+    },
+    "41250": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 153,
+        "p25": 330000,
+        "monthlyMedian": 395000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 10,
+          "detached_multi": 79,
+          "row_multi": 64
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 331,
+        "p25": 315000,
+        "monthlyMedian": 385000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 28,
+          "detached_multi": 171,
+          "row_multi": 132
+        }
+      }
+    },
+    "41270": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2975,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 465000,
+        "countsByType": {
+          "officetel": 1093,
+          "detached_multi": 1022,
+          "row_multi": 860
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 6833,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 465000,
+        "countsByType": {
+          "officetel": 2472,
+          "detached_multi": 2268,
+          "row_multi": 2093
+        }
+      }
+    },
+    "41271": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1409,
+        "p25": 290000,
+        "monthlyMedian": 345000,
+        "p75": 420000,
+        "countsByType": {
+          "officetel": 89,
+          "detached_multi": 683,
+          "row_multi": 637
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3372,
+        "p25": 295000,
+        "monthlyMedian": 345000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 238,
+          "detached_multi": 1592,
+          "row_multi": 1542
+        }
+      }
+    },
+    "41273": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1566,
+        "p25": 335000,
+        "monthlyMedian": 415000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 1004,
+          "detached_multi": 339,
+          "row_multi": 223
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3461,
+        "p25": 345000,
+        "monthlyMedian": 415000,
+        "p75": 485000,
+        "countsByType": {
+          "officetel": 2234,
+          "detached_multi": 676,
+          "row_multi": 551
+        }
+      }
+    },
+    "41280": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3131,
+        "p25": 375000,
+        "monthlyMedian": 460000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 1680,
+          "detached_multi": 1312,
+          "row_multi": 139
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7052,
+        "p25": 375000,
+        "monthlyMedian": 455000,
+        "p75": 586250,
+        "countsByType": {
+          "officetel": 3712,
+          "detached_multi": 3048,
+          "row_multi": 292
+        }
+      }
+    },
+    "41281": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1506,
+        "p25": 360000,
+        "monthlyMedian": 500000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 765,
+          "detached_multi": 613,
+          "row_multi": 128
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3449,
+        "p25": 355000,
+        "monthlyMedian": 495000,
+        "p75": 700000,
+        "countsByType": {
+          "officetel": 1695,
+          "detached_multi": 1484,
+          "row_multi": 270
+        }
+      }
+    },
+    "41285": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1039,
+        "p25": 397500,
+        "monthlyMedian": 475000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 669,
+          "detached_multi": 366,
+          "row_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2398,
+        "p25": 395000,
+        "monthlyMedian": 465000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 1490,
+          "detached_multi": 898,
+          "row_multi": 10
+        }
+      }
+    },
+    "41287": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 586,
+        "p25": 345000,
+        "monthlyMedian": 425000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 246,
+          "detached_multi": 333,
+          "row_multi": 7
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1205,
+        "p25": 355000,
+        "monthlyMedian": 425000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 527,
+          "detached_multi": 666,
+          "row_multi": 12
+        }
+      }
+    },
+    "41290": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 138,
+        "p25": 500000,
+        "monthlyMedian": 1072500,
+        "p75": 1325000,
+        "countsByType": {
+          "officetel": 68,
+          "detached_multi": 67,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 237,
+        "p25": 500000,
+        "monthlyMedian": 1045000,
+        "p75": 1300000,
+        "countsByType": {
+          "officetel": 115,
+          "detached_multi": 115,
+          "row_multi": 7
+        }
+      }
+    },
+    "41310": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 549,
+        "p25": 350000,
+        "monthlyMedian": 425000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 130,
+          "detached_multi": 387,
+          "row_multi": 32
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1182,
+        "p25": 345000,
+        "monthlyMedian": 425000,
+        "p75": 545000,
+        "countsByType": {
+          "officetel": 337,
+          "detached_multi": 771,
+          "row_multi": 74
+        }
+      }
+    },
+    "41360": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1327,
+        "p25": 375000,
+        "monthlyMedian": 475000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 464,
+          "detached_multi": 763,
+          "row_multi": 100
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2917,
+        "p25": 375000,
+        "monthlyMedian": 475000,
+        "p75": 575000,
+        "countsByType": {
+          "officetel": 1078,
+          "detached_multi": 1626,
+          "row_multi": 213
+        }
+      }
+    },
+    "41370": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1317,
+        "p25": 325000,
+        "monthlyMedian": 385000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 246,
+          "detached_multi": 686,
+          "row_multi": 385
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2619,
+        "p25": 315000,
+        "monthlyMedian": 385000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 518,
+          "detached_multi": 1346,
+          "row_multi": 755
+        }
+      }
+    },
+    "41390": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1535,
+        "p25": 295000,
+        "monthlyMedian": 395000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 765,
+          "detached_multi": 346,
+          "row_multi": 424
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3438,
+        "p25": 305000,
+        "monthlyMedian": 395000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 1783,
+          "detached_multi": 720,
+          "row_multi": 935
+        }
+      }
+    },
+    "41410": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 615,
+        "p25": 355000,
+        "monthlyMedian": 425000,
+        "p75": 527500,
+        "countsByType": {
+          "officetel": 176,
+          "detached_multi": 320,
+          "row_multi": 119
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1318,
+        "p25": 355000,
+        "monthlyMedian": 425000,
+        "p75": 530000,
+        "countsByType": {
+          "officetel": 395,
+          "detached_multi": 649,
+          "row_multi": 274
+        }
+      }
+    },
+    "41430": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 325,
+        "p25": 375000,
+        "monthlyMedian": 455000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 80,
+          "detached_multi": 115,
+          "row_multi": 130
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 823,
+        "p25": 375000,
+        "monthlyMedian": 450000,
+        "p75": 550000,
+        "countsByType": {
+          "officetel": 259,
+          "detached_multi": 305,
+          "row_multi": 259
+        }
+      }
+    },
+    "41450": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2114,
+        "p25": 600000,
+        "monthlyMedian": 700000,
+        "p75": 774375,
+        "countsByType": {
+          "officetel": 1898,
+          "detached_multi": 188,
+          "row_multi": 28
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4664,
+        "p25": 595000,
+        "monthlyMedian": 680000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 4227,
+          "detached_multi": 377,
+          "row_multi": 60
+        }
+      }
+    },
+    "41460": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4111,
+        "p25": 400000,
+        "monthlyMedian": 500000,
+        "p75": 630000,
+        "countsByType": {
+          "officetel": 941,
+          "detached_multi": 2496,
+          "row_multi": 674
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 10170,
+        "p25": 395000,
+        "monthlyMedian": 475000,
+        "p75": 600000,
+        "countsByType": {
+          "officetel": 2234,
+          "detached_multi": 6246,
+          "row_multi": 1690
+        }
+      }
+    },
+    "41461": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1509,
+        "p25": 395000,
+        "monthlyMedian": 475000,
+        "p75": 605000,
+        "countsByType": {
+          "officetel": 122,
+          "detached_multi": 999,
+          "row_multi": 388
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3895,
+        "p25": 375000,
+        "monthlyMedian": 460000,
+        "p75": 575000,
+        "countsByType": {
+          "officetel": 356,
+          "detached_multi": 2523,
+          "row_multi": 1016
+        }
+      }
+    },
+    "41463": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1294,
+        "p25": 375000,
+        "monthlyMedian": 450000,
+        "p75": 545000,
+        "countsByType": {
+          "officetel": 256,
+          "detached_multi": 863,
+          "row_multi": 175
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3185,
+        "p25": 375000,
+        "monthlyMedian": 445000,
+        "p75": 530000,
+        "countsByType": {
+          "officetel": 640,
+          "detached_multi": 2129,
+          "row_multi": 416
+        }
+      }
+    },
+    "41465": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1308,
+        "p25": 475000,
+        "monthlyMedian": 600000,
+        "p75": 775000,
+        "countsByType": {
+          "officetel": 563,
+          "detached_multi": 634,
+          "row_multi": 111
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3090,
+        "p25": 475000,
+        "monthlyMedian": 600000,
+        "p75": 750000,
+        "countsByType": {
+          "officetel": 1238,
+          "detached_multi": 1594,
+          "row_multi": 258
+        }
+      }
+    },
+    "41480": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1242,
+        "p25": 365000,
+        "monthlyMedian": 465000,
+        "p75": 545000,
+        "countsByType": {
+          "officetel": 662,
+          "detached_multi": 481,
+          "row_multi": 99
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2641,
+        "p25": 375000,
+        "monthlyMedian": 475000,
+        "p75": 545000,
+        "countsByType": {
+          "officetel": 1507,
+          "detached_multi": 946,
+          "row_multi": 188
+        }
+      }
+    },
+    "41500": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1435,
+        "p25": 375000,
+        "monthlyMedian": 425000,
+        "p75": 500000,
+        "countsByType": {
+          "officetel": 182,
+          "detached_multi": 1127,
+          "row_multi": 126
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3509,
+        "p25": 375000,
+        "monthlyMedian": 425000,
+        "p75": 495000,
+        "countsByType": {
+          "officetel": 419,
+          "detached_multi": 2755,
+          "row_multi": 335
+        }
+      }
+    },
+    "41550": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 659,
+        "p25": 325000,
+        "monthlyMedian": 402500,
+        "p75": 485000,
+        "countsByType": {
+          "officetel": 24,
+          "detached_multi": 540,
+          "row_multi": 95
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1844,
+        "p25": 315000,
+        "monthlyMedian": 365000,
+        "p75": 431500,
+        "countsByType": {
+          "officetel": 61,
+          "detached_multi": 1579,
+          "row_multi": 204
+        }
+      }
+    },
+    "41570": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2088,
+        "p25": 350000,
+        "monthlyMedian": 415000,
+        "p75": 495000,
+        "countsByType": {
+          "officetel": 1231,
+          "detached_multi": 809,
+          "row_multi": 48
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4470,
+        "p25": 350000,
+        "monthlyMedian": 410000,
+        "p75": 495000,
+        "countsByType": {
+          "officetel": 2679,
+          "detached_multi": 1695,
+          "row_multi": 96
+        }
+      }
+    },
+    "41590": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4602,
+        "p25": 350000,
+        "monthlyMedian": 425000,
+        "p75": 545000,
+        "countsByType": {
+          "officetel": 1881,
+          "detached_multi": 2299,
+          "row_multi": 422
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 9657,
+        "p25": 355000,
+        "monthlyMedian": 425000,
+        "p75": 540000,
+        "countsByType": {
+          "officetel": 4097,
+          "detached_multi": 4535,
+          "row_multi": 1025
+        }
+      }
+    },
+    "41591": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1629,
+        "p25": 325000,
+        "monthlyMedian": 375000,
+        "p75": 430000,
+        "countsByType": {
+          "officetel": 183,
+          "detached_multi": 1370,
+          "row_multi": 76
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3164,
+        "p25": 325000,
+        "monthlyMedian": 375000,
+        "p75": 435000,
+        "countsByType": {
+          "officetel": 401,
+          "detached_multi": 2586,
+          "row_multi": 177
+        }
+      }
+    },
+    "41593": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 367,
+        "p25": 315000,
+        "monthlyMedian": 365000,
+        "p75": 445000,
+        "countsByType": {
+          "officetel": 102,
+          "detached_multi": 188,
+          "row_multi": 77
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 901,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 445000,
+        "countsByType": {
+          "officetel": 257,
+          "detached_multi": 428,
+          "row_multi": 216
+        }
+      }
+    },
+    "41595": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 994,
+        "p25": 315000,
+        "monthlyMedian": 395000,
+        "p75": 550000,
+        "countsByType": {
+          "officetel": 164,
+          "detached_multi": 567,
+          "row_multi": 263
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2144,
+        "p25": 325000,
+        "monthlyMedian": 400000,
+        "p75": 550000,
+        "countsByType": {
+          "officetel": 381,
+          "detached_multi": 1142,
+          "row_multi": 621
+        }
+      }
+    },
+    "41597": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1612,
+        "p25": 425000,
+        "monthlyMedian": 545000,
+        "p75": 650000,
+        "countsByType": {
+          "officetel": 1432,
+          "detached_multi": 174,
+          "row_multi": 6
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3448,
+        "p25": 425000,
+        "monthlyMedian": 530000,
+        "p75": 645000,
+        "countsByType": {
+          "officetel": 3058,
+          "detached_multi": 379,
+          "row_multi": 11
+        }
+      }
+    },
+    "41610": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1166,
+        "p25": 355000,
+        "monthlyMedian": 395000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 18,
+          "detached_multi": 1079,
+          "row_multi": 69
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2384,
+        "p25": 355000,
+        "monthlyMedian": 395000,
+        "p75": 460000,
+        "countsByType": {
+          "officetel": 35,
+          "detached_multi": 2214,
+          "row_multi": 135
+        }
+      }
+    },
+    "41630": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 435,
+        "p25": 315000,
+        "monthlyMedian": 412500,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 71,
+          "detached_multi": 325,
+          "row_multi": 39
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 933,
+        "p25": 325000,
+        "monthlyMedian": 400000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 143,
+          "detached_multi": 704,
+          "row_multi": 86
+        }
+      }
+    },
+    "41650": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 284,
+        "p25": 325000,
+        "monthlyMedian": 365000,
+        "p75": 395000,
+        "countsByType": {
+          "detached_multi": 193,
+          "row_multi": 91
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 669,
+        "p25": 325000,
+        "monthlyMedian": 365000,
+        "p75": 385000,
+        "countsByType": {
+          "officetel": 3,
+          "detached_multi": 451,
+          "row_multi": 215
+        }
+      }
+    },
+    "41670": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 494,
+        "p25": 345000,
+        "monthlyMedian": 395000,
+        "p75": 455000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 435,
+          "row_multi": 58
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1158,
+        "p25": 345000,
+        "monthlyMedian": 382500,
+        "p75": 445000,
+        "countsByType": {
+          "officetel": 7,
+          "detached_multi": 1020,
+          "row_multi": 131
+        }
+      }
+    },
+    "41800": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 38,
+        "p25": 297500,
+        "monthlyMedian": 330000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 23,
+          "row_multi": 14
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 83,
+        "p25": 295000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 60,
+          "row_multi": 22
+        }
+      }
+    },
+    "41820": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 144,
+        "p25": 325000,
+        "monthlyMedian": 375000,
+        "p75": 430000,
+        "countsByType": {
+          "officetel": 6,
+          "detached_multi": 89,
+          "row_multi": 49
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 273,
+        "p25": 325000,
+        "monthlyMedian": 375000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 10,
+          "detached_multi": 158,
+          "row_multi": 105
+        }
+      }
+    },
+    "41830": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 176,
+        "p25": 375000,
+        "monthlyMedian": 425000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 10,
+          "detached_multi": 146,
+          "row_multi": 20
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 420,
+        "p25": 368750,
+        "monthlyMedian": 425000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 29,
+          "detached_multi": 344,
+          "row_multi": 47
+        }
+      }
+    },
+    "43110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3451,
+        "p25": 310000,
+        "monthlyMedian": 385000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 371,
+          "detached_multi": 3063,
+          "row_multi": 17
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 8582,
+        "p25": 290000,
+        "monthlyMedian": 365000,
+        "p75": 465000,
+        "countsByType": {
+          "officetel": 918,
+          "detached_multi": 7629,
+          "row_multi": 35
+        }
+      }
+    },
+    "43111": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 216,
+        "p25": 265000,
+        "monthlyMedian": 365000,
+        "p75": 454875,
+        "countsByType": {
+          "officetel": 8,
+          "detached_multi": 206,
+          "row_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 474,
+        "p25": 260000,
+        "monthlyMedian": 355000,
+        "p75": 462500,
+        "countsByType": {
+          "officetel": 18,
+          "detached_multi": 453,
+          "row_multi": 3
+        }
+      }
+    },
+    "43112": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 335,
+        "p25": 260000,
+        "monthlyMedian": 305000,
+        "p75": 372500,
+        "countsByType": {
+          "officetel": 4,
+          "detached_multi": 330,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1160,
+        "p25": 260000,
+        "monthlyMedian": 265000,
+        "p75": 360000,
+        "countsByType": {
+          "officetel": 10,
+          "detached_multi": 1144,
+          "row_multi": 6
+        }
+      }
+    },
+    "43113": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2114,
+        "p25": 345000,
+        "monthlyMedian": 415000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 274,
+          "detached_multi": 1837,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4729,
+        "p25": 325000,
+        "monthlyMedian": 410000,
+        "p75": 500000,
+        "countsByType": {
+          "officetel": 697,
+          "detached_multi": 4022,
+          "row_multi": 10
+        }
+      }
+    },
+    "43114": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 786,
+        "p25": 290000,
+        "monthlyMedian": 360000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 85,
+          "detached_multi": 690,
+          "row_multi": 11
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2219,
+        "p25": 275000,
+        "monthlyMedian": 355000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 193,
+          "detached_multi": 2010,
+          "row_multi": 16
+        }
+      }
+    },
+    "43130": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 320,
+        "p25": 270000,
+        "monthlyMedian": 315000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 4,
+          "detached_multi": 274,
+          "row_multi": 42
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 723,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 370500,
+        "countsByType": {
+          "officetel": 12,
+          "detached_multi": 626,
+          "row_multi": 85
+        }
+      }
+    },
+    "43150": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 210,
+        "p25": 303125,
+        "monthlyMedian": 325000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 3,
+          "detached_multi": 204,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 497,
+        "p25": 305000,
+        "monthlyMedian": 325000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 17,
+          "detached_multi": 472,
+          "row_multi": 8
+        }
+      }
+    },
+    "43720": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4,
+        "p25": 372500,
+        "monthlyMedian": 400000,
+        "p75": 443750,
+        "countsByType": {
+          "detached_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 10,
+        "p25": 275000,
+        "monthlyMedian": 370000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 9
+        }
+      }
+    },
+    "43730": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1,
+        "p25": 202500,
+        "monthlyMedian": 202500,
+        "p75": 202500,
+        "countsByType": {
+          "detached_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 6,
+        "p25": 204375,
+        "monthlyMedian": 282500,
+        "p75": 370000,
+        "countsByType": {
+          "detached_multi": 6
+        }
+      }
+    },
+    "43740": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 15,
+        "p25": 257500,
+        "monthlyMedian": 265000,
+        "p75": 320000,
+        "countsByType": {
+          "detached_multi": 14,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 46,
+        "p25": 238375,
+        "monthlyMedian": 263250,
+        "p75": 322500,
+        "countsByType": {
+          "detached_multi": 43,
+          "row_multi": 3
+        }
+      }
+    },
+    "43745": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 42,
+        "p25": 230000,
+        "monthlyMedian": 267500,
+        "p75": 345000,
+        "countsByType": {
+          "detached_multi": 42
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 122,
+        "p25": 211250,
+        "monthlyMedian": 265000,
+        "p75": 355000,
+        "countsByType": {
+          "detached_multi": 122
+        }
+      }
+    },
+    "43750": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 113,
+        "p25": 310000,
+        "monthlyMedian": 360000,
+        "p75": 385000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 79,
+          "row_multi": 33
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 223,
+        "p25": 310000,
+        "monthlyMedian": 350000,
+        "p75": 390000,
+        "countsByType": {
+          "officetel": 4,
+          "detached_multi": 160,
+          "row_multi": 59
+        }
+      }
+    },
+    "43760": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 7,
+        "p25": 325000,
+        "monthlyMedian": 325000,
+        "p75": 340000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 5,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 18,
+        "p25": 325000,
+        "monthlyMedian": 325000,
+        "p75": 343750,
+        "countsByType": {
+          "officetel": 4,
+          "detached_multi": 13,
+          "row_multi": 1
+        }
+      }
+    },
+    "43770": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 127,
+        "p25": 342500,
+        "monthlyMedian": 375000,
+        "p75": 440000,
+        "countsByType": {
+          "officetel": 14,
+          "detached_multi": 106,
+          "row_multi": 7
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 294,
+        "p25": 315000,
+        "monthlyMedian": 365000,
+        "p75": 442500,
+        "countsByType": {
+          "officetel": 46,
+          "detached_multi": 235,
+          "row_multi": 13
+        }
+      }
+    },
+    "43800": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3,
+        "p25": 275000,
+        "monthlyMedian": 285000,
+        "p75": 315000,
+        "countsByType": {
+          "detached_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 11,
+        "p25": 305000,
+        "monthlyMedian": 345000,
+        "p75": 345000,
+        "countsByType": {
+          "detached_multi": 11
+        }
+      }
+    },
+    "44130": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3014,
+        "p25": 295000,
+        "monthlyMedian": 345000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 463,
+          "detached_multi": 2385,
+          "row_multi": 166
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7774,
+        "p25": 305000,
+        "monthlyMedian": 360000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 1138,
+          "detached_multi": 6165,
+          "row_multi": 471
+        }
+      }
+    },
+    "44131": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 994,
+        "p25": 295000,
+        "monthlyMedian": 347500,
+        "p75": 390000,
+        "countsByType": {
+          "officetel": 63,
+          "detached_multi": 908,
+          "row_multi": 23
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3117,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 440000,
+        "countsByType": {
+          "officetel": 205,
+          "detached_multi": 2825,
+          "row_multi": 87
+        }
+      }
+    },
+    "44133": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2020,
+        "p25": 295000,
+        "monthlyMedian": 345000,
+        "p75": 420000,
+        "countsByType": {
+          "officetel": 400,
+          "detached_multi": 1477,
+          "row_multi": 143
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4657,
+        "p25": 295000,
+        "monthlyMedian": 345000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 933,
+          "detached_multi": 3340,
+          "row_multi": 384
+        }
+      }
+    },
+    "44150": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 84,
+        "p25": 302500,
+        "monthlyMedian": 347500,
+        "p75": 403250,
+        "countsByType": {
+          "detached_multi": 77,
+          "row_multi": 7
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 414,
+        "p25": 271500,
+        "monthlyMedian": 312500,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 386,
+          "row_multi": 28
+        }
+      }
+    },
+    "44180": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 223,
+        "p25": 315000,
+        "monthlyMedian": 360000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 7,
+          "detached_multi": 187,
+          "row_multi": 29
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 541,
+        "p25": 315000,
+        "monthlyMedian": 355000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 12,
+          "detached_multi": 454,
+          "row_multi": 75
+        }
+      }
+    },
+    "44200": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1249,
+        "p25": 290000,
+        "monthlyMedian": 345000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 205,
+          "detached_multi": 1002,
+          "row_multi": 42
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2968,
+        "p25": 290000,
+        "monthlyMedian": 352500,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 593,
+          "detached_multi": 2262,
+          "row_multi": 113
+        }
+      }
+    },
+    "44210": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 469,
+        "p25": 315000,
+        "monthlyMedian": 350000,
+        "p75": 395000,
+        "countsByType": {
+          "officetel": 84,
+          "detached_multi": 373,
+          "row_multi": 12
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1136,
+        "p25": 315000,
+        "monthlyMedian": 350000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 205,
+          "detached_multi": 893,
+          "row_multi": 38
+        }
+      }
+    },
+    "44230": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 269,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 385000,
+        "countsByType": {
+          "officetel": 55,
+          "detached_multi": 213,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 683,
+        "p25": 275000,
+        "monthlyMedian": 315000,
+        "p75": 400000,
+        "countsByType": {
+          "officetel": 115,
+          "detached_multi": 562,
+          "row_multi": 6
+        }
+      }
+    },
+    "44250": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 22,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 355000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 10,
+          "row_multi": 11
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 57,
+        "p25": 265000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 26,
+          "row_multi": 30
+        }
+      }
+    },
+    "44270": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 288,
+        "p25": 235000,
+        "monthlyMedian": 272500,
+        "p75": 351250,
+        "countsByType": {
+          "officetel": 12,
+          "detached_multi": 250,
+          "row_multi": 26
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 648,
+        "p25": 230000,
+        "monthlyMedian": 265000,
+        "p75": 340000,
+        "countsByType": {
+          "officetel": 29,
+          "detached_multi": 574,
+          "row_multi": 45
+        }
+      }
+    },
+    "44710": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 10,
+        "p25": 317500,
+        "monthlyMedian": 325000,
+        "p75": 387500,
+        "countsByType": {
+          "detached_multi": 10
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 27,
+        "p25": 302500,
+        "monthlyMedian": 325000,
+        "p75": 377500,
+        "countsByType": {
+          "detached_multi": 26,
+          "row_multi": 1
+        }
+      }
+    },
+    "44760": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 6,
+        "p25": 373750,
+        "monthlyMedian": 407500,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 4,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 21,
+        "p25": 345000,
+        "monthlyMedian": 365000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 16,
+          "row_multi": 3
+        }
+      }
+    },
+    "44770": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 8,
+        "p25": 268750,
+        "monthlyMedian": 340000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 5,
+          "row_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 31,
+        "p25": 270000,
+        "monthlyMedian": 325000,
+        "p75": 377500,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 23,
+          "row_multi": 6
+        }
+      }
+    },
+    "44790": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 11,
+        "p25": 302500,
+        "monthlyMedian": 375000,
+        "p75": 422500,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 9,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 26,
+        "p25": 311250,
+        "monthlyMedian": 365000,
+        "p75": 395000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 22,
+          "row_multi": 3
+        }
+      }
+    },
+    "44800": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 53,
+        "p25": 265000,
+        "monthlyMedian": 335000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 27,
+          "detached_multi": 24,
+          "row_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 116,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 66,
+          "detached_multi": 46,
+          "row_multi": 4
+        }
+      }
+    },
+    "44810": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 17,
+        "p25": 325000,
+        "monthlyMedian": 365000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 10,
+          "detached_multi": 3,
+          "row_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 57,
+        "p25": 305000,
+        "monthlyMedian": 365000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 27,
+          "detached_multi": 12,
+          "row_multi": 18
+        }
+      }
+    },
+    "44825": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 36,
+        "p25": 235000,
+        "monthlyMedian": 282500,
+        "p75": 365000,
+        "countsByType": {
+          "detached_multi": 25,
+          "row_multi": 11
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 81,
+        "p25": 265000,
+        "monthlyMedian": 295000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 41,
+          "row_multi": 39
+        }
+      }
+    },
+    "47110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 443,
+        "p25": 230000,
+        "monthlyMedian": 265000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 40,
+          "detached_multi": 395,
+          "row_multi": 8
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1114,
+        "p25": 240000,
+        "monthlyMedian": 275000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 104,
+          "detached_multi": 996,
+          "row_multi": 14
+        }
+      }
+    },
+    "47111": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 248,
+        "p25": 240000,
+        "monthlyMedian": 332500,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 39,
+          "detached_multi": 206,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 656,
+        "p25": 260000,
+        "monthlyMedian": 325000,
+        "p75": 435000,
+        "countsByType": {
+          "officetel": 103,
+          "detached_multi": 546,
+          "row_multi": 7
+        }
+      }
+    },
+    "47113": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 195,
+        "p25": 215000,
+        "monthlyMedian": 260000,
+        "p75": 320000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 189,
+          "row_multi": 5
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 458,
+        "p25": 225000,
+        "monthlyMedian": 260000,
+        "p75": 310000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 450,
+          "row_multi": 7
+        }
+      }
+    },
+    "47130": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 250,
+        "p25": 265000,
+        "monthlyMedian": 310000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 8,
+          "detached_multi": 227,
+          "row_multi": 15
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 713,
+        "p25": 272500,
+        "monthlyMedian": 315000,
+        "p75": 380000,
+        "countsByType": {
+          "officetel": 24,
+          "detached_multi": 664,
+          "row_multi": 25
+        }
+      }
+    },
+    "47150": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 328,
+        "p25": 345000,
+        "monthlyMedian": 405000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 276,
+          "detached_multi": 49,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 842,
+        "p25": 345000,
+        "monthlyMedian": 395000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 745,
+          "detached_multi": 90,
+          "row_multi": 7
+        }
+      }
+    },
+    "47170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 281,
+        "p25": 300000,
+        "monthlyMedian": 410000,
+        "p75": 435000,
+        "countsByType": {
+          "officetel": 182,
+          "detached_multi": 88,
+          "row_multi": 11
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 676,
+        "p25": 280000,
+        "monthlyMedian": 360000,
+        "p75": 410000,
+        "countsByType": {
+          "officetel": 397,
+          "detached_multi": 260,
+          "row_multi": 19
+        }
+      }
+    },
+    "47190": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 854,
+        "p25": 190000,
+        "monthlyMedian": 250000,
+        "p75": 290000,
+        "countsByType": {
+          "officetel": 87,
+          "detached_multi": 751,
+          "row_multi": 16
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2091,
+        "p25": 200000,
+        "monthlyMedian": 245000,
+        "p75": 280000,
+        "countsByType": {
+          "officetel": 190,
+          "detached_multi": 1850,
+          "row_multi": 51
+        }
+      }
+    },
+    "47210": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 259,
+        "p25": 315000,
+        "monthlyMedian": 340000,
+        "p75": 377500,
+        "countsByType": {
+          "detached_multi": 259
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 615,
+        "p25": 310000,
+        "monthlyMedian": 340000,
+        "p75": 365000,
+        "countsByType": {
+          "detached_multi": 613,
+          "row_multi": 2
+        }
+      }
+    },
+    "47230": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 56,
+        "p25": 265000,
+        "monthlyMedian": 267500,
+        "p75": 305000,
+        "countsByType": {
+          "detached_multi": 55,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 141,
+        "p25": 265000,
+        "monthlyMedian": 265000,
+        "p75": 295000,
+        "countsByType": {
+          "detached_multi": 140,
+          "row_multi": 1
+        }
+      }
+    },
+    "47250": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 35,
+        "p25": 260000,
+        "monthlyMedian": 290000,
+        "p75": 337500,
+        "countsByType": {
+          "officetel": 4,
+          "detached_multi": 31
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 178,
+        "p25": 260000,
+        "monthlyMedian": 265000,
+        "p75": 360000,
+        "countsByType": {
+          "officetel": 32,
+          "detached_multi": 145,
+          "row_multi": 1
+        }
+      }
+    },
+    "47280": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 97,
+        "p25": 275000,
+        "monthlyMedian": 335000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 3,
+          "detached_multi": 92,
+          "row_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 203,
+        "p25": 265000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 5,
+          "detached_multi": 196,
+          "row_multi": 2
+        }
+      }
+    },
+    "47290": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 426,
+        "p25": 215000,
+        "monthlyMedian": 255000,
+        "p75": 290000,
+        "countsByType": {
+          "officetel": 9,
+          "detached_multi": 409,
+          "row_multi": 8
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1979,
+        "p25": 227500,
+        "monthlyMedian": 255000,
+        "p75": 290000,
+        "countsByType": {
+          "officetel": 60,
+          "detached_multi": 1881,
+          "row_multi": 38
+        }
+      }
+    },
+    "47730": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 286250,
+        "monthlyMedian": 307500,
+        "p75": 328750,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 8,
+        "p25": 302500,
+        "monthlyMedian": 350000,
+        "p75": 351250,
+        "countsByType": {
+          "detached_multi": 8
+        }
+      }
+    },
+    "47750": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 12,
+        "p25": 365000,
+        "monthlyMedian": 385000,
+        "p75": 405000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 10
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 20,
+        "p25": 345000,
+        "monthlyMedian": 365000,
+        "p75": 405000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 18
+        }
+      }
+    },
+    "47760": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4,
+        "p25": 310000,
+        "monthlyMedian": 370000,
+        "p75": 440000,
+        "countsByType": {
+          "detached_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 9,
+        "p25": 265000,
+        "monthlyMedian": 365000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 9
+        }
+      }
+    },
+    "47770": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 8,
+        "p25": 335000,
+        "monthlyMedian": 340000,
+        "p75": 355000,
+        "countsByType": {
+          "detached_multi": 7,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 26,
+        "p25": 325000,
+        "monthlyMedian": 335000,
+        "p75": 355000,
+        "countsByType": {
+          "detached_multi": 23,
+          "row_multi": 3
+        }
+      }
+    },
+    "47820": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 13,
+        "p25": 325000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 3,
+          "detached_multi": 10
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 25,
+        "p25": 325000,
+        "monthlyMedian": 345000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 6,
+          "detached_multi": 19
+        }
+      }
+    },
+    "47830": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 317500,
+        "monthlyMedian": 320000,
+        "p75": 322500,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2,
+        "p25": 317500,
+        "monthlyMedian": 320000,
+        "p75": 322500,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      }
+    },
+    "47840": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 11,
+        "p25": 315000,
+        "monthlyMedian": 365000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 11
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 27,
+        "p25": 285000,
+        "monthlyMedian": 315000,
+        "p75": 365000,
+        "countsByType": {
+          "detached_multi": 27
+        }
+      }
+    },
+    "47850": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 79,
+        "p25": 157500,
+        "monthlyMedian": 205000,
+        "p75": 260000,
+        "countsByType": {
+          "detached_multi": 75,
+          "row_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 174,
+        "p25": 152500,
+        "monthlyMedian": 205000,
+        "p75": 260000,
+        "countsByType": {
+          "detached_multi": 161,
+          "row_multi": 13
+        }
+      }
+    },
+    "47900": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 25,
+        "p25": 340000,
+        "monthlyMedian": 430000,
+        "p75": 460000,
+        "countsByType": {
+          "officetel": 16,
+          "detached_multi": 9
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 60,
+        "p25": 327500,
+        "monthlyMedian": 372500,
+        "p75": 436250,
+        "countsByType": {
+          "officetel": 35,
+          "detached_multi": 25
+        }
+      }
+    },
+    "47920": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 215000,
+        "monthlyMedian": 270000,
+        "p75": 325000,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7,
+        "p25": 207500,
+        "monthlyMedian": 345000,
+        "p75": 377500,
+        "countsByType": {
+          "detached_multi": 5,
+          "row_multi": 2
+        }
+      }
+    },
+    "47930": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 19,
+        "p25": 342500,
+        "monthlyMedian": 415000,
+        "p75": 487500,
+        "countsByType": {
+          "detached_multi": 18,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 35,
+        "p25": 365000,
+        "monthlyMedian": 475000,
+        "p75": 497500,
+        "countsByType": {
+          "detached_multi": 34,
+          "row_multi": 1
+        }
+      }
+    },
+    "47940": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 533750,
+        "monthlyMedian": 567500,
+        "p75": 601250,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 4,
+        "p25": 457500,
+        "monthlyMedian": 480000,
+        "p75": 533750,
+        "countsByType": {
+          "detached_multi": 4
+        }
+      }
+    },
+    "48120": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2051,
+        "p25": 275000,
+        "monthlyMedian": 360000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 886,
+          "detached_multi": 1139,
+          "row_multi": 26
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 5067,
+        "p25": 275000,
+        "monthlyMedian": 355000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 2236,
+          "detached_multi": 2762,
+          "row_multi": 69
+        }
+      }
+    },
+    "48121": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 495,
+        "p25": 275000,
+        "monthlyMedian": 370000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 150,
+          "detached_multi": 334,
+          "row_multi": 11
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1267,
+        "p25": 275000,
+        "monthlyMedian": 365000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 354,
+          "detached_multi": 889,
+          "row_multi": 24
+        }
+      }
+    },
+    "48123": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 805,
+        "p25": 325000,
+        "monthlyMedian": 395000,
+        "p75": 462500,
+        "countsByType": {
+          "officetel": 533,
+          "detached_multi": 272
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1898,
+        "p25": 325000,
+        "monthlyMedian": 395000,
+        "p75": 450000,
+        "countsByType": {
+          "officetel": 1316,
+          "detached_multi": 582
+        }
+      }
+    },
+    "48125": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 288,
+        "p25": 295000,
+        "monthlyMedian": 353750,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 143,
+          "detached_multi": 138,
+          "row_multi": 7
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 852,
+        "p25": 285000,
+        "monthlyMedian": 345000,
+        "p75": 400000,
+        "countsByType": {
+          "officetel": 418,
+          "detached_multi": 423,
+          "row_multi": 11
+        }
+      }
+    },
+    "48127": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 248,
+        "p25": 295000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 46,
+          "detached_multi": 199,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 603,
+        "p25": 275000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 115,
+          "detached_multi": 478,
+          "row_multi": 10
+        }
+      }
+    },
+    "48129": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 215,
+        "p25": 255000,
+        "monthlyMedian": 260000,
+        "p75": 315000,
+        "countsByType": {
+          "officetel": 14,
+          "detached_multi": 196,
+          "row_multi": 5
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 447,
+        "p25": 255000,
+        "monthlyMedian": 260000,
+        "p75": 310000,
+        "countsByType": {
+          "officetel": 33,
+          "detached_multi": 390,
+          "row_multi": 24
+        }
+      }
+    },
+    "48170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 714,
+        "p25": 265000,
+        "monthlyMedian": 345000,
+        "p75": 420000,
+        "countsByType": {
+          "officetel": 146,
+          "detached_multi": 541,
+          "row_multi": 27
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2438,
+        "p25": 265000,
+        "monthlyMedian": 325000,
+        "p75": 395000,
+        "countsByType": {
+          "officetel": 403,
+          "detached_multi": 1984,
+          "row_multi": 51
+        }
+      }
+    },
+    "48220": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 141,
+        "p25": 260000,
+        "monthlyMedian": 275000,
+        "p75": 315000,
+        "countsByType": {
+          "officetel": 17,
+          "detached_multi": 112,
+          "row_multi": 12
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 320,
+        "p25": 260000,
+        "monthlyMedian": 275000,
+        "p75": 315000,
+        "countsByType": {
+          "officetel": 44,
+          "detached_multi": 250,
+          "row_multi": 26
+        }
+      }
+    },
+    "48240": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 194,
+        "p25": 265000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 38,
+          "detached_multi": 155,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 464,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 94,
+          "detached_multi": 368,
+          "row_multi": 2
+        }
+      }
+    },
+    "48250": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1032,
+        "p25": 260000,
+        "monthlyMedian": 310000,
+        "p75": 385000,
+        "countsByType": {
+          "officetel": 230,
+          "detached_multi": 770,
+          "row_multi": 32
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2388,
+        "p25": 255000,
+        "monthlyMedian": 295000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 520,
+          "detached_multi": 1792,
+          "row_multi": 76
+        }
+      }
+    },
+    "48270": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 175,
+        "p25": 325000,
+        "monthlyMedian": 380000,
+        "p75": 460000,
+        "countsByType": {
+          "detached_multi": 173,
+          "row_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 386,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 425000,
+        "countsByType": {
+          "detached_multi": 378,
+          "row_multi": 8
+        }
+      }
+    },
+    "48310": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 275,
+        "p25": 252500,
+        "monthlyMedian": 290000,
+        "p75": 335000,
+        "countsByType": {
+          "officetel": 53,
+          "detached_multi": 209,
+          "row_multi": 13
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 610,
+        "p25": 255000,
+        "monthlyMedian": 290000,
+        "p75": 330000,
+        "countsByType": {
+          "officetel": 135,
+          "detached_multi": 442,
+          "row_multi": 33
+        }
+      }
+    },
+    "48330": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 470,
+        "p25": 260000,
+        "monthlyMedian": 310000,
+        "p75": 400000,
+        "countsByType": {
+          "officetel": 139,
+          "detached_multi": 312,
+          "row_multi": 19
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1069,
+        "p25": 260000,
+        "monthlyMedian": 310000,
+        "p75": 400000,
+        "countsByType": {
+          "officetel": 342,
+          "detached_multi": 690,
+          "row_multi": 37
+        }
+      }
+    },
+    "48720": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 10,
+        "p25": 231250,
+        "monthlyMedian": 280000,
+        "p75": 316250,
+        "countsByType": {
+          "detached_multi": 10
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 23,
+        "p25": 262500,
+        "monthlyMedian": 325000,
+        "p75": 325000,
+        "countsByType": {
+          "detached_multi": 23
+        }
+      }
+    },
+    "48730": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 9,
+        "p25": 275000,
+        "monthlyMedian": 300000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 7
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 26,
+        "p25": 300000,
+        "monthlyMedian": 335000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 3,
+          "detached_multi": 23
+        }
+      }
+    },
+    "48740": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 13,
+        "p25": 325000,
+        "monthlyMedian": 375000,
+        "p75": 425000,
+        "countsByType": {
+          "detached_multi": 13
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 41,
+        "p25": 285000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 41
+        }
+      }
+    },
+    "48820": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 13,
+        "p25": 315000,
+        "monthlyMedian": 315000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 13
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 23,
+        "p25": 315000,
+        "monthlyMedian": 335000,
+        "p75": 365000,
+        "countsByType": {
+          "detached_multi": 23
+        }
+      }
+    },
+    "48840": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 8,
+        "p25": 313750,
+        "monthlyMedian": 325000,
+        "p75": 360000,
+        "countsByType": {
+          "detached_multi": 8
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 31,
+        "p25": 302500,
+        "monthlyMedian": 370000,
+        "p75": 400000,
+        "countsByType": {
+          "detached_multi": 24,
+          "row_multi": 7
+        }
+      }
+    },
+    "48850": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 6,
+        "p25": 176250,
+        "monthlyMedian": 375000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 6
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 11,
+        "p25": 212500,
+        "monthlyMedian": 375000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 11
+        }
+      }
+    },
+    "48860": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3,
+        "p25": 212500,
+        "monthlyMedian": 270000,
+        "p75": 347500,
+        "countsByType": {
+          "detached_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 8,
+        "p25": 318750,
+        "monthlyMedian": 365000,
+        "p75": 431250,
+        "countsByType": {
+          "detached_multi": 6,
+          "row_multi": 2
+        }
+      }
+    },
+    "48870": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 25,
+        "p25": 325000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 22,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 58,
+        "p25": 325000,
+        "monthlyMedian": 325000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 6,
+          "detached_multi": 51,
+          "row_multi": 1
+        }
+      }
+    },
+    "48880": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 28,
+        "p25": 348750,
+        "monthlyMedian": 360000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 26,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 90,
+        "p25": 315000,
+        "monthlyMedian": 355000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 87,
+          "row_multi": 2
+        }
+      }
+    },
+    "48890": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4,
+        "p25": 258750,
+        "monthlyMedian": 407500,
+        "p75": 490000,
+        "countsByType": {
+          "detached_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 12,
+        "p25": 328750,
+        "monthlyMedian": 375000,
+        "p75": 431250,
+        "countsByType": {
+          "detached_multi": 12
+        }
+      }
+    },
+    "50110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1535,
+        "p25": 375000,
+        "monthlyMedian": 430000,
+        "p75": 472600,
+        "countsByType": {
+          "officetel": 619,
+          "detached_multi": 596,
+          "row_multi": 320
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3532,
+        "p25": 375000,
+        "monthlyMedian": 430000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 1446,
+          "detached_multi": 1356,
+          "row_multi": 730
+        }
+      }
+    },
+    "50130": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 447,
+        "p25": 358750,
+        "monthlyMedian": 385000,
+        "p75": 451750,
+        "countsByType": {
+          "officetel": 92,
+          "detached_multi": 236,
+          "row_multi": 119
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 955,
+        "p25": 355000,
+        "monthlyMedian": 385000,
+        "p75": 450500,
+        "countsByType": {
+          "officetel": 166,
+          "detached_multi": 529,
+          "row_multi": 260
+        }
+      }
+    },
+    "51110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1186,
+        "p25": 315000,
+        "monthlyMedian": 365000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 138,
+          "detached_multi": 1028,
+          "row_multi": 20
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3634,
+        "p25": 275000,
+        "monthlyMedian": 365000,
+        "p75": 415000,
+        "countsByType": {
+          "officetel": 325,
+          "detached_multi": 3239,
+          "row_multi": 70
+        }
+      }
+    },
+    "51130": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1177,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 455000,
+        "countsByType": {
+          "officetel": 252,
+          "detached_multi": 917,
+          "row_multi": 8
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3083,
+        "p25": 310000,
+        "monthlyMedian": 365000,
+        "p75": 435000,
+        "countsByType": {
+          "officetel": 566,
+          "detached_multi": 2479,
+          "row_multi": 38
+        }
+      }
+    },
+    "51150": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 524,
+        "p25": 355000,
+        "monthlyMedian": 395000,
+        "p75": 465000,
+        "countsByType": {
+          "officetel": 68,
+          "detached_multi": 426,
+          "row_multi": 30
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1510,
+        "p25": 342500,
+        "monthlyMedian": 390250,
+        "p75": 445000,
+        "countsByType": {
+          "officetel": 194,
+          "detached_multi": 1208,
+          "row_multi": 108
+        }
+      }
+    },
+    "51170": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 125,
+        "p25": 290000,
+        "monthlyMedian": 320000,
+        "p75": 365000,
+        "countsByType": {
+          "detached_multi": 113,
+          "row_multi": 12
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 276,
+        "p25": 275000,
+        "monthlyMedian": 320000,
+        "p75": 360000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 261,
+          "row_multi": 14
+        }
+      }
+    },
+    "51190": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3,
+        "p25": 390000,
+        "monthlyMedian": 390000,
+        "p75": 407500,
+        "countsByType": {
+          "detached_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 10,
+        "p25": 316250,
+        "monthlyMedian": 375000,
+        "p75": 412500,
+        "countsByType": {
+          "detached_multi": 10
+        }
+      }
+    },
+    "51210": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 201,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 450000,
+        "countsByType": {
+          "officetel": 33,
+          "detached_multi": 166,
+          "row_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 431,
+        "p25": 322500,
+        "monthlyMedian": 395000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 54,
+          "detached_multi": 374,
+          "row_multi": 3
+        }
+      }
+    },
+    "51230": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 45,
+        "p25": 340000,
+        "monthlyMedian": 355000,
+        "p75": 405000,
+        "countsByType": {
+          "detached_multi": 42,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 93,
+        "p25": 310000,
+        "monthlyMedian": 355000,
+        "p75": 380000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 81,
+          "row_multi": 11
+        }
+      }
+    },
+    "51720": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 38,
+        "p25": 277500,
+        "monthlyMedian": 330000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 29,
+          "row_multi": 8
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 79,
+        "p25": 280000,
+        "monthlyMedian": 355000,
+        "p75": 425000,
+        "countsByType": {
+          "officetel": 2,
+          "detached_multi": 67,
+          "row_multi": 10
+        }
+      }
+    },
+    "51730": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 6,
+        "p25": 297500,
+        "monthlyMedian": 450000,
+        "p75": 490000,
+        "countsByType": {
+          "detached_multi": 6
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 17,
+        "p25": 330000,
+        "monthlyMedian": 425000,
+        "p75": 475000,
+        "countsByType": {
+          "detached_multi": 16,
+          "row_multi": 1
+        }
+      }
+    },
+    "51750": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 342500,
+        "monthlyMedian": 380000,
+        "p75": 417500,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 16,
+        "p25": 245000,
+        "monthlyMedian": 312500,
+        "p75": 370000,
+        "countsByType": {
+          "detached_multi": 16
+        }
+      }
+    },
+    "51760": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 5,
+        "p25": 400000,
+        "monthlyMedian": 475000,
+        "p75": 475000,
+        "countsByType": {
+          "detached_multi": 2,
+          "row_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 8,
+        "p25": 362500,
+        "monthlyMedian": 412500,
+        "p75": 475000,
+        "countsByType": {
+          "detached_multi": 3,
+          "row_multi": 5
+        }
+      }
+    },
+    "51770": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3,
+        "p25": 267500,
+        "monthlyMedian": 375000,
+        "p75": 417500,
+        "countsByType": {
+          "detached_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 11,
+        "p25": 287500,
+        "monthlyMedian": 425000,
+        "p75": 467500,
+        "countsByType": {
+          "detached_multi": 10,
+          "row_multi": 1
+        }
+      }
+    },
+    "51780": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4,
+        "p25": 316250,
+        "monthlyMedian": 322500,
+        "p75": 347500,
+        "countsByType": {
+          "detached_multi": 2,
+          "row_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 11,
+        "p25": 317500,
+        "monthlyMedian": 325000,
+        "p75": 350000,
+        "countsByType": {
+          "detached_multi": 6,
+          "row_multi": 5
+        }
+      }
+    },
+    "51790": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 6,
+        "p25": 363750,
+        "monthlyMedian": 375000,
+        "p75": 412500,
+        "countsByType": {
+          "detached_multi": 2,
+          "row_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 15,
+        "p25": 320000,
+        "monthlyMedian": 365000,
+        "p75": 392500,
+        "countsByType": {
+          "detached_multi": 7,
+          "row_multi": 8
+        }
+      }
+    },
+    "51800": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 4,
+        "p25": 238750,
+        "monthlyMedian": 285000,
+        "p75": 322500,
+        "countsByType": {
+          "detached_multi": 4
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 13,
+        "p25": 300000,
+        "monthlyMedian": 350000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 13
+        }
+      }
+    },
+    "51810": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 8,
+        "p25": 300000,
+        "monthlyMedian": 390000,
+        "p75": 456250,
+        "countsByType": {
+          "detached_multi": 8
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 16,
+        "p25": 300000,
+        "monthlyMedian": 400000,
+        "p75": 475000,
+        "countsByType": {
+          "detached_multi": 16
+        }
+      }
+    },
+    "51820": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3,
+        "p25": 395000,
+        "monthlyMedian": 465000,
+        "p75": 515000,
+        "countsByType": {
+          "detached_multi": 3
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 5,
+        "p25": 325000,
+        "monthlyMedian": 325000,
+        "p75": 465000,
+        "countsByType": {
+          "detached_multi": 5
+        }
+      }
+    },
+    "51830": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 188750,
+        "monthlyMedian": 277500,
+        "p75": 366250,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 5,
+        "p25": 260000,
+        "monthlyMedian": 375000,
+        "p75": 400000,
+        "countsByType": {
+          "detached_multi": 5
+        }
+      }
+    },
+    "52110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1266,
+        "p25": 252500,
+        "monthlyMedian": 265000,
+        "p75": 370000,
+        "countsByType": {
+          "officetel": 173,
+          "detached_multi": 1025,
+          "row_multi": 68
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3457,
+        "p25": 255000,
+        "monthlyMedian": 265000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 423,
+          "detached_multi": 2821,
+          "row_multi": 213
+        }
+      }
+    },
+    "52111": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 575,
+        "p25": 260000,
+        "monthlyMedian": 265000,
+        "p75": 360000,
+        "countsByType": {
+          "officetel": 17,
+          "detached_multi": 531,
+          "row_multi": 27
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1537,
+        "p25": 255000,
+        "monthlyMedian": 265000,
+        "p75": 350000,
+        "countsByType": {
+          "officetel": 61,
+          "detached_multi": 1414,
+          "row_multi": 62
+        }
+      }
+    },
+    "52113": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 691,
+        "p25": 245000,
+        "monthlyMedian": 265000,
+        "p75": 400000,
+        "countsByType": {
+          "officetel": 156,
+          "detached_multi": 494,
+          "row_multi": 41
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 1920,
+        "p25": 250000,
+        "monthlyMedian": 265000,
+        "p75": 375000,
+        "countsByType": {
+          "officetel": 362,
+          "detached_multi": 1407,
+          "row_multi": 151
+        }
+      }
+    },
+    "52130": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 103,
+        "p25": 210000,
+        "monthlyMedian": 250000,
+        "p75": 307500,
+        "countsByType": {
+          "officetel": 18,
+          "detached_multi": 80,
+          "row_multi": 5
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 354,
+        "p25": 210000,
+        "monthlyMedian": 248750,
+        "p75": 300000,
+        "countsByType": {
+          "officetel": 41,
+          "detached_multi": 299,
+          "row_multi": 14
+        }
+      }
+    },
+    "52140": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 268,
+        "p25": 260000,
+        "monthlyMedian": 290000,
+        "p75": 380000,
+        "countsByType": {
+          "officetel": 9,
+          "detached_multi": 247,
+          "row_multi": 12
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 959,
+        "p25": 260000,
+        "monthlyMedian": 315000,
+        "p75": 385000,
+        "countsByType": {
+          "officetel": 51,
+          "detached_multi": 871,
+          "row_multi": 37
+        }
+      }
+    },
+    "52180": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 85,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 370000,
+        "countsByType": {
+          "detached_multi": 85
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 182,
+        "p25": 265000,
+        "monthlyMedian": 315000,
+        "p75": 345250,
+        "countsByType": {
+          "detached_multi": 182
+        }
+      }
+    },
+    "52190": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 44,
+        "p25": 315000,
+        "monthlyMedian": 345000,
+        "p75": 365000,
+        "countsByType": {
+          "detached_multi": 43,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 119,
+        "p25": 315000,
+        "monthlyMedian": 345000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 116,
+          "row_multi": 3
+        }
+      }
+    },
+    "52210": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 67,
+        "p25": 260000,
+        "monthlyMedian": 280000,
+        "p75": 347500,
+        "countsByType": {
+          "officetel": 1,
+          "detached_multi": 66
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 122,
+        "p25": 260000,
+        "monthlyMedian": 265000,
+        "p75": 335000,
+        "countsByType": {
+          "officetel": 4,
+          "detached_multi": 117,
+          "row_multi": 1
+        }
+      }
+    },
+    "52710": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 28,
+        "p25": 298750,
+        "monthlyMedian": 345000,
+        "p75": 467500,
+        "countsByType": {
+          "officetel": 8,
+          "detached_multi": 20
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 95,
+        "p25": 255000,
+        "monthlyMedian": 315000,
+        "p75": 462500,
+        "countsByType": {
+          "officetel": 27,
+          "detached_multi": 65,
+          "row_multi": 3
+        }
+      }
+    },
+    "52730": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1,
+        "p25": 500000,
+        "monthlyMedian": 500000,
+        "p75": 500000,
+        "countsByType": {
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 2,
+        "p25": 368750,
+        "monthlyMedian": 412500,
+        "p75": 456250,
+        "countsByType": {
+          "detached_multi": 1,
+          "row_multi": 1
+        }
+      }
+    },
+    "52740": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 365000,
+        "monthlyMedian": 365000,
+        "p75": 365000,
+        "countsByType": {
+          "officetel": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 6,
+        "p25": 306250,
+        "monthlyMedian": 312500,
+        "p75": 352500,
+        "countsByType": {
+          "officetel": 4,
+          "detached_multi": 2
+        }
+      }
+    },
+    "52750": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2,
+        "p25": 272500,
+        "monthlyMedian": 290000,
+        "p75": 307500,
+        "countsByType": {
+          "detached_multi": 2
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 6,
+        "p25": 273750,
+        "monthlyMedian": 312500,
+        "p75": 325000,
+        "countsByType": {
+          "detached_multi": 6
+        }
+      }
+    },
+    "52770": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1,
+        "p25": 295000,
+        "monthlyMedian": 295000,
+        "p75": 295000,
+        "countsByType": {
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 6,
+        "p25": 312500,
+        "monthlyMedian": 365000,
+        "p75": 410000,
+        "countsByType": {
+          "detached_multi": 3,
+          "row_multi": 3
+        }
+      }
+    },
+    "52790": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 5,
+        "p25": 315000,
+        "monthlyMedian": 335000,
+        "p75": 345000,
+        "countsByType": {
+          "detached_multi": 5
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 16,
+        "p25": 322500,
+        "monthlyMedian": 335000,
+        "p75": 375000,
+        "countsByType": {
+          "detached_multi": 16
+        }
+      }
+    },
+    "52800": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 8,
+        "p25": 285000,
+        "monthlyMedian": 330000,
+        "p75": 365000,
+        "countsByType": {
+          "detached_multi": 7,
+          "row_multi": 1
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 21,
+        "p25": 275000,
+        "monthlyMedian": 315000,
+        "p75": 365000,
+        "countsByType": {
+          "detached_multi": 20,
+          "row_multi": 1
+        }
+      }
     }
   },
   "sidoStats": {
     "11": {
       "period": "2026-05~2026-10",
-      "sampleCount": 3228,
-      "p25": 700000,
-      "monthlyMedian": 857500,
-      "p75": 1100000,
+      "sampleCount": 69657,
+      "p25": 475000,
+      "monthlyMedian": 630000,
+      "p75": 850000,
       "countsByType": {
-        "officetel": 1107,
-        "detached_multi": 1104,
-        "row_multi": 1017
+        "officetel": 21673,
+        "detached_multi": 32397,
+        "row_multi": 15587
+      }
+    },
+    "12": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 4535,
+      "p25": 304250,
+      "monthlyMedian": 360000,
+      "p75": 440000,
+      "countsByType": {
+        "officetel": 1247,
+        "detached_multi": 3019,
+        "row_multi": 269
       }
     },
     "26": {
       "period": "2026-05~2026-10",
-      "sampleCount": 2932,
-      "p25": 350000,
-      "monthlyMedian": 450000,
-      "p75": 575000,
+      "sampleCount": 13970,
+      "p25": 315000,
+      "monthlyMedian": 400000,
+      "p75": 500000,
       "countsByType": {
-        "officetel": 2069,
-        "detached_multi": 106,
-        "row_multi": 757
+        "officetel": 7922,
+        "detached_multi": 1501,
+        "row_multi": 4547
       }
     },
     "27": {
       "period": "2026-05~2026-10",
-      "sampleCount": 35,
+      "sampleCount": 4264,
+      "p25": 260000,
+      "monthlyMedian": 324175,
+      "p75": 425000,
+      "countsByType": {
+        "officetel": 1186,
+        "detached_multi": 3002,
+        "row_multi": 76
+      }
+    },
+    "28": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 7171,
       "p25": 325000,
+      "monthlyMedian": 425000,
+      "p75": 525000,
+      "countsByType": {
+        "officetel": 3669,
+        "detached_multi": 2835,
+        "row_multi": 667
+      }
+    },
+    "30": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 7525,
+      "p25": 300000,
       "monthlyMedian": 375000,
       "p75": 475000,
       "countsByType": {
-        "detached_multi": 35
+        "officetel": 398,
+        "detached_multi": 7035,
+        "row_multi": 92
+      }
+    },
+    "31": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 3067,
+      "p25": 325000,
+      "monthlyMedian": 385000,
+      "p75": 472500,
+      "countsByType": {
+        "officetel": 782,
+        "detached_multi": 2060,
+        "row_multi": 225
       }
     },
     "36": {
@@ -156,6 +6825,102 @@
         "officetel": 430,
         "detached_multi": 610,
         "row_multi": 209
+      }
+    },
+    "41": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 50084,
+      "p25": 360000,
+      "monthlyMedian": 445000,
+      "p75": 575000,
+      "countsByType": {
+        "officetel": 16639,
+        "detached_multi": 26051,
+        "row_multi": 7394
+      }
+    },
+    "43": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 4293,
+      "p25": 310000,
+      "monthlyMedian": 365000,
+      "p75": 470000,
+      "countsByType": {
+        "officetel": 394,
+        "detached_multi": 3795,
+        "row_multi": 104
+      }
+    },
+    "44": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 5759,
+      "p25": 290000,
+      "monthlyMedian": 345000,
+      "p75": 410000,
+      "countsByType": {
+        "officetel": 867,
+        "detached_multi": 4577,
+        "row_multi": 315
+      }
+    },
+    "47": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 3208,
+      "p25": 240000,
+      "monthlyMedian": 290000,
+      "p75": 365000,
+      "countsByType": {
+        "officetel": 630,
+        "detached_multi": 2508,
+        "row_multi": 70
+      }
+    },
+    "48": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 5171,
+      "p25": 265000,
+      "monthlyMedian": 325000,
+      "p75": 405000,
+      "countsByType": {
+        "officetel": 1514,
+        "detached_multi": 3523,
+        "row_multi": 134
+      }
+    },
+    "50": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 1982,
+      "p25": 360000,
+      "monthlyMedian": 415000,
+      "p75": 465000,
+      "countsByType": {
+        "officetel": 711,
+        "detached_multi": 832,
+        "row_multi": 439
+      }
+    },
+    "51": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 3342,
+      "p25": 315000,
+      "monthlyMedian": 365000,
+      "p75": 425000,
+      "countsByType": {
+        "officetel": 492,
+        "detached_multi": 2758,
+        "row_multi": 92
+      }
+    },
+    "52": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 1880,
+      "p25": 255000,
+      "monthlyMedian": 275000,
+      "p75": 365000,
+      "countsByType": {
+        "officetel": 211,
+        "detached_multi": 1580,
+        "row_multi": 89
       }
     }
   }
