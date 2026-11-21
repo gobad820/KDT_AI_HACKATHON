@@ -1,0 +1,162 @@
+{
+  "version": "2026-11-21-partial",
+  "dataAsOf": "2026-11-21",
+  "depositBasis": 10000000,
+  "conversionRate": 0.06,
+  "housingTypes": [
+    "officetel",
+    "detached_multi",
+    "row_multi"
+  ],
+  "note": "환산월세 = 월세 + (보증금 - 1,000만 원) x 전환율 / 12. 전환율은 가정값이며 관리비는 포함하지 않는다. 면적 33㎡ 이하, 갱신 계약 제외, 계약월 기준. 오피스텔·연립다세대는 전용면적, 단독/다가구는 계약면적 기준.",
+  "stats": {
+    "11680": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 3228,
+        "p25": 700000,
+        "monthlyMedian": 857500,
+        "p75": 1100000,
+        "countsByType": {
+          "officetel": 1107,
+          "detached_multi": 1104,
+          "row_multi": 1017
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7122,
+        "p25": 700000,
+        "monthlyMedian": 850000,
+        "p75": 1056500,
+        "countsByType": {
+          "officetel": 2376,
+          "detached_multi": 2383,
+          "row_multi": 2363
+        }
+      }
+    },
+    "26230": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 2932,
+        "p25": 350000,
+        "monthlyMedian": 450000,
+        "p75": 575000,
+        "countsByType": {
+          "officetel": 2069,
+          "detached_multi": 106,
+          "row_multi": 757
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 7043,
+        "p25": 325000,
+        "monthlyMedian": 425000,
+        "p75": 550000,
+        "countsByType": {
+          "officetel": 4608,
+          "detached_multi": 247,
+          "row_multi": 2188
+        }
+      }
+    },
+    "27720": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 35,
+        "p25": 325000,
+        "monthlyMedian": 375000,
+        "p75": 475000,
+        "countsByType": {
+          "detached_multi": 35
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 71,
+        "p25": 315000,
+        "monthlyMedian": 375000,
+        "p75": 452500,
+        "countsByType": {
+          "detached_multi": 71
+        }
+      }
+    },
+    "36110": {
+      "sgg": {
+        "period": "2026-05~2026-10",
+        "sampleCount": 1249,
+        "p25": 325000,
+        "monthlyMedian": 445000,
+        "p75": 525000,
+        "countsByType": {
+          "officetel": 430,
+          "detached_multi": 610,
+          "row_multi": 209
+        }
+      },
+      "sgg_12m": {
+        "period": "2025-11~2026-10",
+        "sampleCount": 3030,
+        "p25": 315000,
+        "monthlyMedian": 425000,
+        "p75": 475000,
+        "countsByType": {
+          "officetel": 1040,
+          "detached_multi": 1552,
+          "row_multi": 438
+        }
+      }
+    }
+  },
+  "sidoStats": {
+    "11": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 3228,
+      "p25": 700000,
+      "monthlyMedian": 857500,
+      "p75": 1100000,
+      "countsByType": {
+        "officetel": 1107,
+        "detached_multi": 1104,
+        "row_multi": 1017
+      }
+    },
+    "26": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 2932,
+      "p25": 350000,
+      "monthlyMedian": 450000,
+      "p75": 575000,
+      "countsByType": {
+        "officetel": 2069,
+        "detached_multi": 106,
+        "row_multi": 757
+      }
+    },
+    "27": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 35,
+      "p25": 325000,
+      "monthlyMedian": 375000,
+      "p75": 475000,
+      "countsByType": {
+        "detached_multi": 35
+      }
+    },
+    "36": {
+      "period": "2026-05~2026-10",
+      "sampleCount": 1249,
+      "p25": 325000,
+      "monthlyMedian": 445000,
+      "p75": 525000,
+      "countsByType": {
+        "officetel": 430,
+        "detached_multi": 610,
+        "row_multi": 209
+      }
+    }
+  }
+}
