@@ -14,7 +14,8 @@
 - Happy path: 샘플 공고 불러오기 → 추출 결과 확인, 질문에 답 → 결과(시나리오별 남는 돈, 연차별 표, 손익분기 연봉, 근거와 가정)
 - 화면 3장: 입력, 확인, 결과
 - 기술 스택: Python 3.11+, FastAPI, pydantic v2, pytest. 화면은 정적 HTML/JS(빌드 없음). 한 서버가 API와 화면을 같이 올린다
-- 미정: <!-- TODO LLM 제공사·모델명·버전 / 배포 위치 -->
+- LLM: Claude(Anthropic API, `app/agent/llm.py`의 `AnthropicClient`). 모델명은 `.env`의 `LLM_MODEL`. 확정한 모델명은 소개서 04와 AI 활용내역에 적는다
+- 미정: <!-- TODO 서비스용 Claude 모델 확정 / 배포 위치 -->
 
 ## 문서
 
