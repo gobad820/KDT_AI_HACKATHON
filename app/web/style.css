@@ -181,6 +181,14 @@ td.val .unit { font-size: .8rem; color: var(--faint); }
 .job dt { color: var(--sub); }
 .job dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
 /* 공고별 정리: 감열 계산서 (app.js renderJob). 위아래 톱니 모양 절단면, 고정폭 글꼴, 점선 구분 */
+/* 확인 없이 계산했을 때의 가정 카드 (app.js renderSkipped) */
+.card.assumed { border: 1.5px solid #e6dc3c; background: #fffdf0; }
+.assumed-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.assumed-head h2 { margin-bottom: 4px; }
+.assumed-head .primary { flex: none; }
+.assumed-list { list-style: none; margin: 12px 0 0; padding: 0; font-size: .9rem; }
+.assumed-list li { padding: 8px 0; border-top: 1px solid rgba(0,0,0,.06); }
+.assumed-list .badge { margin-right: 2px; }
 .job.receipt { padding: 0; background: none; border: 0; box-shadow: none; border-radius: 0; display: flex; justify-content: center; align-items: flex-start;
   filter: drop-shadow(0 16px 18px rgba(20,22,30,.14)) drop-shadow(0 1px 1px rgba(20,22,30,.10)); }
 .rc-paper, .post-paper { position: relative; width: 100%; max-width: 440px; padding: 34px 26px 38px; background: #fbfbf8; color: #26262b;

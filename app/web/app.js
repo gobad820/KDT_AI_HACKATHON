@@ -33,7 +33,8 @@
   function freshState() {
     return {
       samples: [], extract: null, manual: false, model: {}, profileQs: [], profileVals: {},
-      extraQs: [], earlyTrace: [], horizon: 5, lastReq: null, result: null, names: {}, tab: 'current_law', step: 1
+      extraQs: [], earlyTrace: [], horizon: 5, lastReq: null, result: null, names: {}, tab: 'current_law', step: 1,
+      skipped: false, assumed: []
     };
   }
   state = freshState();
@@ -228,9 +229,68 @@
       buildModel(r.data);
       state.profileQs = (r.data.questions || []).filter(function (q) { return q.postingId === null || q.postingId === undefined; });
       if (!state.profileQs.length) state.profileQs = FALLBACK_PROFILE_QS;
+      // 연봉과 근무지 시군구가 두 공고 모두에서 나오면 확인 화면 없이 바로 계산한다(가정은 결과 화면 맨 위에 보여 준다)
+      state.skipped = canSkipConfirm();
+      if (state.skipped) applyProfileDefaults();
       renderConfirm();
+      if (state.skipped) {
+        var c = collectRequest(true);
+        if (!c.errs.length) {
+          state.tab = 'current_law';
+          setButtons(['btnStart'], true);
+          runCompare(c.req, 1, function () { setButtons(['btnStart'], false); });
+          return;
+        }
+        state.skipped = false;
+      }
       setStep(2);
     });
+  }
+
+  // 내 정보 기본값: 서비스 대상(취업 준비 청년)의 흔한 경우. 결과 화면에 '가정'으로 밝히고 조건 고치기에서 바꾼다
+  var PROFILE_DEFAULTS = { age: 27, militaryServiceMonths: 0, hireYear: 2027, priorRelief: 'no' };
+  var PROFILE_LABEL = { age: '만 27세', militaryServiceMonths: '병역 0개월', hireYear: '2027년 이후 입사', priorRelief: '감면 받은 적 없음' };
+  function canSkipConfirm() {
+    if (state.manual) return false;
+    return ['A', 'B'].every(function (pid) {
+      var m = state.model[pid];
+      return m && isNum(m.f.annualSalary.value) && m.f.annualSalary.value > 0 && /^\d{5}$/.test(m.sggCode || '');
+    });
+  }
+  function applyProfileDefaults() {
+    state.assumed = [];
+    Object.keys(PROFILE_DEFAULTS).forEach(function (k) {
+      if (state.profileVals[k] === undefined) { state.profileVals[k] = PROFILE_DEFAULTS[k]; state.assumed.push(k); }
+    });
+  }
+  function optLabel(opts, v) { var f = (opts || []).filter(function (o) { return o[0] === v; })[0]; return f ? f[1] : String(v); }
+
+  // 결과 화면 맨 위: 확인 없이 계산했을 때 무엇을 가정했는지, AI가 무엇을 되물었는지
+  function renderSkipped() {
+    var card = h('div', { class: 'card assumed' });
+    card.appendChild(h('div', { class: 'assumed-head' }, [
+      h('div', null, [h('h2', { text: '확인 단계 없이 바로 계산했습니다' }),
+        h('p', { class: 'hint', text: 'AI가 두 공고에서 연봉과 근무지를 찾았습니다. 아래 가정이 다르면 조건을 고쳐 다시 계산하세요.' })]),
+      h('button', { type: 'button', class: 'primary', text: '조건 고치기', on: { click: function () { state.skipped = false; renderConfirm(); setStep(2); } } })
+    ]));
+    var ul = h('ul', { class: 'assumed-list' });
+    if (state.assumed.length) ul.appendChild(h('li', null, [h('strong', { text: '내 정보(가정) ' }), state.assumed.map(function (k) { return PROFILE_LABEL[k]; }).join(' · ')]));
+    var qs = ((state.extract && state.extract.questions) || []).filter(function (q) { return q.postingId; });
+    ['A', 'B'].forEach(function (pid) {
+      var asked = {};
+      qs.filter(function (q) { return q.postingId === pid; }).forEach(function (q) {
+        asked[q.field] = true;
+        ul.appendChild(h('li', null, [h('strong', { text: jobName(pid) + ' ' }), badge('AI가 되물은 것', 'accent'), ' ' + q.text]));
+      });
+      pendingKeys(pid).forEach(function (d) {
+        if (asked[d.key]) return;
+        var f = state.model[pid].f[d.key];
+        var v = f.value === null || f.value === undefined ? '공고에 없어 모름으로 계산' : (d.opts ? optLabel(d.opts, f.value) : (d.money ? won(f.value) : String(f.value))) + ' (AI 추정)';
+        ul.appendChild(h('li', null, [h('strong', { text: jobName(pid) + ' ' }), d.label + ': ' + v]));
+      });
+    });
+    if (ul.children.length) card.appendChild(ul);
+    return card;
   }
 
   /* ---------- 2 확인: 모델 ---------- */
@@ -587,11 +647,11 @@
   }
 
   /* ---------- 2 확인: 검증과 요청 ---------- */
-  function collectRequest() {
+  function collectRequest(lenient) {
     var errs = [], postings = [];
     ['A', 'B'].forEach(function (pid) {
       var m = state.model[pid];
-      pendingKeys(pid).forEach(function (d) { errs.push('공고 ' + pid + ': "' + d.label + '"을 확인하거나 값을 입력해 주세요.'); });
+      if (!lenient) pendingKeys(pid).forEach(function (d) { errs.push('공고 ' + pid + ': "' + d.label + '"을 확인하거나 값을 입력해 주세요.'); });
       var name = m.f.companyName.value;
       var sal = m.f.annualSalary.value;
       if (!isNum(sal) || sal <= 0) errs.push('공고 ' + pid + ': 연봉(원)을 입력해 주세요.');
@@ -626,6 +686,7 @@
 
   function onCalc() {
     hideMsg('msg2');
+    state.skipped = false;
     var c = collectRequest();
     if (c.errs.length) {
       var ul = h('ul', null, c.errs.map(function (e) { return h('li', { text: e }); }));
@@ -684,6 +745,7 @@
     if (typeof R.dataVersion === 'object' && R.dataVersion && String(R.dataVersion.rent).indexOf('sample') === 0) {
       body.appendChild(h('div', { class: 'band', text: '설명용 임의 월세 데이터입니다. 실제 실거래가가 아닙니다' }));
     }
+    if (state.skipped) body.appendChild(renderSkipped());
     body.appendChild(renderConclusion());
     if (window.MoneyFlow) {   // 돈 흐름 시각화(flow.js). 실패해도 나머지 결과는 그대로 보인다
       var fl = h('div', { class: 'card flow' }, [h('h2', { text: '1년 동안 돈이 흘러가는 모습' }),
