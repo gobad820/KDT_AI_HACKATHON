@@ -146,7 +146,11 @@
         $('count' + id).textContent = nf.format(n);
         $('count' + id).parentNode.className = 'count' + (n >= MAX_CHARS ? ' full' : '');
       };
-      ta.addEventListener('input', upd);
+      ta.addEventListener('input', function () { upd(); if (document.activeElement !== ta) renderPostView(id); });
+      ta.addEventListener('blur', function () { renderPostView(id); });
+      var view = $('view' + id), edit = function () { view.hidden = true; ta.hidden = false; ta.focus(); };
+      view.addEventListener('click', edit);
+      view.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); edit(); } });
       upd();
     });
     $('btnStart').addEventListener('click', onStart);
@@ -162,6 +166,30 @@
         box.textContent = '샘플 목록을 불러오지 못했습니다';
       }
     });
+  }
+  // 입력한 공고 원문을 감열 계산서처럼 정리해 보여 준다. 원문은 textarea에 그대로 있고, 누르면 고칠 수 있다
+  var POST_MAX_LINES = 18;
+  function renderPostView(id) {
+    var ta = $('text' + id), view = $('view' + id), text = ta.value.trim();
+    if (!text) { view.hidden = true; ta.hidden = false; return; }
+    clear(view);
+    var lines = text.split(/\r?\n/).map(function (l) { return l.trim(); }).filter(Boolean);
+    var first = /^\[(.+?)\]\s*(.*)$/.exec(lines[0]);
+    if (first) {
+      view.appendChild(h('div', { class: 'rc-center rc-name', text: first[1] }));
+      if (first[2]) view.appendChild(h('div', { class: 'rc-center', text: first[2] }));
+      view.appendChild(h('div', { class: 'rc-rule', 'aria-hidden': 'true' }));
+      lines = lines.slice(1);
+    }
+    lines.slice(0, POST_MAX_LINES).forEach(function (l) {
+      var kv = /^([^:：]{1,14}?)\s*[:：]\s*(.+)$/.exec(l);
+      if (kv && /급여|연봉|임금|월급/.test(kv[1])) view.appendChild(h('div', { class: 'rc-line pay' }, [h('span', { class: 'rc-l', text: kv[1] }), h('span', { class: 'rc-v' }, h('span', { class: 'hlv', text: kv[2] }))]));
+      else if (kv) view.appendChild(rcLine(kv[1], kv[2]));
+      else view.appendChild(h('div', { class: 'post-line', text: l }));
+    });
+    if (lines.length > POST_MAX_LINES) view.appendChild(h('div', { class: 'rc-note', text: '··· ' + nf.format(lines.length - POST_MAX_LINES) + '줄 더 있음' }));
+    view.appendChild(h('div', { class: 'rc-note post-edit', text: '눌러서 고치기' }));
+    view.hidden = false; ta.hidden = true;
   }
   function fillSample(s) {
     s.postings.forEach(function (p) {

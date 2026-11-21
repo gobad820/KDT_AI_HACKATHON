@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap">
-<link rel="stylesheet" href="style.css?v=20261121zg">
+<link rel="stylesheet" href="style.css?v=20261121zk">
   <link rel="icon" href="data:,">
 </head>
 <body>
@@ -55,15 +55,27 @@
         <span id="sampleButtons"></span>
       </div>
       <div class="two">
-        <div class="field">
-          <label for="textA">공고 A</label>
-          <textarea id="textA" rows="12" maxlength="8000" placeholder="채용공고 본문을 붙여 넣어 주세요"></textarea>
-          <div class="count"><span id="countA">0</span> / 8,000자</div>
+        <div class="field post">
+          <div class="post-paper" id="paperA">
+            <label for="textA" class="rc-title">공고 A</label>
+            <div class="rc-center rc-note" aria-hidden="true">붙여 넣은 채용공고</div>
+            <div class="rc-rule" aria-hidden="true"></div>
+            <div class="post-view" id="viewA" role="button" tabindex="0" aria-label="공고 A 고치기" hidden></div>
+            <textarea id="textA" rows="12" maxlength="8000" placeholder="채용공고 본문을 붙여 넣어 주세요"></textarea>
+            <div class="rc-rule" aria-hidden="true"></div>
+            <div class="post-foot"><span>글자 수</span><span class="count"><span id="countA">0</span> / 8,000자</span></div>
+          </div>
         </div>
-        <div class="field">
-          <label for="textB">공고 B</label>
-          <textarea id="textB" rows="12" maxlength="8000" placeholder="채용공고 본문을 붙여 넣어 주세요"></textarea>
-          <div class="count"><span id="countB">0</span> / 8,000자</div>
+        <div class="field post">
+          <div class="post-paper" id="paperB">
+            <label for="textB" class="rc-title">공고 B</label>
+            <div class="rc-center rc-note" aria-hidden="true">붙여 넣은 채용공고</div>
+            <div class="rc-rule" aria-hidden="true"></div>
+            <div class="post-view" id="viewB" role="button" tabindex="0" aria-label="공고 B 고치기" hidden></div>
+            <textarea id="textB" rows="12" maxlength="8000" placeholder="채용공고 본문을 붙여 넣어 주세요"></textarea>
+            <div class="rc-rule" aria-hidden="true"></div>
+            <div class="post-foot"><span>글자 수</span><span class="count"><span id="countB">0</span> / 8,000자</span></div>
+          </div>
         </div>
       </div>
       <div id="msg1" class="msg" role="alert" hidden></div>
@@ -100,7 +112,7 @@
 </footer>
 
 <script src="flow.js?v=20261121zg"></script>
-<script src="app.js?v=20261121zg"></script>
+<script src="app.js?v=20261121zj"></script>
 <script src="hero.js?v=20261121zf"></script>
 </body>
 </html>

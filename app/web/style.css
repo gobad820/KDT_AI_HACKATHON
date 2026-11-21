@@ -183,11 +183,11 @@ td.val .unit { font-size: .8rem; color: var(--faint); }
 /* 공고별 정리: 감열 계산서 (app.js renderJob). 위아래 톱니 모양 절단면, 고정폭 글꼴, 점선 구분 */
 .job.receipt { padding: 0; background: none; border: 0; box-shadow: none; border-radius: 0; display: flex; justify-content: center; align-items: flex-start;
   filter: drop-shadow(0 16px 18px rgba(20,22,30,.14)) drop-shadow(0 1px 1px rgba(20,22,30,.10)); }
-.rc-paper { position: relative; width: 100%; max-width: 440px; padding: 34px 26px 38px; background: #fbfbf8; color: #26262b;
+.rc-paper, .post-paper { position: relative; width: 100%; max-width: 440px; padding: 34px 26px 38px; background: #fbfbf8; color: #26262b;
   font-family: "Nanum Gothic Coding", "D2Coding", ui-monospace, Menlo, monospace; font-size: .86rem; line-height: 1.7; letter-spacing: -.01em;
   -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 14px 51% repeat-x, conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / 14px 51% repeat-x;
   mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 14px 51% repeat-x, conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / 14px 51% repeat-x; }
-.rc-paper::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--noise); background-size: 160px; opacity: .08; mix-blend-mode: multiply; }
+.rc-paper::before, .post-paper::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--noise); background-size: 160px; opacity: .08; mix-blend-mode: multiply; }
 .rc-title { text-align: center; font-size: 1.32rem; font-weight: 700; letter-spacing: .14em; line-height: 1.5; margin-bottom: 4px; }
 .rc-center { text-align: center; }
 .rc-name { font-weight: 700; }
@@ -215,6 +215,28 @@ td.val .unit { font-size: .8rem; color: var(--faint); }
   background: repeating-linear-gradient(90deg, #26262b 0 2px, transparent 2px 5px, #26262b 5px 9px, transparent 9px 11px, #26262b 11px 12px, transparent 12px 15px, #26262b 15px 18px, transparent 18px 21px); }
 .rc-barcode.rc-B { background-position: 7px 0; }
 .rc-foot { color: #55555c; font-size: .76rem; }
+/* 입력 화면: 공고 원문도 같은 감열지 위에 적는다 (app.js renderPostView) */
+.field.post { filter: drop-shadow(0 12px 16px rgba(20,22,30,.14)) drop-shadow(0 0 1px rgba(20,22,30,.28)); }
+.post-paper { max-width: none; padding: 30px 24px 34px; background: #fff; }
+.post-paper label.rc-title { display: block; margin: 0 0 2px; font-size: 1.22rem; }
+.post-paper textarea { display: block; width: 100%; min-height: 300px; margin: 0; padding: 4px 2px; border: 0; border-radius: 4px; background: transparent; color: #26262b;
+  font: inherit; line-height: 1.75; box-shadow: none; }
+.post-paper textarea:hover { background: rgba(0,0,0,.025); }
+.post-paper textarea:focus { background: rgba(0,0,0,.025); box-shadow: none; outline: 2px dashed #2a2a2f; outline-offset: 4px; }
+.post-paper textarea::placeholder { color: #9a9aa2; }
+.post-paper [hidden] { display: none !important; }
+.post-view { min-height: 300px; cursor: text; border-radius: 4px; }
+.post-view:hover { background: rgba(0,0,0,.02); }
+.post-view:focus-visible { outline: 2px dashed #2a2a2f; outline-offset: 4px; }
+.post-view .rc-line { padding: 1px 0; }
+.post-view .rc-l { color: #55555c; white-space: nowrap; }
+.post-view .rc-v { white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+.post-view .rc-line.pay { font-weight: 700; }
+.post-view .rc-line.pay .hlv { padding: 0 3px; background: linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 90%, transparent 90%); -webkit-box-decoration-break: clone; box-decoration-break: clone; }   /* 두 줄로 넘어가도 줄마다 칠한다 */
+.post-line { overflow-wrap: anywhere; }
+.post-edit { text-align: right; margin-top: 10px; }
+.post-foot { display: flex; justify-content: space-between; font-size: .8rem; color: #55555c; }
+.post-foot .count { margin: 0; font-size: inherit; color: inherit; }
 .job.receipt.pending .rc-paper { clip-path: inset(0 0 100% 0); }
 .job.receipt.printing .rc-paper { animation: rc-print 1.3s steps(26, end) both; }
 @keyframes rc-print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
