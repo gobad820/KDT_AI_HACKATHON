@@ -12,3 +12,5 @@ data/rent.sqlite
 tests/
 scripts/
 docs/
+media/
+.playwright-mcp/
