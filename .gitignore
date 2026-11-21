@@ -13,3 +13,5 @@ data/raw/
 .vercel
 .env*
 .playwright-mcp/
+media/showreel/frames/
+media/showreel/stills/
