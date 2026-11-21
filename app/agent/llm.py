@@ -2,16 +2,20 @@
 
 - 키는 환경변수(.env)로만 읽는다. 코드와 로그에 남기지 않는다.
 - LLM_PROVIDER 가 비어 있으면 get_llm() 은 None 을 돌려주고, 서버는 대체 흐름으로 동작한다.
-- anthropic, openai 어댑터는 공개 HTTP API 형식으로 썼지만 이 작업 환경에서는 실제 호출로 검증하지 못했다.
-  키를 넣은 뒤 tests 밖에서 한 번 직접 호출해 확인한다 (docs/agent-spec.md 13장의 기록 대상).
+- openai 어댑터는 11/21 Gemini OpenAI 호환 주소(gemini-3.1-flash-lite)로 실제 호출을 확인했다.
+  anthropic 어댑터는 실제 호출로 검증하지 못했다.
 """
 from __future__ import annotations
 
 import json
 import os
+import time
 from typing import Callable, List, Optional, Protocol, Union
 
 import httpx
+
+RETRY_STATUS = {429, 500, 502, 503}
+RETRY_WAIT_S = 1.0
 
 
 class LLMUnavailable(Exception):
@@ -88,11 +92,20 @@ class OpenAIClient:
         body = {"model": self.model_name,
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
                 "response_format": {"type": "json_schema", "json_schema": {"name": "output", "schema": schema}}}
-        try:
-            r = httpx.post(f"{self.base_url}/chat/completions", json=body,
-                           headers={"Authorization": f"Bearer {self._key}"}, timeout=timeout_s)
-        except httpx.HTTPError as exc:
-            raise LLMUnavailable(f"LLM 호출 실패: {type(exc).__name__}") from None
+        started = time.monotonic()
+        for attempt in range(2):
+            remaining = timeout_s - (time.monotonic() - started)
+            try:
+                r = httpx.post(f"{self.base_url}/chat/completions", json=body,
+                               headers={"Authorization": f"Bearer {self._key}"}, timeout=remaining)
+            except httpx.HTTPError as exc:
+                raise LLMUnavailable(f"LLM 호출 실패: {type(exc).__name__}") from None
+            # 사용량 과다(503)·한도(429) 같은 일시 오류가 빨리 오면 남은 시간 안에서 한 번만 다시 시도한다
+            elapsed = time.monotonic() - started
+            if attempt == 0 and r.status_code in RETRY_STATUS and elapsed + RETRY_WAIT_S < timeout_s / 2:
+                time.sleep(RETRY_WAIT_S)
+                continue
+            break
         if r.status_code != 200:
             raise LLMUnavailable(f"LLM 응답 코드 {r.status_code}")
         try:

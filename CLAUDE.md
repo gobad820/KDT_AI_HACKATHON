@@ -18,8 +18,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Happy path: 샘플 공고 불러오기 → 추출 결과 확인, 질문에 답 → 결과(시나리오별 남는 돈, 연차별 표, 손익분기 연봉, 근거와 가정)
 - 화면 3장: 입력, 확인, 결과
 - 기술 스택: Python 3.11+, FastAPI, pydantic v2, pytest. 화면은 정적 HTML/JS(빌드 없음). 한 서버가 API와 화면을 같이 올린다
-- LLM: Claude(Anthropic API, `app/agent/llm.py`의 `AnthropicClient`). 모델명은 `.env`의 `LLM_MODEL`. 확정한 모델명은 소개서 04와 AI 활용내역에 적는다
-- 미정: <!-- TODO 서비스용 Claude 모델 확정 / 배포 위치 -->
+- LLM: Gemini `gemini-3.1-flash-lite`(11/21 확정). `OpenAIClient`로 Gemini의 OpenAI 호환 주소(`LLM_BASE_URL`)를 부른다. `.env`의 `LLM_PROVIDER=openai`. 모델명은 소개서 04와 AI 활용내역에 적는다
+  - 11/21 시험: `gemini-2.5-flash`는 신규 사용자 404, `gemini-3.8-flash`·`3.5-flash-lite`는 503(사용량 과다)이 잦았다. 일시 오류(429·5xx)는 어댑터가 한 번 다시 시도한다
+- 미정: <!-- TODO 배포 위치 -->
 
 ## 명령
 

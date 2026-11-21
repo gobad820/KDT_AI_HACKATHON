@@ -225,3 +225,48 @@ def test_explain_input_has_no_profile():
     explain.explain(core_example(10), llm)
     sent = llm.calls[0]["user"]
     assert '"age"' not in sent and "military" not in sent.lower() and "priorRelief" not in sent
+
+
+# ---- OpenAI 호환 어댑터: 일시 오류 재시도 (실제 네트워크 없이 httpx.post 를 바꿔 끼운다) ----
+
+class _Resp:
+    def __init__(self, status, content=None):
+        self.status_code = status
+        self._content = content
+
+    def json(self):
+        return {"choices": [{"message": {"content": json.dumps(self._content)}}]}
+
+
+def _openai_with(monkeypatch, statuses):
+    from app.agent import llm as L
+    calls = []
+
+    def fake_post(url, **kw):
+        calls.append(kw["timeout"])
+        status = statuses.pop(0)
+        return _Resp(status, {"x": "ok"} if status == 200 else None)
+
+    monkeypatch.setattr(L.httpx, "post", fake_post)
+    monkeypatch.setattr(L.time, "sleep", lambda s: None)
+    return L.OpenAIClient("k", "m", "http://example.invalid"), calls
+
+
+def test_openai_retries_once_on_503(monkeypatch):
+    client, calls = _openai_with(monkeypatch, [503, 200])
+    assert client.complete_json(system="s", user="u", schema={}) == {"x": "ok"}
+    assert len(calls) == 2
+
+
+def test_openai_gives_up_after_second_503(monkeypatch):
+    client, calls = _openai_with(monkeypatch, [503, 503])
+    with pytest.raises(LLMUnavailable):
+        client.complete_json(system="s", user="u", schema={})
+    assert len(calls) == 2
+
+
+def test_openai_does_not_retry_on_404(monkeypatch):
+    client, calls = _openai_with(monkeypatch, [404])
+    with pytest.raises(LLMUnavailable):
+        client.complete_json(system="s", user="u", schema={})
+    assert len(calls) == 1
