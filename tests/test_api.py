@@ -87,7 +87,7 @@ def test_compare_example_numbers_without_llm(client):
         assert job["housingMonthly"] == expected["housingMonthly"]
         assert job["rent"]["monthlyMedian"] == expected["rent"]["monthlyMedian"]
         assert job["rent"]["sampleCount"] == expected["rent"]["sampleCount"]
-        assert job["eligibility"]["status"] == "uncertain"       # 업종을 분류할 LLM 이 없음
+        assert job["eligibility"]["status"] == expected["eligibility"]["status"]   # 키워드 규칙으로 업종 분류
         for s, e in zip(job["scenarios"], expected["scenarios"]):
             assert (s["id"], s["reliefYears"], s["cumulativeRemaining"]) == (e["id"], e["reliefYears"], e["cumulativeRemaining"])
     assert body["comparison"] == COMPARE_RES["comparison"]

@@ -1,0 +1,27 @@
+{
+  "version": "sample",
+  "dataAsOf": "sample",
+  "note": "설명용 임의값. 실데이터가 아님. scripts/build_rent_stats.py 로 만든 data/rent_stats.json 이 있으면 서버는 그 파일을 읽는다.",
+  "depositBasis": 10000000,
+  "conversionRate": 0.06,
+  "housingTypes": ["officetel", "detached_multi"],
+  "stats": {
+    "11680": {
+      "sgg": {"period": "2026-05~2026-10", "sampleCount": 412, "p25": 720000, "monthlyMedian": 850000, "p75": 1010000, "countsByType": {"officetel": 288, "detached_multi": 124}},
+      "sgg_12m": {"period": "2025-11~2026-10", "sampleCount": 801, "p25": 700000, "monthlyMedian": 840000, "p75": 1000000, "countsByType": {"officetel": 560, "detached_multi": 241}}
+    },
+    "26230": {
+      "sgg": {"period": "2026-05~2026-10", "sampleCount": 188, "p25": 380000, "monthlyMedian": 450000, "p75": 540000, "countsByType": {"officetel": 97, "detached_multi": 91}},
+      "sgg_12m": {"period": "2025-11~2026-10", "sampleCount": 371, "p25": 370000, "monthlyMedian": 445000, "p75": 530000, "countsByType": {"officetel": 190, "detached_multi": 181}}
+    },
+    "27720": {
+      "sgg": {"period": "2026-05~2026-10", "sampleCount": 12, "p25": 250000, "monthlyMedian": 300000, "p75": 350000, "countsByType": {"detached_multi": 12}},
+      "sgg_12m": {"period": "2025-11~2026-10", "sampleCount": 21, "p25": 260000, "monthlyMedian": 310000, "p75": 360000, "countsByType": {"detached_multi": 21}}
+    }
+  },
+  "sidoStats": {
+    "11": {"period": "2026-05~2026-10", "sampleCount": 9120, "p25": 600000, "monthlyMedian": 760000, "p75": 930000, "countsByType": {}},
+    "26": {"period": "2026-05~2026-10", "sampleCount": 4210, "p25": 360000, "monthlyMedian": 430000, "p75": 520000, "countsByType": {}},
+    "27": {"period": "2026-05~2026-10", "sampleCount": 2980, "p25": 350000, "monthlyMedian": 420000, "p75": 500000, "countsByType": {}}
+  }
+}
