@@ -77,6 +77,7 @@ python3 -m pytest               # 전체 테스트
 | Uvicorn | BSD-3-Clause | https://github.com/encode/uvicorn | 서버 실행 |
 | HTTPX | BSD-3-Clause | https://github.com/encode/httpx | 실거래가 수집, 테스트 |
 | pytest (개발용) | MIT | https://github.com/pytest-dev/pytest | 테스트 |
+| Pretendard | SIL Open Font License 1.1 | https://github.com/orioncactus/pretendard | 화면 글꼴 (jsDelivr CDN, v1.3.9) |
 | 국토교통부 전월세 실거래가 자료 | 공공데이터포털 이용허락범위 제한 없음(포털 표기, 확인 필요) | https://www.data.go.kr | 원룸 월세 통계 (수집 후 기입: 수집일, 유형) |
 | 행정표준코드관리시스템 법정동 코드 | 확인 필요 | https://www.code.go.kr | 시군구 코드 |
 | PublicDataReader (참고만 함) | MIT | https://github.com/WooilJeong/PublicDataReader | 실거래가 API 주소와 필드명 확인. 코드는 가져오지 않음 |

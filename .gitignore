@@ -10,3 +10,6 @@ data/rent.sqlite
 data/raw/
 *.log
 .DS_Store
+.vercel
+.env*
+.playwright-mcp/
