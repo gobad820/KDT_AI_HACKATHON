@@ -180,6 +180,44 @@ td.val .unit { font-size: .8rem; color: var(--faint); }
 .job dt, .job dd { padding: 7px 0; border-bottom: 1px solid var(--line); }
 .job dt { color: var(--sub); }
 .job dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+/* 공고별 정리: 감열 계산서 (app.js renderJob). 위아래 톱니 모양 절단면, 고정폭 글꼴, 점선 구분 */
+.job.receipt { padding: 0; background: none; border: 0; box-shadow: none; border-radius: 0; display: flex; justify-content: center; align-items: flex-start;
+  filter: drop-shadow(0 16px 18px rgba(20,22,30,.14)) drop-shadow(0 1px 1px rgba(20,22,30,.10)); }
+.rc-paper { position: relative; width: 100%; max-width: 440px; padding: 34px 26px 38px; background: #fbfbf8; color: #26262b;
+  font-family: "Nanum Gothic Coding", "D2Coding", ui-monospace, Menlo, monospace; font-size: .86rem; line-height: 1.7; letter-spacing: -.01em;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 14px 51% repeat-x, conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / 14px 51% repeat-x;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 14px 51% repeat-x, conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / 14px 51% repeat-x; }
+.rc-paper::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--noise); background-size: 160px; opacity: .08; mix-blend-mode: multiply; }
+.rc-title { text-align: center; font-size: 1.32rem; font-weight: 700; letter-spacing: .14em; line-height: 1.5; margin-bottom: 4px; }
+.rc-center { text-align: center; }
+.rc-name { font-weight: 700; }
+.rc-note { color: #55555c; font-size: .8rem; }
+.rc-line { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; }
+.rc-l { min-width: 0; }
+.rc-v { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rc-head { font-weight: 700; }
+.rc-line.sub .rc-l { padding-left: 1.4em; color: #55555c; }
+.rc-line.big { font-size: 1.06rem; font-weight: 700; margin: 2px 0; }
+.rc-line.big .rc-v { padding: 0 3px; background: linear-gradient(transparent 14%, var(--hl) 14%, var(--hl) 90%, transparent 90%); }
+.rc-rule { height: 2px; margin: 10px 0; background: repeating-linear-gradient(90deg, #2a2a2f 0 7px, transparent 7px 11px); opacity: .8; }
+.rc-rule.dbl { height: 6px; background: repeating-linear-gradient(90deg, #2a2a2f 0 7px, transparent 7px 11px) top / 100% 2px no-repeat, repeating-linear-gradient(90deg, #2a2a2f 0 7px, transparent 7px 11px) bottom / 100% 2px no-repeat; }
+.rc-sec { font-weight: 700; margin-bottom: 2px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.rc-status-row { margin: 2px 0 6px; }
+.rc-status { font-weight: 700; padding: 0 4px; }
+.rc-status.likely { background: linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 92%, transparent 92%); }
+.rc-status.uncertain, .rc-status.unlikely { box-shadow: inset 0 0 0 1.5px #2a2a2f; }
+.rc-line.chk { font-weight: 700; margin-top: 4px; }
+.rc-line.chk.fail .rc-v, .rc-line.chk.unknown .rc-v { padding: 0 4px; box-shadow: inset 0 0 0 1.5px #2a2a2f; }
+.rc-ev { padding-left: 1.4em; color: #55555c; font-size: .8rem; line-height: 1.55; }
+.rc-q { color: #26262b; }
+.rc-copy { font-family: inherit; font-size: .74rem; padding: 2px 10px; }
+.rc-barcode { height: 46px; width: 72%; margin: 16px auto 4px;
+  background: repeating-linear-gradient(90deg, #26262b 0 2px, transparent 2px 5px, #26262b 5px 9px, transparent 9px 11px, #26262b 11px 12px, transparent 12px 15px, #26262b 15px 18px, transparent 18px 21px); }
+.rc-barcode.rc-B { background-position: 7px 0; }
+.rc-foot { color: #55555c; font-size: .76rem; }
+.job.receipt.pending .rc-paper { clip-path: inset(0 0 100% 0); }
+.job.receipt.printing .rc-paper { animation: rc-print 1.3s steps(26, end) both; }
+@keyframes rc-print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 .checks { list-style: none; margin: 8px 0; padding: 0; font-size: .88rem; }
 .checks li { padding: 8px 0; border-bottom: 1px solid var(--line); }
 .checks li:last-child { border-bottom: 0; }

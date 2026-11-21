@@ -791,53 +791,73 @@
     return col;
   }
 
+  // 공고별 정리: 감열 계산서. 금액은 계산 모듈 출력 그대로(원 단위)이고, 화면에서는 더하거나 빼지 않는다
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function rcLine(label, value, cls) { return h('div', { class: 'rc-line' + (cls ? ' ' + cls : '') }, [h('span', { class: 'rc-l', text: label }), h('span', { class: 'rc-v', text: value })]); }
+  function rcRule(dbl) { return h('div', { class: 'rc-rule' + (dbl ? ' dbl' : ''), 'aria-hidden': 'true' }); }
+  function rcWon(n) { return nf.format(Math.round(n)); }
+
   function renderJob(j) {
-    var card = h('div', { class: 'job', 'data-job': j.id });
-    card.appendChild(h('h3', { text: jobName(j.id) }));
-    var reg = j.region || {};
-    var rl = [h('span', { text: reg.name || '' }), ' '];
-    if (reg.classUncertain) rl.push(badge('분류 미확정', 'warn'));
-    if (reg.prefCandidate) rl.push(badge('우대지역 후보(확정 아님)', 'accent'));
-    card.appendChild(h('div', { class: 'small' }, rl));
-    var none = j.pay.none, wr = j.pay.withRelief;
-    card.appendChild(h('div', { class: 'small', text: '세후 연봉(감면 없음)' }));
-    card.appendChild(h('div', { class: 'money' }, money(none.netAnnual)));
-    card.appendChild(h('dl', null, [
-      h('dt', { text: '월평균(감면 없음)' }), h('dd', null, money(none.netMonthlyAvg)),
-      h('dt', { text: '세후 연봉(감면 적용)' }), h('dd', null, money(wr.netAnnual)),
-      h('dt', { text: '월평균(감면 적용)' }), h('dd', null, money(wr.netMonthlyAvg)),
-      h('dt', { text: '월 주거비' }), h('dd', null, money(j.housingMonthly))
-    ]));
+    var card = h('div', { class: 'job receipt', 'data-job': j.id });
+    var p = h('div', { class: 'rc-paper' });
+    var reg = j.region || {}, none = j.pay.none, wr = j.pay.withRelief, el = j.eligibility;
+    p.appendChild(h('div', { class: 'rc-title', text: '공고 ' + j.id + ' 계산서' }));
+    if (state.names[j.id]) p.appendChild(h('div', { class: 'rc-center rc-name', text: state.names[j.id] }));
+    p.appendChild(h('div', { class: 'rc-center', text: reg.name || '' }));
+    if (reg.classUncertain) p.appendChild(h('div', { class: 'rc-note', text: '* 지역 분류 미확정' }));
+    if (reg.prefCandidate) p.appendChild(h('div', { class: 'rc-note', text: '* 우대지역 후보(확정 아님)' }));
+    p.appendChild(rcRule());
+    p.appendChild(h('div', { class: 'rc-line rc-head' }, [h('span', { text: '항목' }), h('span', { text: '금액(원)' })]));
+    p.appendChild(rcRule());
+    p.appendChild(rcLine('세후 연봉(감면 없음)', rcWon(none.netAnnual), 'big'));
+    p.appendChild(rcLine('월평균', rcWon(none.netMonthlyAvg), 'sub'));
+    p.appendChild(rcLine('세후 연봉(감면 적용)', rcWon(wr.netAnnual)));
+    p.appendChild(rcLine('월평균', rcWon(wr.netMonthlyAvg), 'sub'));
+    p.appendChild(rcLine('월 주거비', rcWon(j.housingMonthly)));
+    p.appendChild(rcRule(true));
     // 월세 근거
-    card.appendChild(h('h3', { text: '월세 근거' }));
+    p.appendChild(h('div', { class: 'rc-sec', text: '[월세 근거]' }));
     if (j.rent) {
       var r = j.rent;
-      card.appendChild(h('dl', null, [
-        h('dt', { text: '환산월세 중위값' }), h('dd', null, money(r.monthlyMedian)),
-        h('dt', { text: 'p25 ~ p75' }), h('dd', null, [money(r.p25), ' ~ ', money(r.p75)]),
-        h('dt', { text: '표본 수' }), h('dd', { text: nf.format(r.sampleCount) + '건' }),
-        h('dt', { text: '기간' }), h('dd', { text: r.period }),
-        h('dt', { text: '범위' }), h('dd', { text: SCOPE_LABEL[r.scope] || r.scope }),
-        h('dt', { text: '데이터 기준일' }), h('dd', { text: r.dataAsOf })
-      ]));
-      if (!r.sufficient) card.appendChild(h('p', { class: 'small', text: '표본이 30건 미만이라 통계가 불안정할 수 있습니다.' }));
+      p.appendChild(rcLine('환산월세 중위값', rcWon(r.monthlyMedian)));
+      p.appendChild(rcLine('p25 ~ p75', rcWon(r.p25) + ' ~ ' + rcWon(r.p75)));
+      p.appendChild(rcLine('표본 수', nf.format(r.sampleCount) + '건'));
+      p.appendChild(rcLine('기간', r.period));
+      p.appendChild(rcLine('범위', SCOPE_LABEL[r.scope] || r.scope));
+      p.appendChild(rcLine('데이터 기준일', r.dataAsOf));
+      if (!r.sufficient) p.appendChild(h('div', { class: 'rc-note', text: '* 표본이 30건 미만이라 통계가 불안정할 수 있습니다' }));
     } else {
       var mode = state.lastReq ? (byId(state.lastReq.postings, j.id) || { confirmed: { housing: {} } }).confirmed.housing.mode : '';
-      card.appendChild(h('p', { text: mode === 'dormitory' ? '기숙사·본가 (주거비 0원)' : (mode === 'custom' ? '직접 입력' : '월세 통계 없음') + ' (월 ' + won(j.housingMonthly) + ')' }));
+      p.appendChild(rcLine(mode === 'dormitory' ? '기숙사·본가' : (mode === 'custom' ? '직접 입력' : '월세 통계 없음'), '월 ' + rcWon(j.housingMonthly)));
     }
+    p.appendChild(rcRule());
     // 감면 대상 가능성
-    var el = j.eligibility;
-    card.appendChild(h('h3', { text: '감면 대상 가능성' }));
-    card.appendChild(h('div', null, badge(ELIG_LABEL[el.status] || el.status, el.status === 'likely' ? 'accent' : 'warn')));
-    if (el.status === 'uncertain') card.appendChild(h('p', { class: 'small', text: '대상이 아닐 때는 \'감면 없음\' 탭을 확인하세요.' }));
-    if (el.status === 'unlikely') card.appendChild(h('p', { class: 'small', text: '감면 없음 기준으로 계산했습니다.' }));
-    card.appendChild(h('ul', { class: 'checks' }, (el.checks || []).map(function (c) {
-      return h('li', null, [h('strong', { text: (RULE_LABEL[c.rule] || c.rule) + ' ' }), badge(RESULT_LABEL[c.result] || c.result, c.result === 'pass' ? '' : 'warn'), h('div', { class: 'evidence', text: c.evidence })]);
-    })));
+    p.appendChild(h('div', { class: 'rc-sec', text: '[감면 대상 가능성]' }));
+    p.appendChild(h('div', { class: 'rc-status-row' }, [h('span', { class: 'rc-status ' + el.status, text: ELIG_LABEL[el.status] || el.status })]));
+    if (el.status === 'uncertain') p.appendChild(h('div', { class: 'rc-note', text: "* 대상이 아닐 때는 '감면 없음' 탭을 보세요" }));
+    if (el.status === 'unlikely') p.appendChild(h('div', { class: 'rc-note', text: '* 감면 없음 기준으로 계산했습니다' }));
+    (el.checks || []).forEach(function (c) {
+      p.appendChild(rcLine(RULE_LABEL[c.rule] || c.rule, RESULT_LABEL[c.result] || c.result, 'chk ' + c.result));
+      if (c.evidence) p.appendChild(h('div', { class: 'rc-ev', text: c.evidence }));
+    });
     if (el.hrQuestion) {
-      var cp = h('button', { type: 'button', class: 'chip', text: '복사' });
+      var cp = h('button', { type: 'button', class: 'chip rc-copy', text: '복사' });
       cp.addEventListener('click', function () { copyText(el.hrQuestion, cp); });
-      card.appendChild(h('div', { class: 'hr' }, [h('div', { class: 'small', text: '인사팀에 확인할 질문' }), h('div', { text: el.hrQuestion }), cp]));
+      p.appendChild(rcRule());
+      p.appendChild(h('div', { class: 'rc-sec' }, ['[인사팀에 확인할 질문] ', cp]));
+      p.appendChild(h('div', { class: 'rc-ev rc-q', text: el.hrQuestion }));
+    }
+    p.appendChild(rcRule(true));
+    p.appendChild(h('div', { class: 'rc-barcode rc-' + j.id, 'aria-hidden': 'true' }));
+    p.appendChild(h('div', { class: 'rc-center rc-foot', text: '금액은 서버의 계산 코드가 산출' }));
+    card.appendChild(p);
+    // 화면에 들어오면 위에서부터 줄 단위로 인쇄되듯 나타난다
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      card.classList.add('pending');
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { card.classList.remove('pending'); card.classList.add('printing'); io.disconnect(); } });
+      }, { threshold: 0.12 });
+      io.observe(card);
     }
     return card;
   }

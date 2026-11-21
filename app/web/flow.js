@@ -190,9 +190,11 @@
     var jobChips = el('div', 'flow-chips', ctr), scChips = el('div', 'flow-chips', ctr);
     var box = el('div', 'flow-box', host), note = el('p', 'flow-note', host);
     function jobOf(id) { return jobs[0].id === id ? jobs[0] : jobs[1]; }
+    // 연차별 배열이 빈 시나리오(예: 문서 예시를 옮긴 모의 응답)는 다른 시나리오의 연수를 쓴다
+    var maxY = 0; jobs.forEach(function (jj) { jj.scenarios.forEach(function (x) { maxY = Math.max(maxY, (x.yearly || []).length); }); });
     function scen(j) { for (var i = 0; i < j.scenarios.length; i++) if (j.scenarios[i].id === sc) return j.scenarios[i]; return j.scenarios[0]; }
     function cfgFor() {
-      var j = jobOf(job), sv = scen(j), Y = sv.yearly.length, yrs = Math.min(sv.reliefYears, Y), saved = j.taxRelief * yrs, tax = j.tax * Y;
+      var j = jobOf(job), sv = scen(j), Y = sv.yearly.length || maxY, yrs = Math.min(sv.reliefYears, Y), saved = j.taxRelief * yrs, tax = j.tax * Y;
       var ev = events(j, Y, saved), ti = -1; ev.forEach(function (e, i) { if (e.tax) ti = i; });
       return { Y: Y, saved: saved, total: sv.cumulativeRemaining,
         cfg: { salary: j.salary * Y, top: 50, k: 230 / (Math.max(jobs[0].salary, jobs[1].salary) * Y), x0: 160, xEnd: 780, floor: 470, speed: 105, n: 10000, wave: 7, events: ev,

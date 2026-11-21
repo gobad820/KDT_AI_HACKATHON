@@ -79,6 +79,7 @@ Gemini `gemini-3.1-flash-lite`를 OpenAI 호환 주소로 부른다(`app/agent/l
 | HTTPX | BSD-3-Clause | https://github.com/encode/httpx | 실거래가 수집, 테스트 |
 | pytest (개발용) | MIT | https://github.com/pytest-dev/pytest | 테스트 |
 | Pretendard | SIL Open Font License 1.1 | https://github.com/orioncactus/pretendard | 화면 글꼴 (jsDelivr CDN, v1.3.9) |
+| Nanum Gothic Coding | SIL Open Font License 1.1 | https://fonts.google.com/specimen/Nanum+Gothic+Coding | 결과 화면 공고별 계산서의 고정폭 글꼴 (Google Fonts) |
 | 국토교통부 전월세 실거래가 자료 | 공공데이터포털 이용허락범위 제한 없음(포털 표기, 확인 필요) | https://www.data.go.kr | 원룸 월세 통계 (수집 2026-11-21, 오피스텔·연립다세대·단독다가구) |
 | 행정표준코드관리시스템 법정동 코드 | 확인 필요 | https://www.code.go.kr | 시군구 코드 |
 | 행정안전부 인구감소지역 지정 고시 | 정부 고시(확인 필요) | https://www.mois.go.kr | 인구감소지역 92곳 (`data/depop_2026.csv`) |
