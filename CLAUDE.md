@@ -35,6 +35,7 @@ python3 -m pytest -k netpay                   # 이름으로 고르기
 
 - 화면만 볼 때는 `http://localhost:8000/?mock=1`. `app/web/mock.js`가 서버 응답을 대신한다.
 - 수집·통계 스크립트(`scripts/collect_rent.py`, `build_rent_stats.py`, `build_regions.py`)의 사용법은 각 스크립트의 `--help`와 `HANDOFF.md` 5장(T4~T9)에 있다.
+- 월세 통계(`data/rent_stats.json`)를 다시 만들면 `python3 scripts/build_hero.py`로 첫 화면 애니메이션 숫자(`app/web/hero.json`)도 다시 만든다. 화면 금액은 계산 코드 출력만 쓴다는 규칙 때문이다.
 - `scripts/calc_ref.py`는 계산 모듈과 따로 짠 대조용 구현이다. `app/calc/`를 고치면 두 결과가 같은지 본다.
 
 ## 아키텍처 (여러 파일을 읽어야 보이는 것)

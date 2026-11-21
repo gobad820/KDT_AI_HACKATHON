@@ -182,3 +182,45 @@ a { color: var(--accent-strong); word-break: break-all; text-underline-offset: 3
   .actions button.primary { flex: 1 1 100%; }
 }
 #sampleButtons { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+
+/* 첫 화면 예시 애니메이션 (hero.js). 장면은 하나: 연봉 막대에서 세금과 월세가 깎여 나간다 */
+.hero { background: var(--panel); border-radius: var(--radius); padding: 28px 28px 20px; margin-bottom: 12px; overflow: hidden; }
+.hero-title { font-size: clamp(1.5rem, 4.2vw, 2.25rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.2; margin: 0 0 24px; }
+.hero-title span { display: inline-block; }
+.hero-title span + span { color: var(--accent); }
+.hero-rows { display: grid; gap: 18px; }
+.hero-row { display: grid; grid-template-columns: 150px 1fr 150px; gap: 16px; align-items: center; transition: opacity .4s; }
+.hero.done .hero-row:not(.win) { opacity: .55; }
+.hero-who { display: flex; flex-direction: column; line-height: 1.35; }
+.hero-who b { font-size: .95rem; }
+.hero-who span { font-size: .82rem; color: var(--sub); font-variant-numeric: tabular-nums; }
+.hero-track { height: 44px; }
+.hero-bar { height: 100%; width: 0; display: flex; border-radius: 10px; overflow: hidden; transition: width .8s cubic-bezier(.2, .7, .2, 1); }
+.hero-bar.grown { width: var(--w); }
+.hero-bar .seg { display: block; height: 100%; width: 0; transition: width .7s cubic-bezier(.65, 0, .35, 1); }
+.hero-bar .seg.remain { flex: 1 1 auto; width: auto; background: var(--accent); }
+.hero-bar .seg.tax { flex: none; background: #c5ccd3; }
+.hero-bar .seg.rent { flex: none; background: #f2b84b; }
+.hero-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hero-num .n { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.04em; }
+.hero-num small { font-size: .9rem; font-weight: 600; color: var(--sub); margin-left: 2px; }
+.hero-row.win .hero-num .n { color: var(--accent); }
+.hero-legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0 0; font-size: .82rem; color: var(--sub); }
+.hero-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.k { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
+.k.remain { background: var(--accent); } .k.tax { background: #c5ccd3; } .k.rent { background: #f2b84b; }
+.hero-caption { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; margin: 18px 0 6px; opacity: 0; transform: translateY(6px); transition: opacity .5s, transform .5s; }
+.hero.done .hero-caption { opacity: 1; transform: none; }
+.hero-foot { display: flex; gap: 12px; align-items: flex-end; justify-content: space-between; }
+.hero-foot .small { margin: 0; color: var(--faint); font-size: .78rem; }
+.hero-replay { flex: none; padding: 6px 12px; font-size: .82rem; background: var(--field); }
+@media (prefers-reduced-motion: reduce) {
+  .hero-bar, .hero-bar .seg, .hero-caption, .hero-row { transition: none; }
+}
+@media (max-width: 720px) {
+  .hero { padding: 22px 18px 16px; border-radius: 16px; }
+  .hero-row { grid-template-columns: 1fr auto; gap: 6px 12px; }
+  .hero-track { grid-column: 1 / -1; grid-row: 2; height: 34px; }
+  .hero-num .n { font-size: 1.5rem; }
+  .hero-foot { flex-direction: column; align-items: flex-start; }
+}

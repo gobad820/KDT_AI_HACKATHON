@@ -1,0 +1,27 @@
+{
+ "jobs": [
+  {
+   "label": "서울",
+   "sggCode": "11680",
+   "region": "서울특별시 강남구",
+   "salary": 38000000,
+   "taxAndInsurance": 4590194,
+   "rentAnnual": 10290000,
+   "rentMonthly": 857500,
+   "remaining": 23119806
+  },
+  {
+   "label": "부산",
+   "sggCode": "26230",
+   "region": "부산광역시 부산진구",
+   "salary": 34000000,
+   "taxAndInsurance": 3711704,
+   "rentAnnual": 5400000,
+   "rentMonthly": 450000,
+   "remaining": 24888296
+  }
+ ],
+ "rentVersion": "2026-11-21-partial",
+ "rentPeriod": "2026-05~2026-10",
+ "assumption": "1년차, 감면 없음, 비과세 식대 월 20만 원, 원룸 월세 중위값"
+}

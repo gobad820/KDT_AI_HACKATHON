@@ -24,6 +24,18 @@
 <main class="wrap">
   <!-- 1 입력 -->
   <section id="step1" class="step">
+    <div class="hero" id="hero" hidden>
+      <p class="hero-title"><span>연봉이 높은 쪽이</span> <span>더 남는다는 보장은 없습니다</span></p>
+      <div class="hero-rows" id="heroRows" aria-hidden="true"></div>
+      <div class="hero-legend" aria-hidden="true">
+        <span><i class="k remain"></i>남는 돈</span><span><i class="k tax"></i>세금과 4대보험</span><span><i class="k rent"></i>월세</span>
+      </div>
+      <p class="hero-caption" id="heroCaption"></p>
+      <div class="hero-foot">
+        <p class="small" id="heroNote"></p>
+        <button type="button" class="ghost hero-replay" id="heroReplay">다시 보기</button>
+      </div>
+    </div>
     <div class="card">
       <h2>공고 두 건</h2>
       <p class="hint">이름과 연락처는 지우고 붙여 넣어 주세요.</p>
@@ -77,5 +89,6 @@
 </footer>
 
 <script src="app.js"></script>
+<script src="hero.js"></script>
 </body>
 </html>
