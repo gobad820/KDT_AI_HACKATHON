@@ -136,3 +136,18 @@ def test_profile_is_not_logged(client, caplog):
         client.post("/api/compare", json=req)
     text = " ".join(r.getMessage() for r in caplog.records)
     assert "militaryServiceMonths" not in text and '"age"' not in text and "예시소프트" not in text
+
+
+
+def test_explain_endpoint_returns_explanation_and_notices(client):
+    res = client.post("/api/explain", json=COMPARE_REQ)
+    assert res.status_code == 200
+    body = res.json()
+    assert body["explanation"]["text"] and body["explanation"]["aiGenerated"] is False      # LLM 미연결이면 템플릿
+    assert len(body["notices"]) >= 4
+
+
+def test_compare_template_option(client):
+    req = dict(COMPARE_REQ, options=dict(COMPARE_REQ.get("options", {}), explanation="template"))
+    res = client.post("/api/compare", json=req)
+    assert res.status_code == 200 and res.json()["explanation"]["aiGenerated"] is False

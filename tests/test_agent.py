@@ -252,11 +252,15 @@ class _Resp:
 
 def _openai_with(monkeypatch, statuses, fallbacks=None):
     from app.agent import llm as L
-    calls = []
+    calls, kws = [], []
+    _openai_with.kws = kws
 
     def fake_post(url, **kw):
         calls.append(kw["json"]["model"])
+        kws.append(kw)
         status = statuses.pop(0)
+        if status == "timeout":
+            raise L.httpx.ReadTimeout("slow")
         return _Resp(status, {"x": "ok"} if status == 200 else None)
 
     monkeypatch.setattr(L.httpx, "post", fake_post)
@@ -284,14 +288,53 @@ def test_openai_does_not_retry_on_404(monkeypatch):
     assert len(calls) == 1
 
 
-def test_openai_falls_back_to_next_model_after_503s(monkeypatch):
-    client, calls = _openai_with(monkeypatch, [503, 503, 200], fallbacks=["m2", "m3"])
+def test_openai_falls_back_to_next_model_right_after_503(monkeypatch):
+    # 대체 모델이 있으면 같은 모델을 다시 기다리지 않고 바로 넘긴다
+    client, calls = _openai_with(monkeypatch, [503, 200], fallbacks=["m2", "m3"])
     assert client.complete_json(system="s", user="u", schema={}) == {"x": "ok"}
-    assert calls == ["m", "m", "m2"]
+    assert calls == ["m", "m2"]
 
 
 def test_openai_all_models_busy_raises(monkeypatch):
-    client, calls = _openai_with(monkeypatch, [503, 503, 503, 429], fallbacks=["m2", "m3"])
+    client, calls = _openai_with(monkeypatch, [503, 503, 429], fallbacks=["m2", "m3"])
     with pytest.raises(LLMUnavailable):
         client.complete_json(system="s", user="u", schema={})
-    assert calls == ["m", "m", "m2", "m3"]
+    assert calls == ["m", "m2", "m3"]
+
+
+def test_openai_timeout_moves_to_fallback(monkeypatch):
+    client, calls = _openai_with(monkeypatch, ["timeout", 200], fallbacks=["m2"])
+    assert client.complete_json(system="s", user="u", schema={}) == {"x": "ok"}
+    assert calls == ["m", "m2"]
+
+
+def test_openai_caps_each_attempt_and_fixes_temperature(monkeypatch):
+    from app.agent import llm as L
+    client, calls = _openai_with(monkeypatch, [503, 200], fallbacks=["m2"])
+    client.complete_json(system="s", user="u", schema={}, timeout_s=20)
+    kws = _openai_with.kws
+    assert kws[0]["timeout"] <= L.ATTEMPT_TIMEOUT_S        # 첫 시도는 상한까지만
+    assert kws[1]["timeout"] > L.ATTEMPT_TIMEOUT_S         # 마지막 시도는 남은 시간 전부
+    assert all(k["json"]["temperature"] == L.TEMPERATURE == 0 for k in kws)
+
+
+
+def test_classify_caches_only_real_llm_success(monkeypatch):
+    from app.agent import classify as Cl
+    from app.agent import llm as L
+    Cl._CACHE.clear()
+    calls = []
+    client = L.OpenAIClient("k", "m-cache", "http://example.invalid", [])
+    def fake(**kw):
+        calls.append(1)
+        return {"industryName": "정보통신업", "reason": "소프트웨어 개발"}
+    monkeypatch.setattr(client, "complete_json", fake)
+    assert Cl.classify_industry("기업용 소프트웨어 개발", client)[0] == "정보통신업"
+    assert Cl.classify_industry("기업용 소프트웨어 개발", client)[0] == "정보통신업"
+    assert len(calls) == 1                                           # 두 번째는 캐시
+    def boom(**kw):
+        raise L.LLMUnavailable("x")
+    monkeypatch.setattr(client, "complete_json", boom)
+    Cl.classify_industry("식품 제조", client)                         # 실패 → 키워드 규칙, 캐시하지 않음
+    assert ("m-cache", "식품 제조") not in Cl._CACHE
+    Cl._CACHE.clear()

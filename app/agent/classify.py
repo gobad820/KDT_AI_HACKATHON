@@ -6,7 +6,7 @@ LLM 이 고르고 코드가 값 목록을 검사한다. LLM 이 없거나 실패
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 from app import config
 from app.relief.industries import EXCLUDED, TARGET_INDUSTRIES, UNKNOWN
@@ -44,20 +44,38 @@ def keyword_classify(text: str) -> Tuple[str, str]:
     return UNKNOWN, "업종을 분류하지 못함" if not hits else "여러 업종에 걸쳐 있어 주된 사업을 알 수 없음"
 
 
+_CACHE: Dict[Tuple[str, str], Tuple[str, str]] = {}      # (모델, 사업 내용) → LLM 분류 결과. 같은 서버 인스턴스 안에서만 유효
+_CACHE_MAX = 512
+
+
 def classify_industry(industry_text: str, llm: Optional[LLMClient]) -> Tuple[str, str]:
     text = (industry_text or "").strip()
     if not text:
         return UNKNOWN, "사업 내용이 없음"
     if llm is None:
         return keyword_classify(text)
+    from app.agent.llm import AnthropicClient, OpenAIClient
+    real = isinstance(llm, (OpenAIClient, AnthropicClient))      # 테스트용 가짜 LLM은 캐시하지 않는다
+    key = (llm.model_name if real else "", text)
+    if real and key in _CACHE:
+        return _CACHE[key]
+    result, from_llm = _classify_llm(text, llm)
+    if real and from_llm:                                        # LLM이 실패해 키워드 규칙으로 대신한 결과는 넣지 않는다
+        if len(_CACHE) >= _CACHE_MAX:
+            _CACHE.clear()
+        _CACHE[key] = result
+    return result
+
+
+def _classify_llm(text: str, llm: LLMClient) -> Tuple[Tuple[str, str], bool]:
     try:
         out = llm.complete_json(system=SYSTEM_PROMPT + "\n\n대상 업종 목록: " + ", ".join(TARGET_INDUSTRIES),
                                 user=f"<industry>{mask_pii(text)[:500]}</industry>", schema=SCHEMA,
                                 timeout_s=config.EXTRACT_TIMEOUT_S)
     except Exception:
-        return keyword_classify(text)
+        return keyword_classify(text), False
     name = (out or {}).get("industryName")
     reason = str((out or {}).get("reason") or "")[:120]
     if name not in ALLOWED:
-        return UNKNOWN, "분류 결과가 업종 목록에 없음"
-    return name, reason or f"사업 내용을 {name}으로 분류"
+        return (UNKNOWN, "분류 결과가 업종 목록에 없음"), True
+    return (name, reason or f"사업 내용을 {name}으로 분류"), True

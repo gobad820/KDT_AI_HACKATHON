@@ -21,7 +21,7 @@ from app import config
 from app.calc import constants as C
 from app.errors import ApiError, invalid_input, llm_unavailable, posting_unreadable, rate_limited
 from app.pipeline import KST, Deps, basic_explanation, new_request_id, run_compare
-from app.schemas import (CompareRequest, DataVersion, ExtractedPosting, ExtractRequest, ExtractResponse,
+from app.schemas import (CompareRequest, DataVersion, ExplainResponse, ExtractedPosting, ExtractRequest, ExtractResponse,
                          HealthResponse, PostingFields, PostingInput, RegionResolution, Sample, SamplesResponse,
                          TraceStep, dump)
 
@@ -217,6 +217,26 @@ def compare(req: CompareRequest, request: Request):
     _log(request_id, "compare", started, degraded=getattr(result, "degraded", None),
          needsInput=getattr(result, "needs_input", False))
     return JSONResponse(dump(result))
+
+
+@app.post("/api/explain")
+def explain_only(req: CompareRequest, request: Request):
+    """compare와 같은 요청으로 검증된 AI 설명문과 고지만 돌려준다. 금액 계산은 결정적이라 다시 해도 같다."""
+    started = time.perf_counter()
+    request_id = new_request_id()
+    check_rate_limit(request)
+    try:
+        llm = get_llm()
+    except Exception:
+        llm = None
+    req = req.model_copy(update={"options": req.options.model_copy(update={"explanation": "ai"})})
+    result = run_compare(req, build_deps(llm), request_id=request_id)
+    if getattr(result, "needs_input", False):
+        resp = ExplainResponse()
+    else:
+        resp = ExplainResponse(explanation=result.explanation, notices=result.notices)
+    _log(request_id, "explain", started, aiGenerated=bool(resp.explanation and resp.explanation.ai_generated))
+    return JSONResponse(dump(resp))
 
 
 # 화면 (app/web). API 경로를 먼저 등록한 뒤에 붙인다.

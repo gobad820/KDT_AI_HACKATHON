@@ -162,6 +162,7 @@ class Profile(ApiModel):
 
 class CompareOptions(ApiModel):
     horizon_years: Literal[1, 3, 5, 10] = 5
+    explanation: Literal["ai", "template"] = "ai"     # template: LLM 설명문 없이 금액부터 (화면은 /api/explain으로 나중에 받음)
 
 
 class CompareRequest(ApiModel):
@@ -255,6 +256,11 @@ class Explanation(ApiModel):
     text: str
     ai_generated: bool
     numbers_verified: bool
+
+
+class ExplainResponse(ApiModel):
+    explanation: Optional[Explanation] = None
+    notices: List[str] = []
 
 
 class Source(ApiModel):

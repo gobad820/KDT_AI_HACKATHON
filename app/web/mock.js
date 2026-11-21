@@ -704,6 +704,10 @@ window.MOCK_DATA = {
         if (qs.get('degraded') === '1') r.degraded = true;
         return delay({ status: 200, data: r });
       }
+      if (method === 'POST' && path === '/api/explain') {   // 문서 예시 응답의 설명문과 고지를 그대로 돌려준다
+        var ce = clone(D.compareResponse);
+        return delay({ status: 200, data: { explanation: ce.explanation, notices: ce.notices } });
+      }
       return delay({ status: 404, data: { error: { code: 'INVALID_INPUT', message: 'mock에 없는 경로: ' + path, fallback: 'fix_input' } } });
     }
   };

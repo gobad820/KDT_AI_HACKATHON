@@ -690,7 +690,8 @@
       hireYear: pv.hireYear === undefined ? 2027 : Number(pv.hireYear),
       priorRelief: pv.priorRelief === undefined ? 'unknown' : String(pv.priorRelief)
     };
-    return { errs: errs, req: { postings: postings, profile: profile, options: { horizonYears: state.horizon } } };
+    // 금액을 먼저 받는다(설명문은 결과를 띄운 뒤 /api/explain으로 받아 바꿔 끼움)
+    return { errs: errs, req: { postings: postings, profile: profile, options: { horizonYears: state.horizon, explanation: 'template' } } };
   }
 
   function onCalc() {
@@ -723,8 +724,31 @@
       state.names = {};
       req.postings.forEach(function (p) { state.names[p.id] = p.confirmed.companyName; });
       if (fromStep === 2) state.tab = 'current_law';
+      state.explainPending = req.options.explanation === 'template';
       renderResult();
       setStep(3);
+      if (state.explainPending) loadAiExplanation(req);
+    });
+  }
+
+  // AI 설명문: 결과를 먼저 띄운 뒤 같은 요청으로 받아 설명 카드와 고지만 바꿔 끼운다. 늦게 온 이전 요청의 응답은 버린다
+  var explainSeq = 0;
+  function loadAiExplanation(req) {
+    var my = ++explainSeq;
+    var body = JSON.parse(JSON.stringify(req));
+    body.options.explanation = 'ai';
+    api('POST', '/api/explain', body).then(function (r) {
+      if (my !== explainSeq || !state.result) return;
+      state.explainPending = false;
+      var d = r.data;
+      if (d && d.explanation && d.explanation.aiGenerated && d.explanation.numbersVerified !== false) {
+        state.result.explanation = d.explanation;
+        if (Array.isArray(d.notices) && d.notices.length) state.result.notices = d.notices;
+      }
+      var old = document.querySelector('[data-role="explanation"]');
+      if (old) old.parentNode.replaceChild(renderExplanation(), old);
+      var ul = document.querySelector('[data-role="notices"]');
+      if (ul) { clear(ul); (state.result.notices || []).forEach(function (t) { ul.appendChild(h('li', { text: t })); }); }
     });
   }
 
@@ -978,8 +1002,9 @@
   }
 
   function renderExplanation() {
-    var ex = state.result.explanation, card = h('div', { class: 'card' });
+    var ex = state.result.explanation, card = h('div', { class: 'card', 'data-role': 'explanation' });
     card.appendChild(h('h2', { text: '설명' }));
+    if (state.explainPending) card.appendChild(h('p', { class: 'small expl-wait' }, [h('span', { class: 'spin' }), ' AI가 설명을 쓰고 있습니다. 숫자 대조를 통과하면 아래 문장을 바꿉니다.']));
     if (!ex) return card;
     if (ex.aiGenerated) card.appendChild(h('div', null, badge('AI가 생성한 답변', 'accent')));
     if (ex.numbersVerified === false) card.appendChild(h('p', { class: 'small', text: '설명문의 숫자 검증을 통과하지 못해 표시하지 않습니다. 위 표의 값을 기준으로 봐 주세요.' }));

@@ -16,6 +16,10 @@ import httpx
 
 RETRY_STATUS = {429, 500, 502, 503}
 RETRY_WAIT_S = 1.0
+# 한 번 시도에 기다리는 최대 시간. Gemini는 같은 요청도 2초~50초로 흔들려서(11/21 실측) 늦으면 다음 모델로 넘긴다
+ATTEMPT_TIMEOUT_S = float(os.environ.get("LLM_ATTEMPT_TIMEOUT_S", "8"))
+# 같은 공고에 같은 결과가 나오도록 응답 온도를 고정한다
+TEMPERATURE = float(os.environ.get("LLM_TEMPERATURE", "0"))
 
 
 class LLMUnavailable(Exception):
@@ -91,34 +95,42 @@ class OpenAIClient:
         self.fallbacks = [m for m in (fallbacks or []) if m and m != model_name]
 
     def _post(self, model: str, system: str, user: str, schema: dict, timeout: float):
-        body = {"model": model,
+        """응답을 돌려준다. 시간 초과·연결 오류는 None(다음 모델로 넘길 수 있는 실패)."""
+        body = {"model": model, "temperature": TEMPERATURE,
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
                 "response_format": {"type": "json_schema", "json_schema": {"name": "output", "schema": schema}}}
         try:
             return httpx.post(f"{self.base_url}/chat/completions", json=body,
                               headers={"Authorization": f"Bearer {self._key}"}, timeout=timeout)
-        except httpx.HTTPError as exc:
-            raise LLMUnavailable(f"LLM 호출 실패: {type(exc).__name__}") from None
+        except httpx.HTTPError:
+            return None
 
     def complete_json(self, *, system: str, user: str, schema: dict, timeout_s: float = 20.0) -> dict:
-        # 기본 모델 → (일시 오류면 1초 뒤 한 번 더) → 대체 모델 차례로. 전체 시간은 timeout_s 안에서만 쓴다.
+        # 대체 모델이 있으면: 기본 → 대체 모델 차례로. 일시 오류·시간 초과면 기다리지 않고 바로 다음 모델로 넘긴다.
+        # 대체 모델이 없으면: 일시 오류일 때 1초 뒤 같은 모델로 한 번 더.
+        # 한 번 시도는 ATTEMPT_TIMEOUT_S까지만 기다리고(마지막 시도는 남은 시간 전부), 전체는 timeout_s 안에서만 쓴다.
         started = time.monotonic()
-        plan = [self.model_name, self.model_name] + self.fallbacks
-        r = None
+        plan = [self.model_name] + (self.fallbacks or [self.model_name])
+        r, last_err = None, "LLM 호출 시간 부족"
         for i, model in enumerate(plan):
             remaining = timeout_s - (time.monotonic() - started)
             if remaining <= 1.0:
                 break
-            if i == 1:   # 같은 모델 재시도는 시간이 넉넉할 때만
+            if i > 0 and model == self.model_name:   # 같은 모델 재시도는 시간이 넉넉할 때만
                 if remaining - RETRY_WAIT_S < timeout_s / 2:
-                    continue
+                    break
                 time.sleep(RETRY_WAIT_S)
                 remaining -= RETRY_WAIT_S
-            r = self._post(model, system, user, schema, remaining)
+            last = i == len(plan) - 1
+            r = self._post(model, system, user, schema, remaining if last else min(remaining, ATTEMPT_TIMEOUT_S))
+            if r is None:
+                last_err = "LLM 호출 시간 초과 또는 연결 실패"
+                continue
             if r.status_code not in RETRY_STATUS:
                 break
+            last_err = f"LLM 응답 코드 {r.status_code}"
         if r is None:
-            raise LLMUnavailable("LLM 호출 시간 부족")
+            raise LLMUnavailable(last_err)
         if r.status_code != 200:
             raise LLMUnavailable(f"LLM 응답 코드 {r.status_code}")
         try:

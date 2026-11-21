@@ -189,6 +189,8 @@ td.val .unit { font-size: .8rem; color: var(--faint); }
 .assumed-list { list-style: none; margin: 12px 0 0; padding: 0; font-size: .9rem; }
 .assumed-list li { padding: 8px 0; border-top: 1px solid rgba(0,0,0,.06); }
 .assumed-list .badge { margin-right: 2px; }
+.expl-wait { display: flex; align-items: center; gap: 8px; color: var(--sub); }
+.expl-wait .spin { width: 12px; height: 12px; }
 .assumed-as { color: var(--sub); font-size: .84rem; margin-top: 2px; }
 .job.receipt { padding: 0; background: none; border: 0; box-shadow: none; border-radius: 0; display: flex; justify-content: center; align-items: flex-start;
   filter: drop-shadow(0 16px 18px rgba(20,22,30,.14)) drop-shadow(0 1px 1px rgba(20,22,30,.10)); }

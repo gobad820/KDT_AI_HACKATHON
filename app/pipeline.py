@@ -5,6 +5,8 @@
 """
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
+
 import secrets
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -146,16 +148,20 @@ def run_compare(req: CompareRequest, deps: Deps,
         add("question", "ask_user", "월세 통계를 낼 수 없는 공고가 있어 예상 월세를 묻기로 함")
         return NeedsInputResponse(questions=questions, trace=trace)
 
-    # 2) 감면 대상 가능성
+    # 2) 감면 대상 가능성. 업종 분류(LLM)는 두 공고를 동시에 부른다
+    def _classify(text: str):
+        if not text.strip():
+            return UNKNOWN, "업종을 분류하지 못함"
+        try:
+            return deps.classify_industry(text)
+        except Exception:                                       # 분류 실패는 unknown 으로 둔다
+            return UNKNOWN, "업종을 분류하지 못함"
+    with ThreadPoolExecutor(max_workers=len(postings)) as pool:
+        industries = dict(zip([p.id for p in postings], pool.map(_classify, [p.confirmed.industry_text for p in postings])))
     eligibility = {}
     for p in postings:
         c = p.confirmed
-        industry_name, industry_evidence = (UNKNOWN, "업종을 분류하지 못함")
-        if c.industry_text.strip():
-            try:
-                industry_name, industry_evidence = deps.classify_industry(c.industry_text)
-            except Exception:                                   # 분류 실패는 unknown 으로 둔다
-                industry_name, industry_evidence = UNKNOWN, "업종을 분류하지 못함"
+        industry_name, industry_evidence = industries[p.id]
         el = check_relief_rules(c.company_size, industry_name, c.employment_type, req.profile,
                                 evidence={"industry": industry_evidence}, company_name=c.company_name)
         if deps.hr_question is not None:
@@ -189,11 +195,14 @@ def run_compare(req: CompareRequest, deps: Deps,
                        company_names={p.id: p.confirmed.company_name for p in postings},
                        annual_salaries={p.id: p.confirmed.annual_salary for p in postings})
 
-    # 4) 설명
-    try:
-        explanation = deps.explain(core)
-    except Exception:
+    # 4) 설명. template이면 LLM을 부르지 않는다(화면이 금액을 먼저 띄우고 /api/explain으로 나중에 받음)
+    if req.options.explanation == "template":
         explanation = basic_explanation(core)
+    else:
+        try:
+            explanation = deps.explain(core)
+        except Exception:
+            explanation = basic_explanation(core)
     add("explain", "explanation",
         "도구 결과에 있는 숫자만 써서 설명문을 쓰고 숫자 대조를 통과" if explanation.ai_generated
         else "정해진 틀의 문장에 계산 결과를 채움")

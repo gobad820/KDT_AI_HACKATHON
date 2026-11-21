@@ -22,7 +22,8 @@
 |---|---|---|---|---|---|
 | GET | `/api/samples` | 샘플 공고 쌍(가상 회사) | 1 입력 | 없음 | |
 | POST | `/api/extract` | 공고 두 건에서 조건 추출, 되물을 질문 생성 | 1 입력 → 2 확인 | 있음 | 20초 |
-| POST | `/api/compare` | 확인된 조건으로 계산·비교·설명 | 2 확인 → 3 결과 | 있음 | 40초 |
+| POST | `/api/compare` | 확인된 조건으로 계산·비교·설명 | 2 확인 → 3 결과 | 있음(업종 분류, `explanation: "ai"`면 설명문) | 40초 |
+| POST | `/api/explain` | 같은 요청으로 AI 설명문과 고지만 받기(화면이 결과를 먼저 띄운 뒤 부름) | 3 결과 | 있음 | 40초 |
 | POST | `/api/followup` | 후속 질문 재계산 (선택, 가장 먼저 뺌) | 3 결과 | 있음 | 40초 |
 | GET | `/api/health` | 상태 확인 | | 없음 | |
 
@@ -139,6 +140,8 @@
 }
 ```
 
+`options.explanation`(선택, 11/21 추가): `"ai"`(기본)면 LLM 설명문을 숫자 검증 후 넣고, `"template"`이면 LLM 없이 정해진 틀의 문장을 넣는다. 화면은 `"template"`으로 금액을 먼저 받아 띄우고, 같은 요청을 `POST /api/explain`에 보내 검증된 AI 설명문으로 바꿔 끼운다. 금액은 두 경우 모두 같다.
+
 응답. `horizonYears` 10, `hireYear` 2027인 경우다.
 
 ```json
@@ -246,6 +249,7 @@
 
 - `GET /api/samples`: 응답은 `{ "samples": [{ "id", "title", "postings": [{ "id", "text" }] }] }`. 공고는 가상 회사로 직접 쓰고 `data/samples/`에 둔다. 샘플도 `extract`와 `compare`를 그대로 거친다.
 - `POST /api/followup`(선택): 요청은 `{ "previous": 직전 compare 요청 본문, "message": "기숙사에 들어가면?" }`, 응답은 `compare` 응답과 같은 형식이다. 에이전트가 바뀐 조건만 반영해 `simulate`를 다시 부르고, 무엇을 바꿨는지 `trace`에 `decision`으로 남긴다. 일정이 밀리면 가장 먼저 뺀다.
+- `POST /api/explain`(11/21 추가): 요청은 `compare`와 같다(`options.explanation`은 무시하고 `"ai"`로 처리). 응답은 `{ "explanation": Explanation, "notices": [string] }`. 숫자 검증을 두 번 통과하지 못하면 `explanation.aiGenerated`가 false인 템플릿 문장이다. 조건이 모자라면 `{ "explanation": null, "notices": [] }`.
 - `GET /api/health`: `{ "status": "ok", "dataVersion": { "rent": "2026-11-22", "rules": "2026-v1" } }`. LLM을 부르지 않는다. 심사 기간의 접속 점검에 쓴다.
 
 ## 7. 오류와 대체 응답

@@ -18,7 +18,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Happy path: 샘플 공고 불러오기 → 추출 결과 확인, 질문에 답 → 결과(시나리오별 남는 돈, 연차별 표, 손익분기 연봉, 근거와 가정)
 - 화면 3장: 입력, 확인, 결과
 - 기술 스택: Python 3.11+, FastAPI, pydantic v2, pytest. 화면은 정적 HTML/JS(빌드 없음). 한 서버가 API와 화면을 같이 올린다
-- LLM: Gemini `gemini-3.1-flash-lite`(11/21 확정). `OpenAIClient`로 Gemini의 OpenAI 호환 주소(`LLM_BASE_URL`)를 부른다. `.env`의 `LLM_PROVIDER=openai`. 모델명은 소개서 04와 AI 활용내역에 적는다
+- LLM: Gemini `gemini-flash-lite-latest`(11/21 밤 변경), 대체 모델 `gemini-3.5-flash-lite` → `gemini-3.1-flash-lite`(`LLM_MODEL_FALLBACKS`). `OpenAIClient`로 Gemini의 OpenAI 호환 주소(`LLM_BASE_URL`)를 부른다. `.env`의 `LLM_PROVIDER=openai`. 모델명은 소개서 04와 AI 활용내역에 적는다
+  - 바꾼 이유(11/21 실측): 3.1-flash-lite는 같은 요청이 1.7~51초로 흔들리고 503이 잦았다. flash-lite-latest는 추출 중앙값 3.2초·최대 4.6초, 샘플 2쌍 반복 추출에서 정답 필드 84/84 일치. `-latest`는 별칭이라 Google이 가리키는 버전을 바꾸면 동작이 달라질 수 있다
+  - 어댑터: 응답 온도 0, 한 번 시도는 8초까지(`LLM_ATTEMPT_TIMEOUT_S`), 429·5xx·시간 초과면 기다리지 않고 다음 모델로
   - 11/21 시험: `gemini-2.5-flash`는 신규 사용자 404, `gemini-3.8-flash`·`3.5-flash-lite`는 503(사용량 과다)이 잦았다. 일시 오류(429·5xx)는 어댑터가 한 번 다시 시도한다
 - 배포: Vercel 프로젝트 `nammeun-don`, https://nammeun-don.vercel.app (11/21). 환경변수(`LLM_*`, `APP_ENV`)는 Vercel 프로젝트 설정에만 둔다. 번들에서 빼는 목록은 `.vercelignore`(`media/`, `data/raw/`, `tests/` 등)
 
@@ -42,6 +44,7 @@ python3 -m pytest -k netpay                   # 이름으로 고르기
 ## 아키텍처 (여러 파일을 읽어야 보이는 것)
 
 - 요청 흐름은 두 단계다. `POST /api/extract`(공고 → 추출값·근거·질문)에서 사용자가 확인하고 답한 뒤 `POST /api/compare`(확인된 조건 → 금액)로 간다. 둘 다 `app/main.py`에 있다.
+- 화면은 `/api/compare`를 `options.explanation: "template"`으로 불러 금액을 먼저 띄우고, 같은 요청을 `POST /api/explain`에 보내 숫자 검증을 통과한 AI 설명문과 고지로 바꿔 끼운다. 업종 분류는 두 공고를 동시에 부르고 같은 사업 내용이면 결과를 재사용한다(`classify._CACHE`, 인스턴스 안에서만).
 - `/api/compare`는 `app/pipeline.py`의 `run_compare`가 처리한다. 월세 조회 → 감면 판정 → `simulate` → 설명 순서로 도구를 고정 순서로 부르는 결정적 파이프라인이다. LLM이 없어도 금액은 똑같이 나온다. 조건이 모자라면 `NeedsInputResponse`를 돌려준다.
 - 도구는 `pipeline.Deps` 데이터클래스로 주입한다. `main.build_deps(llm)`이 실제 함수를 묶고, 테스트는 가짜를 넣는다. `main.get_llm`도 테스트에서 바꿔 끼우려고 함수로 둔다.
 - LLM 장애 대체 경로는 세 곳에 있다.

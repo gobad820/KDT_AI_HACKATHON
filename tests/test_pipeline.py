@@ -164,3 +164,30 @@ def test_profile_never_reaches_explainer_or_classifier():
     blob = " ".join(seen)
     # 판정 결과("rule": "age")는 넘어가도 되지만 입력값 자체는 넘어가면 안 된다
     assert '"age":' not in blob and "militaryServiceMonths" not in blob and "priorRelief" not in blob
+
+
+
+def test_template_explanation_skips_llm_but_keeps_amounts():
+    """options.explanation=template 이면 설명문 LLM을 부르지 않고, 금액은 ai 와 같다."""
+    called = []
+    def explain(core):
+        called.append(1)
+        return basic_explanation(core)
+    ai = run_compare(request(), deps(explain=explain))
+    tpl = run_compare(request(**{"options.explanation": "template"}), deps(explain=explain))
+    assert len(called) == 1
+    assert tpl.explanation.ai_generated is False
+    assert [j.pay for j in tpl.jobs] == [j.pay for j in ai.jobs] and tpl.comparison == ai.comparison
+
+
+def test_industry_classification_runs_for_both_postings_in_parallel():
+    import threading, time as _t
+    seen, lock = [], threading.Lock()
+    def classify(text):
+        with lock:
+            seen.append(threading.get_ident())
+        _t.sleep(0.2)
+        return INDUSTRY.get(text, ("unknown", "업종을 분류하지 못함"))
+    started = _t.perf_counter()
+    run_compare(request(), deps(classify_industry=classify))
+    assert len(seen) == 2 and _t.perf_counter() - started < 0.35     # 0.2초 두 번을 순차로 부르면 0.4초 이상

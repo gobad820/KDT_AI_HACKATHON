@@ -58,7 +58,7 @@ python3 -m pytest               # 전체 테스트
 
 ## LLM
 
-Gemini `gemini-3.1-flash-lite`를 OpenAI 호환 주소로 부른다(`app/agent/llm.py`의 `OpenAIClient`). 429·5xx면 한 번 다시 시도하고, 그래도 안 되면 `LLM_MODEL_FALLBACKS`의 모델로 넘어간다. 키는 로컬에서는 `.env`, 배포에서는 Vercel 환경변수로만 읽는다.
+Gemini `gemini-flash-lite-latest`를 OpenAI 호환 주소로 부른다(`app/agent/llm.py`의 `OpenAIClient`). 응답 온도는 0이고, 한 번 시도는 8초까지 기다린다. 429·5xx·시간 초과면 `LLM_MODEL_FALLBACKS`의 모델(`gemini-3.5-flash-lite`, `gemini-3.1-flash-lite`)로 바로 넘어간다. 결과 화면은 금액을 먼저 보여 주고 AI 설명문은 `POST /api/explain`으로 나중에 받는다. 키는 로컬에서는 `.env`, 배포에서는 Vercel 환경변수로만 읽는다.
 
 ## 지킬 것 (대회 규정)
 
