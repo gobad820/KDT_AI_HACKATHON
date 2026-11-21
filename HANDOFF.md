@@ -4,6 +4,57 @@
 - 독자: 이 저장소에서 일하는 Claude Code, 그리고 팀원(김상해, 정상훈, 이동한)
 - 이 문서를 먼저 읽는다. 그다음 `CLAUDE.md`의 규칙을 따른다. 작업 순서는 5장이다.
 
+## 0. 팀원별 작업 (11/22, 각자 Claude Code로)
+
+11/21 밤 기준 현황은 `docs/status-2026-11-21.md`에 있다(배포 URL, 구조, 실측 수치, 위험). 기능 동결은 **11/22(일) 22:00**이고, 그 뒤로는 버그 수정과 문서만 한다. 브랜치와 PR 규칙은 `CLAUDE.md`의 "브랜치와 PR"을 따른다.
+
+### 처음 한 번 (모두)
+
+```bash
+git clone https://github.com/gobad820/KDT_AI_HACKATHON.git && cd KDT_AI_HACKATHON
+/opt/homebrew/bin/python3.11 -m venv .venv && source .venv/bin/activate   # macOS. 다른 OS는 python3.11 이상
+pip install -r requirements-dev.txt
+cp .env.example .env      # LLM_API_KEY에 자기 Gemini 키, LLM_MODEL=gemini-flash-lite-latest
+python3 -m pytest         # 146 passed 이면 준비 끝
+```
+
+브랜치를 올리려면 저장소 협업자여야 한다. GitHub 아이디를 김상해에게 알려 준다.
+
+### 이동한: 에이전트 테스트와 프롬프트
+
+- 브랜치: `feat/donghan-agent-tests`
+- 할 일
+  1. `app/agent/prompts/extract_v2.md` 문장 검토. 고치면 `extract_v3.md`로 올리고 `extract.py`의 `PROMPT_VERSION`을 바꾼다.
+  2. T12: `docs/agent-spec.md` 12장 30건을 `tests/cases/`에 만들고 실제 Gemini로 돌린다. 결과표(통과 수, 실패와 조치)를 `tests/cases/RESULTS.md`에 남긴다. 소개서 ④의 근거가 된다.
+  3. T13: 11/21 측정에서 현재 모델 출력과 샘플 저장본(`savedExtract`)이 48/48 같았다. 다시 한 번 확인만 한다.
+  4. 11/21에 Claude가 고친 `app/agent` 부분 확인: 근거 검증의 한글 단위 연봉(`evidence.py`), 지시문 근거 거부, 회사 규모 질문 문구(`questions.py`), 회사명 "(가상)" 되살리기(`extract.py`).
+- 끝났다고 보는 기준: 30건 결과표가 있고, 실패 건마다 조치나 한계가 적혀 있다. `pytest` 전부 통과.
+- 주의: 실제 LLM으로 돌릴 때 요청을 한꺼번에 몰아 보내지 않는다(분당 한도 429). 한 건씩 차례로.
+- Claude Code에 붙여 넣을 시작 문장
+
+```text
+HANDOFF.md의 "0. 팀원별 작업"에서 이동한 부분과 CLAUDE.md의 "브랜치와 PR"을 읽고 진행해. feat/donghan-agent-tests 브랜치에서 작업하고, 끝나면 pytest 전부 통과를 확인한 뒤 PR을 올려. main에 직접 커밋하지 마.
+```
+
+### 정상훈: 공식 계산기 대조
+
+- 브랜치: `feat/sanghoon-calc-check`
+- 할 일
+  1. T14: `docs/calc-rules.md` 8장 표의 각 연봉을 공식 계산기(국세청 홈택스 모의계산 등)로 계산해 "공식 계산기 값"과 "차이"를 채운다. 어느 계산기를 썼는지와 날짜를 적는다.
+  2. 차이가 있으면 원인(상수, 반올림, 공제 항목)을 찾는다. 계산 코드(`app/calc/`)를 고치면 `scripts/calc_ref.py`와 결과가 같은지 보고, 상수를 바꾸면 `docs/calc-rules.md` 상수표도 같이 고친다.
+  3. 대조한 값을 테스트 기대값으로 추가한다(소개서의 검증 근거).
+- 끝났다고 보는 기준: 8장 표가 다 채워져 있고, 차이는 0이거나 이유가 적혀 있다. `pytest` 전부 통과.
+- Claude Code에 붙여 넣을 시작 문장
+
+```text
+HANDOFF.md의 "0. 팀원별 작업"에서 정상훈 부분과 CLAUDE.md의 "브랜치와 PR"을 읽고 진행해. feat/sanghoon-calc-check 브랜치에서 작업해. 공식 계산기 값은 내가 직접 계산해서 알려 줄 테니, 표를 채우고 우리 계산과 차이를 분석해 줘. 금액 계산에 float를 쓰지 마. 끝나면 pytest 전부 통과를 확인한 뒤 PR을 올려.
+```
+
+### 김상해: 문서, 확인, 제출
+
+- 브랜치: `feat/sanghae-docs`(문서), 그 밖의 PR 리뷰와 병합
+- 할 일: 소개서 04의 모델명(`gemini-flash-lite-latest`, 대체 모델 2개)과 Happy path 설명("바로 결과, 필요하면 확인") 갱신. AI 활용내역의 팀 칸. 시크릿 창으로 샘플 2쌍 최종 확인. 22:00 동결 뒤 1차 제출. 11/23 태그 `submission-2026-11-23`.
+
 ## 1. 일하는 방식
 
 | 하는 곳 | 맡는 일 |
@@ -50,7 +101,9 @@
 4. 금액은 코드가 계산한다. LLM이 만든 숫자를 응답에 넣지 않는다.
 5. 개발에 쓴 AI 도구(Claude, Claude Code)와 범위를 `docs/ai-usage-log.md`에 남긴다.
 
-## 4. 현재 상태 (11/21 16:30)
+## 4. 현재 상태 (11/21 16:30, 지난 기록)
+
+> 최신 현황은 `docs/status-2026-11-21.md`를 본다. 아래는 11/21 오후 기록이다.
 
 **되는 것** (`python3 -m pytest` 131개 통과)
 
@@ -107,8 +160,8 @@
 
 ### 일요일
 
-- [ ] **T12. 테스트 30건.** `docs/agent-spec.md` 12장 목록으로 `tests/cases/`를 만들고 실제 Claude로 돌려 결과표를 남긴다(이동한).
-- [ ] **T13. 샘플 저장본.** 실제 Claude 응답으로 `data/samples/*.json`의 `savedExtract`를 바꾼다. LLM 장애 때 쓰는 대체 응답이다.
+- [ ] **T12. 테스트 30건.** `docs/agent-spec.md` 12장 목록으로 `tests/cases/`를 만들고 실제 LLM(Gemini)으로 돌려 결과표를 남긴다(이동한). 위 "0. 팀원별 작업" 참고.
+- [ ] **T13. 샘플 저장본.** (11/21 측정에서 현재 모델 출력과 48/48 일치, 확인만 남음) 실제 LLM 응답으로 `data/samples/*.json`의 `savedExtract`를 바꾼다. LLM 장애 때 쓰는 대체 응답이다.
 - [ ] **T14. 공식 계산기 대조.** `docs/calc-rules.md` 8장 표를 채운다(정상훈).
 - [x] **T15. 월세 스냅샷 동결.** (11/21 버전 `2026-11-21`, `-partial` 아님) 최종 수집본으로 `--partial` 없이 통계를 다시 만들고 버전을 고정한다.
 
