@@ -85,27 +85,40 @@ class AnthropicClient:
 class OpenAIClient:
     """OpenAI 호환 Chat Completions API. JSON 스키마 응답 형식을 쓴다."""
 
-    def __init__(self, api_key: str, model_name: str, base_url: str = "https://api.openai.com/v1"):
+    def __init__(self, api_key: str, model_name: str, base_url: str = "https://api.openai.com/v1",
+                 fallbacks: Optional[List[str]] = None):
         self._key, self.model_name, self.base_url = api_key, model_name, base_url.rstrip("/")
+        self.fallbacks = [m for m in (fallbacks or []) if m and m != model_name]
 
-    def complete_json(self, *, system: str, user: str, schema: dict, timeout_s: float = 20.0) -> dict:
-        body = {"model": self.model_name,
+    def _post(self, model: str, system: str, user: str, schema: dict, timeout: float):
+        body = {"model": model,
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
                 "response_format": {"type": "json_schema", "json_schema": {"name": "output", "schema": schema}}}
+        try:
+            return httpx.post(f"{self.base_url}/chat/completions", json=body,
+                              headers={"Authorization": f"Bearer {self._key}"}, timeout=timeout)
+        except httpx.HTTPError as exc:
+            raise LLMUnavailable(f"LLM 호출 실패: {type(exc).__name__}") from None
+
+    def complete_json(self, *, system: str, user: str, schema: dict, timeout_s: float = 20.0) -> dict:
+        # 기본 모델 → (일시 오류면 1초 뒤 한 번 더) → 대체 모델 차례로. 전체 시간은 timeout_s 안에서만 쓴다.
         started = time.monotonic()
-        for attempt in range(2):
+        plan = [self.model_name, self.model_name] + self.fallbacks
+        r = None
+        for i, model in enumerate(plan):
             remaining = timeout_s - (time.monotonic() - started)
-            try:
-                r = httpx.post(f"{self.base_url}/chat/completions", json=body,
-                               headers={"Authorization": f"Bearer {self._key}"}, timeout=remaining)
-            except httpx.HTTPError as exc:
-                raise LLMUnavailable(f"LLM 호출 실패: {type(exc).__name__}") from None
-            # 사용량 과다(503)·한도(429) 같은 일시 오류가 빨리 오면 남은 시간 안에서 한 번만 다시 시도한다
-            elapsed = time.monotonic() - started
-            if attempt == 0 and r.status_code in RETRY_STATUS and elapsed + RETRY_WAIT_S < timeout_s / 2:
+            if remaining <= 1.0:
+                break
+            if i == 1:   # 같은 모델 재시도는 시간이 넉넉할 때만
+                if remaining - RETRY_WAIT_S < timeout_s / 2:
+                    continue
                 time.sleep(RETRY_WAIT_S)
-                continue
-            break
+                remaining -= RETRY_WAIT_S
+            r = self._post(model, system, user, schema, remaining)
+            if r.status_code not in RETRY_STATUS:
+                break
+        if r is None:
+            raise LLMUnavailable("LLM 호출 시간 부족")
         if r.status_code != 200:
             raise LLMUnavailable(f"LLM 응답 코드 {r.status_code}")
         try:
@@ -124,5 +137,6 @@ def get_llm() -> Optional[LLMClient]:
     if provider == "anthropic":
         return AnthropicClient(key, model)
     if provider == "openai":
-        return OpenAIClient(key, model, os.environ.get("LLM_BASE_URL", "https://api.openai.com/v1"))
+        fallbacks = [m.strip() for m in os.environ.get("LLM_MODEL_FALLBACKS", "").split(",") if m.strip()]
+        return OpenAIClient(key, model, os.environ.get("LLM_BASE_URL", "https://api.openai.com/v1"), fallbacks)
     raise LLMUnavailable(f"지원하지 않는 LLM_PROVIDER: {provider} (anthropic, openai)")

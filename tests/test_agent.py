@@ -238,18 +238,18 @@ class _Resp:
         return {"choices": [{"message": {"content": json.dumps(self._content)}}]}
 
 
-def _openai_with(monkeypatch, statuses):
+def _openai_with(monkeypatch, statuses, fallbacks=None):
     from app.agent import llm as L
     calls = []
 
     def fake_post(url, **kw):
-        calls.append(kw["timeout"])
+        calls.append(kw["json"]["model"])
         status = statuses.pop(0)
         return _Resp(status, {"x": "ok"} if status == 200 else None)
 
     monkeypatch.setattr(L.httpx, "post", fake_post)
     monkeypatch.setattr(L.time, "sleep", lambda s: None)
-    return L.OpenAIClient("k", "m", "http://example.invalid"), calls
+    return L.OpenAIClient("k", "m", "http://example.invalid", fallbacks), calls
 
 
 def test_openai_retries_once_on_503(monkeypatch):
@@ -270,3 +270,16 @@ def test_openai_does_not_retry_on_404(monkeypatch):
     with pytest.raises(LLMUnavailable):
         client.complete_json(system="s", user="u", schema={})
     assert len(calls) == 1
+
+
+def test_openai_falls_back_to_next_model_after_503s(monkeypatch):
+    client, calls = _openai_with(monkeypatch, [503, 503, 200], fallbacks=["m2", "m3"])
+    assert client.complete_json(system="s", user="u", schema={}) == {"x": "ok"}
+    assert calls == ["m", "m", "m2"]
+
+
+def test_openai_all_models_busy_raises(monkeypatch):
+    client, calls = _openai_with(monkeypatch, [503, 503, 503, 429], fallbacks=["m2", "m3"])
+    with pytest.raises(LLMUnavailable):
+        client.complete_json(system="s", user="u", schema={})
+    assert calls == ["m", "m", "m2", "m3"]
