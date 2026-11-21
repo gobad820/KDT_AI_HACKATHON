@@ -20,7 +20,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 기술 스택: Python 3.11+, FastAPI, pydantic v2, pytest. 화면은 정적 HTML/JS(빌드 없음). 한 서버가 API와 화면을 같이 올린다
 - LLM: Gemini `gemini-3.1-flash-lite`(11/21 확정). `OpenAIClient`로 Gemini의 OpenAI 호환 주소(`LLM_BASE_URL`)를 부른다. `.env`의 `LLM_PROVIDER=openai`. 모델명은 소개서 04와 AI 활용내역에 적는다
   - 11/21 시험: `gemini-2.5-flash`는 신규 사용자 404, `gemini-3.8-flash`·`3.5-flash-lite`는 503(사용량 과다)이 잦았다. 일시 오류(429·5xx)는 어댑터가 한 번 다시 시도한다
-- 미정: <!-- TODO 배포 위치 -->
+- 배포: Vercel 프로젝트 `nammeun-don`, https://nammeun-don.vercel.app (11/21). 환경변수(`LLM_*`, `APP_ENV`)는 Vercel 프로젝트 설정에만 둔다. 번들에서 빼는 목록은 `.vercelignore`(`media/`, `data/raw/`, `tests/` 등)
 
 ## 명령
 
@@ -35,7 +35,8 @@ python3 -m pytest -k netpay                   # 이름으로 고르기
 
 - 화면만 볼 때는 `http://localhost:8000/?mock=1`. `app/web/mock.js`가 서버 응답을 대신한다.
 - 수집·통계 스크립트(`scripts/collect_rent.py`, `build_rent_stats.py`, `build_regions.py`)의 사용법은 각 스크립트의 `--help`와 `HANDOFF.md` 5장(T4~T9)에 있다.
-- 월세 통계(`data/rent_stats.json`)를 다시 만들면 `python3 scripts/build_hero.py`로 첫 화면 애니메이션 숫자(`app/web/hero.json`)도 다시 만든다. 화면 금액은 계산 코드 출력만 쓴다는 규칙 때문이다.
+- 월세 통계(`data/rent_stats.json`)를 다시 만들면 `python3 scripts/build_hero.py`로 첫 화면 숫자(`app/web/hero.json`)도 다시 만든다. 화면 금액은 계산 코드 출력만 쓴다는 규칙 때문이다.
+- 첫 화면 영상(`app/web/img/hero_print.mp4`)의 영수증 숫자는 `hero.json`을 Blender 렌더에 구운 것이다. `hero.json`이 바뀌면 텍스처(`media/printer/receipt_texture.js` → `save_texture.py`) → `render_hero.py`(약 35분) → `make_video.sh` 순서로 다시 만든다. 자세한 절차는 `render_hero.py` 머리말에 있다.
 - `scripts/calc_ref.py`는 계산 모듈과 따로 짠 대조용 구현이다. `app/calc/`를 고치면 두 결과가 같은지 본다.
 
 ## 아키텍처 (여러 파일을 읽어야 보이는 것)
@@ -49,7 +50,7 @@ python3 -m pytest -k netpay                   # 이름으로 고르기
   3. 설명문: 숫자 검증(`agent/numbers.py`)을 두 번 통과하지 못하면 템플릿 문장을 쓰고 `ai_generated=False`로 둔다.
 - `app/agent/llm.py`의 `get_llm()`: `LLM_PROVIDER`가 비면 `None`을 돌려준다. 값은 있는데 키나 모델이 비면 `LLMUnavailable`을 던진다. 어댑터는 `anthropic`, `openai` 두 개다.
 - `app/config.py`는 import 시점에 저장소 루트의 `.env`를 읽는다. 이미 있는 환경변수가 우선한다. `=`가 없는 줄은 건너뛴다.
-- 월세 데이터는 `data/rent_stats.json`이 있으면 그 파일을, 없으면 `rent_stats.sample.json`(임의값, `isSample=True`)을 읽는다. `APP_ENV=prod`이면 샘플이나 `-partial` 스냅샷일 때 lifespan에서 서버가 시작을 거부한다. `Dockerfile`은 `APP_ENV=prod`로 고정되어 있다.
+- 월세 데이터는 `data/rent_stats.json`이 있으면 그 파일을, 없으면 `rent_stats.sample.json`(임의값, `isSample=True`)을 읽는다. `APP_ENV=prod`이면 샘플이나 `-partial` 스냅샷일 때 lifespan에서 서버가 시작을 거부한다. `Dockerfile`은 `APP_ENV=prod`로 고정되어 있다(지금 배포는 Vercel이라 Dockerfile을 쓰지 않는다).
 - API 타입은 `app/schemas.py`에 snake_case로 정의하고, JSON 출력은 `schemas.dump(model)`로 camelCase로 내보낸다. 응답을 만들 때 직접 `model_dump`를 부르지 않는다.
 - 프롬프트는 `app/agent/prompts/*_v1.md`에 버전을 붙여 둔다.
 

@@ -100,9 +100,9 @@
 - [x] **T5. 응답 형식 확인.** `data/rent.sqlite`에서 유형별 거래 3건을 꺼내 `docs/data-spec.md` 2장의 필드 이름, 금액 단위(만 원), `contractType` 값과 비교한다. 다르면 스크립트를 고치기 전에 보고한다.
 - [x] **T6. 수집.** `python3 scripts/collect_rent.py --codes-from data/regions.csv --months 2025-11:2026-10 --dry-run`으로 호출 수를 본 뒤 `--dry-run` 없이 `--sleep 0.2`를 붙여 실행한다. 실패분은 `--only-failed`로 한 번 더.
 - [x] **T7. 통계.** `python3 scripts/build_rent_stats.py --as-of 2026-11 --data-as-of 2026-11-21 --partial`. 규칙별 제외 건수, 시군구별 표본 수와 중위값을 표로 보고한다. `data/rent_stats.json`만 커밋한다. `data/rent.sqlite`와 `.env`는 커밋하지 않는다.
-- [x] **T8. Claude 연결.** 사용자가 `LLM_API_KEY`를 넣은 뒤 진행한다. 서버를 띄우고 가상 회사 공고(샘플이 아닌 본문)로 `/api/extract`를 한 번 호출한다. `degraded`가 false인지, 근거 문장이 원문에 있는지 본다. 실패하면 `app/agent/llm.py`의 `AnthropicClient`를 고친다. 확정한 모델명을 `CLAUDE.md`와 `docs/ai-usage-log.md`에 적는다.
+- [x] **T8. Claude 연결.** (실제로는 Gemini `gemini-3.1-flash-lite`를 OpenAI 호환 주소로 연결했다. `CLAUDE.md` LLM 항목 참고) 사용자가 `LLM_API_KEY`를 넣은 뒤 진행한다. 서버를 띄우고 가상 회사 공고(샘플이 아닌 본문)로 `/api/extract`를 한 번 호출한다. `degraded`가 false인지, 근거 문장이 원문에 있는지 본다. 실패하면 `app/agent/llm.py`의 `AnthropicClient`를 고친다. 확정한 모델명을 `CLAUDE.md`와 `docs/ai-usage-log.md`에 적는다.
 - [x] **T9. 지역 표 전국 확장.** 사용자가 행정표준코드관리시스템(code.go.kr)의 법정동 코드 파일과 인구감소지역 목록을 받아 오면 `scripts/build_regions.py`를 실행한다. 결과를 확인한 뒤 T6, T7을 다시 한다. 파일이 없으면 이 작업을 건너뛰고 보고한다.
-- [ ] **T10. 배포.** 배포 위치는 사용자가 정한다(정하지 않았으면 묻는다). 로그인 없이 접속되고 12/7까지 켜 둘 수 있어야 한다. `APP_ENV=prod`에서는 샘플·`-partial` 월세로 서버가 시작되지 않는다. 시연 전에 최종 스냅샷을 만들거나 동결 전까지는 `APP_ENV=dev`로 둔다.
+- [x] **T10. 배포.** (11/21 Vercel, https://nammeun-don.vercel.app, `APP_ENV`는 Vercel 환경변수) 배포 위치는 사용자가 정한다(정하지 않았으면 묻는다). 로그인 없이 접속되고 12/7까지 켜 둘 수 있어야 한다. `APP_ENV=prod`에서는 샘플·`-partial` 월세로 서버가 시작되지 않는다. 시연 전에 최종 스냅샷을 만들거나 동결 전까지는 `APP_ENV=dev`로 둔다.
 - [ ] **T11. 배포 URL 확인.** 시크릿 창에서 샘플 2쌍이 입력부터 결과까지 통과하는지 확인한다. 그 시점에 기능을 동결한다.
 
 ### 일요일
@@ -110,7 +110,7 @@
 - [ ] **T12. 테스트 30건.** `docs/agent-spec.md` 12장 목록으로 `tests/cases/`를 만들고 실제 Claude로 돌려 결과표를 남긴다(이동한).
 - [ ] **T13. 샘플 저장본.** 실제 Claude 응답으로 `data/samples/*.json`의 `savedExtract`를 바꾼다. LLM 장애 때 쓰는 대체 응답이다.
 - [ ] **T14. 공식 계산기 대조.** `docs/calc-rules.md` 8장 표를 채운다(정상훈).
-- [ ] **T15. 월세 스냅샷 동결.** 최종 수집본으로 `--partial` 없이 통계를 다시 만들고 버전을 고정한다.
+- [x] **T15. 월세 스냅샷 동결.** (11/21 버전 `2026-11-21`, `-partial` 아님) 최종 수집본으로 `--partial` 없이 통계를 다시 만들고 버전을 고정한다.
 
 ## 6. 보고 형식
 

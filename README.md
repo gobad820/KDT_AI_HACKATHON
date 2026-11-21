@@ -4,7 +4,7 @@
 
 2026 대한민국 청년 CAREER FAIR AI 해커톤(대한상공회의소) 출품 프로젝트. 전체 그림은 `docs/brief.md`.
 
-## 지금 상태 (11/21 토 오후)
+## 지금 상태 (11/21 토 밤)
 
 | 부분 | 상태 |
 |---|---|
@@ -12,8 +12,9 @@
 | 감면 대상 가능성 판정 | 동작. 조문 원문 대조 전 |
 | 결정적 파이프라인, API | 동작. `docs/api-spec.md`의 예시 요청을 넣으면 예시 응답의 금액이 나옴 |
 | 화면 3장 | 동작. 샘플 2쌍으로 입력부터 결과까지 확인(데스크톱, 휴대폰 폭) |
-| 월세 데이터 | **설명용 임의값 스냅샷**(`data/rent_stats.sample.json`). 수집·통계 스크립트는 있고, 인증키로 실제 수집 전 |
-| 지역 표 | 4개 시군구만 든 씨앗 파일. 전체 표는 공식 코드 파일로 `scripts/build_regions.py`가 만든다 |
+| 월세 데이터 | 국토부 전월세 실거래가로 만든 확정 스냅샷(`data/rent_stats.json`, 버전 2026-11-21). 오피스텔·연립다세대·단독다가구, 면적 33㎡ 이하 |
+| 지역 표 | 전국 269행(시군구 256곳 + 일반구 합산 13곳, `data/regions.csv`), 인구감소지역 92곳(`data/depop_2026.csv`) |
+| 배포 | Vercel, https://nammeun-don.vercel.app |
 | LLM | Gemini `gemini-3.1-flash-lite`(OpenAI 호환 주소)로 연결. 11/21 가상 공고로 추출·업종 분류·설명문까지 확인. 장애 때는 샘플 공고만 저장된 추출 결과로 응답하고, 업종은 키워드 규칙, 설명문은 템플릿 |
 | 도구 호출 루프, 후속 질문(`/api/followup`) | 아직 없음 |
 
@@ -55,9 +56,9 @@ python3 -m pytest               # 전체 테스트
 
 `APP_ENV=prod`에서는 샘플 스냅샷이나 `-partial` 스냅샷으로 서버가 시작되지 않는다.
 
-## LLM 연결 (할 일)
+## LLM
 
-`app/agent/llm.py`의 `LLMClient` 인터페이스에 맞춰 어댑터를 하나 만들고 `get_llm()`이 돌려주게 한다. 제공사와 모델명·버전이 정해지면 `CLAUDE.md`, 소개서 04, AI 활용내역에 적는다. 키는 `.env`의 `LLM_API_KEY`로만 읽는다.
+Gemini `gemini-3.1-flash-lite`를 OpenAI 호환 주소로 부른다(`app/agent/llm.py`의 `OpenAIClient`). 429·5xx면 한 번 다시 시도하고, 그래도 안 되면 `LLM_MODEL_FALLBACKS`의 모델로 넘어간다. 키는 로컬에서는 `.env`, 배포에서는 Vercel 환경변수로만 읽는다.
 
 ## 지킬 것 (대회 규정)
 
@@ -78,9 +79,12 @@ python3 -m pytest               # 전체 테스트
 | HTTPX | BSD-3-Clause | https://github.com/encode/httpx | 실거래가 수집, 테스트 |
 | pytest (개발용) | MIT | https://github.com/pytest-dev/pytest | 테스트 |
 | Pretendard | SIL Open Font License 1.1 | https://github.com/orioncactus/pretendard | 화면 글꼴 (jsDelivr CDN, v1.3.9) |
-| 국토교통부 전월세 실거래가 자료 | 공공데이터포털 이용허락범위 제한 없음(포털 표기, 확인 필요) | https://www.data.go.kr | 원룸 월세 통계 (수집 후 기입: 수집일, 유형) |
+| 국토교통부 전월세 실거래가 자료 | 공공데이터포털 이용허락범위 제한 없음(포털 표기, 확인 필요) | https://www.data.go.kr | 원룸 월세 통계 (수집 2026-11-21, 오피스텔·연립다세대·단독다가구) |
 | 행정표준코드관리시스템 법정동 코드 | 확인 필요 | https://www.code.go.kr | 시군구 코드 |
-| POS 프린터 3D 렌더 (app/web/img/pos_printer.webp) | 자체 제작 | media/printer/build_printer.py | 첫 화면 프린터 이미지. Blender 5.3(GPL)은 렌더 도구로만 사용했고 배포물에 포함하지 않음 |
+| 행정안전부 인구감소지역 지정 고시 | 정부 고시(확인 필요) | https://www.mois.go.kr | 인구감소지역 92곳 (`data/depop_2026.csv`) |
+| Playwright (개발용) | Apache-2.0 | https://github.com/microsoft/playwright | 쇼릴 프레임 캡처, 화면 확인. 배포물에 포함하지 않음 |
+| FFmpeg (개발용) | LGPL-2.1 / GPL | https://ffmpeg.org | 쇼릴·첫 화면 영상 인코딩 도구로만 사용. 배포물에 포함하지 않음 |
+| 첫 화면 출력 영상 (app/web/img/hero_print.mp4) | 자체 제작 | media/printer/render_hero.py | POS 프린터·감열지 영수증 3D 렌더. Blender 5.3(GPL)은 렌더 도구로만 사용했고 배포물에 포함하지 않음 |
 | PublicDataReader (참고만 함) | MIT | https://github.com/WooilJeong/PublicDataReader | 실거래가 API 주소와 필드명 확인. 코드는 가져오지 않음 |
 
 라이선스 표기는 제출 전에 각 저장소의 LICENSE 파일로 한 번 더 확인한다.

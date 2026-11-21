@@ -16,3 +16,6 @@ data/raw/
 media/showreel/frames/
 media/showreel/stills/
 media/printer/out/*.png
+media/printer/frames/
+media/printer/test/
+media/printer/out/

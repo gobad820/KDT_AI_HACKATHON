@@ -60,40 +60,15 @@ main { padding-bottom: 32px; }
 .hero-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
 .hero-note { font-size: .8rem; color: var(--faint); }
 
-.hero-stage { position: relative; height: 720px; }
-/* Blender로 렌더한 POS 프린터(img/pos_printer.webp, 784x666). 같은 이미지를 두 장 겹친다:
-   뒷장은 종이 뒤, 앞장은 종이 출구 앞 가장자리(세로 40.8%) 아래만 보이게 잘라 종이 앞에 둔다.
-   종이 출구: 가로 25.1%~74.9%, 세로 40.1% (media/printer/out/slot.json 에서 계산) */
-.thermal-paper { position: absolute; left: 0; bottom: 0; width: 100%; height: 0; overflow: hidden;
-  background: linear-gradient(180deg, #fbfbf8, #f6f6f2);
-  box-shadow: 0 0 0 .5px rgba(0,0,0,.05), 0 30px 40px -30px rgba(0,0,0,.45), -18px 10px 40px -30px rgba(0,0,0,.35);
-  transition: height 90ms cubic-bezier(.2,.9,.25,1); }
-.thermal-paper::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--noise); background-size: 160px; opacity: .07; }
-.thermal-paper img { position: relative; display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
-.paper-shade { position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, rgba(0,0,0,.07), rgba(0,0,0,0) 7%, rgba(0,0,0,0) 90%, rgba(0,0,0,.08)),
-              linear-gradient(104deg, rgba(255,255,255,0) 34%, rgba(255,255,255,.5) 47%, rgba(255,255,255,0) 60%); }
-.marker { position: absolute; display: block; background: var(--hl); mix-blend-mode: multiply; opacity: .88;
-  border-radius: 4px 9px 5px 10px / 7px 4px 9px 5px; transform: rotate(-.9deg) scaleX(0); transform-origin: 0 50%;
-  -webkit-mask: linear-gradient(90deg, rgba(0,0,0,.65), #000 5%, #000 94%, rgba(0,0,0,.7)); mask: linear-gradient(90deg, rgba(0,0,0,.65), #000 5%, #000 94%, rgba(0,0,0,.7)); }
-.thermal-paper.done .marker { transform: rotate(-.9deg) scaleX(1); transition: transform .45s cubic-bezier(.35,.75,.25,1) .15s; }
-.thermal-paper.done .marker.m1 { transition-delay: .7s; transform: rotate(.6deg) scaleX(1); }
-.pos3d { position: absolute; left: 50%; bottom: 6px; width: 640px; aspect-ratio: 784 / 666; transform: translateX(-50%); }
-.pos3d > img { position: absolute; inset: 0; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
-.pos-back { z-index: 1; }
-.pos-front { z-index: 3; clip-path: inset(40.8% 16.5% 50% 16.5%); }   /* 출구 앞 가장자리 아래 본체 띠만 앞에 둔다(종이 아랫단을 가림) */
-.paper-wrap { position: absolute; left: 50%; bottom: 58.6%; width: 286px; height: 620px; margin-left: -143px; z-index: 2; }
-.pos3d:has(.feeding) > img { animation: buzz .09s linear infinite; }
-@keyframes buzz { 50% { transform: translateY(.6px); } }
-.hero-replay { position: absolute; right: 0; top: 4px; padding: 7px 14px; font-size: .8rem; border-radius: 999px; background: rgba(255,255,255,.6); border: 1px solid var(--line); color: var(--sub); z-index: 3; }
+.hero-stage { position: relative; width: 100%; max-width: 580px; margin-left: auto; }
+/* Blender로 렌더한 출력 영상(img/hero_print.mp4, 1080x1200). 프린터·종이·조명·배경이 모두 한 장면이다.
+   만드는 법: media/printer/render_hero.py → make_video.sh. 멈출 시점은 img/hero_print.json */
+.hero-shot { position: relative; width: 100%; aspect-ratio: 1080 / 1200; border-radius: 28px; overflow: hidden;
+  background: #e2e3e6; box-shadow: inset 0 0 0 1px rgba(255,255,255,.55), 0 1px 2px rgba(20,22,30,.06), 0 34px 70px -34px rgba(20,22,30,.38); }
+.hero-shot video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
+.hero-replay { position: absolute; right: 14px; top: 14px; padding: 7px 14px; font-size: .8rem; border-radius: 999px; background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.9); color: var(--sub); z-index: 3; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 .hero-replay:hover { background: #fff; color: var(--ink); }
-#trashLayer { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
-.thermal-paper.discarding { position: fixed; bottom: auto; transition: none; transform-origin: 50% 50%; }
-.wrinkle { position: absolute; inset: 0; opacity: 0; pointer-events: none;
-  background: repeating-linear-gradient(33deg, rgba(0,0,0,0) 0 22px, rgba(0,0,0,.16) 23px 25px, rgba(255,255,255,.55) 26px 27px),
-              repeating-linear-gradient(-58deg, rgba(0,0,0,0) 0 30px, rgba(0,0,0,.13) 31px 33px, rgba(255,255,255,.5) 34px 35px),
-              radial-gradient(circle at 40% 35%, rgba(255,255,255,.35), rgba(0,0,0,.28)); }
-
+.hero-replay[aria-disabled="true"] { opacity: .55; cursor: default; }
 /* ---------- 패널 ---------- */
 .card, .job, .conclusion, details {
   background: var(--panel); border-radius: var(--radius);
@@ -223,12 +198,9 @@ a { color: var(--ink); text-decoration-color: rgba(19,20,22,.35); text-underline
 a:hover { text-decoration-color: var(--ink); }
 .foot { color: var(--faint); font-size: .8rem; padding-bottom: 40px; }
 
-@media (prefers-reduced-motion: reduce) {
-  .thermal-paper, .marker, .pos3d > img { transition: none !important; animation: none !important; }
-}
 @media (max-width: 860px) {
-  .hero { grid-template-columns: 1fr; min-height: 0; gap: 8px; }
-  .hero-stage { height: 600px; }
+  .hero { grid-template-columns: 1fr; min-height: 0; gap: 20px; }
+  .hero-stage { margin: 0 auto; }
 }
 @media (max-width: 720px) {
   body { font-size: 15px; }
@@ -236,10 +208,7 @@ a:hover { text-decoration-color: var(--ink); }
   .topbar { height: auto; padding: 14px 16px; flex-wrap: wrap; }
   .stepper li { padding: 5px 9px 5px 6px; }
   .hero-title { font-size: 2.6rem; }
-  .hero-stage { height: 590px; margin: 8px -16px 0; overflow: hidden; }   /* 좌우 여백까지 넓혀 그림자가 화면 끝에서 잘리게 */
-  .hero-replay { right: 16px; }
-  .pos3d { width: 460px; }
-  .paper-wrap { width: 222px; margin-left: -111px; height: 500px; }
+  .hero-shot { border-radius: 22px; }
   .stepper li { font-size: .76rem; padding: 4px 8px 4px 4px; gap: 4px; }
   .stepper li span { width: 18px; height: 18px; }
   .mark { font-size: .98rem; }
