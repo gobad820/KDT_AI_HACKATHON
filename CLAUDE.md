@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2026 대한민국 청년 CAREER FAIR AI 해커톤(대한상공회의소) 출품 프로젝트 "남는 돈 비교".
 대회 주제: AI 에이전트로 푸는 청년의 일·생활 문제. 제출 마감 11/23(월) 17:00.
 
-**작업을 시작하기 전에 `HANDOFF.md`를 읽는다.** 팀원은 `HANDOFF.md`의 "0. 팀원별 작업 (11/22)"에서 자기 이름 부분만 맡는다. 최신 현황은 `docs/status-2026-11-21.md`.
+**팀원(이동한, 정상훈)은 `docs/team-1122.md`부터 읽고 자기 이름 부분만 맡는다.** 그 밖의 작업은 시작하기 전에 `HANDOFF.md`를 읽는다. `HANDOFF.md`에는 현재 상태, `.env` 상태, 작업 순서(T1~T15)가 있다. 작업을 끝내면 그 파일의 체크박스를 고치고 커밋한다. 최신 현황은 `docs/status-2026-11-21.md`.
 
 ## 브랜치와 PR (11/22부터, 모든 사람과 Claude Code에 적용)
 
@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 다른 사람 담당 파일(아래 "팀과 담당 영역")을 고치면 PR에 적고 담당자에게 확인받는다.
 - force push, rebase로 공유 이력 고치기, 브랜치 강제 삭제는 하지 않는다(대회 규칙).
 - 배포(Vercel)와 환경변수는 김상해만 바꾼다. 다른 사람은 로컬에서 확인한다.
-- LLM 키는 각자 자기 Gemini 키를 `.env`에 넣는다. 분당 한도가 키마다 따로라 서로 한도를 잡아먹지 않는다. 키를 메신저 단체방이나 커밋에 올리지 않는다. 현재 상태, `.env` 상태, 작업 순서(T1~T15)가 있다. 작업을 끝내면 그 파일의 체크박스를 고치고 커밋한다.
+- LLM 키는 각자 자기 Gemini 키를 `.env`에 넣는다. 분당 한도가 키마다 따로라 서로 한도를 잡아먹지 않는다. 키를 메신저 단체방이나 커밋에 올리지 않는다.
 
 ## 프로젝트
 
