@@ -71,6 +71,18 @@ def test_to_fields_extracts_and_checks_evidence():
     assert f.work_location_text.status == "extracted"
 
 
+
+def test_company_name_keeps_fictional_marker_from_source():
+    # 모델이 '(가상)'을 떼고 읽어도 원문에 붙어 있으면 되살린다. 원문에 없으면 붙이지 않는다
+    assert to_fields(raw_for_a(companyName={"value": "예시소프트", "evidence": TEXT_A.splitlines()[0]}), TEXT_A).company_name.value == "예시소프트(가상)"
+    assert to_fields(raw_for_a(companyName={"value": "다른회사", "evidence": None}), TEXT_A).company_name.value == "다른회사"
+
+
+def test_inferred_size_question_uses_label_not_code():
+    fields = {"A": to_fields(raw_for_a(), TEXT_A)}
+    q = [q for q in build_questions(fields, regions_of(fields)) if q.field == "companySize"][0]
+    assert "중소기업" in q.text and "sme" not in q.text
+
 def test_salary_evidence_not_in_source_becomes_missing():
     raw = raw_for_a(salary={"amount": 10000, "unit": "만원", "period": "year", "isRange": False, "rangeMax": None,
                             "negotiable": False, "evidence": "연봉 1억원"})

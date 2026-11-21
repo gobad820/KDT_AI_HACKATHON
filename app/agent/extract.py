@@ -104,6 +104,11 @@ def to_fields(raw: dict, masked_text: str) -> PostingFields:
             company_size = company_size.model_copy(update={"status": "inferred", "note": "규모가 직접 적혀 있지 않고 단서만 있음"})
 
     name = g("companyName")
+    name_value = name.get("value")
+    # 샘플 공고는 '회사(가상)'으로 적는다. 모델이 '(가상)'을 떼고 읽어도 원문에 붙어 있으면 되살린다
+    if isinstance(name_value, str) and name_value.strip() and "(가상)" not in name_value:
+        if any(name_value + sfx in masked_text for sfx in ("(가상)", " (가상)")):
+            name_value = name_value + "(가상)"
     industry = g("industryText")
     dorm = g("dormitory")
     dormitory = verify_field(_field(dorm.get("value") if dorm.get("value") is True else None, dorm.get("evidence")),
@@ -113,7 +118,7 @@ def to_fields(raw: dict, masked_text: str) -> PostingFields:
     others = [str(x)[:100] for x in (raw.get("others") or []) if str(x).strip()][:20]
 
     return PostingFields(
-        company_name=verify_field(_field(name.get("value"), name.get("evidence"), "회사명이 적혀 있지 않음"), masked_text),
+        company_name=verify_field(_field(name_value, name.get("evidence"), "회사명이 적혀 있지 않음"), masked_text),
         annual_salary=salary,
         work_location_text=location,
         employment_type=employment,

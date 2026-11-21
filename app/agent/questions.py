@@ -11,6 +11,8 @@ SIZE_OPTIONS = [Option(value="sme", label="중소기업"), Option(value="mid", l
                 Option(value="large", label="대기업"), Option(value="public", label="공공기관"),
                 Option(value="unknown", label="모름")]
 
+_SIZE_LABEL = {o.value: o.label for o in SIZE_OPTIONS}   # 질문 문구에는 코드값(sme) 대신 이름(중소기업)을 쓴다
+
 PROFILE_QUESTIONS = [
     dict(field="profile.age", text="근로계약을 맺는 시점의 만 나이를 알려주세요.", input_type="number", required=True),
     dict(field="profile.militaryServiceMonths", text="병역을 마쳤다면 복무 기간을 개월 수로 적어 주세요. 해당이 없으면 0입니다.",
@@ -49,7 +51,7 @@ def _posting_questions(pid: str, f: PostingFields, region: RegionResolution) -> 
     if f.company_size.value == "unknown" or f.company_size.status == "inferred":
         qs.append(dict(field="companySize", input_type="select", required=True, options=SIZE_OPTIONS,
                        text=f"{who}에는 회사 규모가 적혀 있지 않습니다. 어디에 해당하나요?" if f.company_size.value == "unknown"
-                       else f"{who}의 회사 규모를 단서로만 '{f.company_size.value}'로 읽었습니다. 맞나요?"))
+                       else f"{who}의 회사 규모를 단서로만 '{_SIZE_LABEL.get(f.company_size.value, f.company_size.value)}'(으)로 읽었습니다. 맞나요?"))
     if f.benefits.dormitory.value is True:
         qs.append(dict(field="housing.mode", input_type="boolean", required=False,
                        text=f"{who}에 기숙사가 제공된다고 나와 있습니다. 이용할 계획인가요?"))
