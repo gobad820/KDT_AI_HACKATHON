@@ -659,7 +659,7 @@
     body.appendChild(renderConclusion());
     if (window.MoneyFlow) {   // 돈 흐름 시각화(flow.js). 실패해도 나머지 결과는 그대로 보인다
       var fl = h('div', { class: 'card flow' }, [h('h2', { text: '1년 동안 돈이 흘러가는 모습' }),
-        h('p', { class: 'hint', text: '점 하나하나가 돈입니다. 4대보험·세금·월세만큼 폭포처럼 떨어지고, 끝까지 흘러간 점이 남는 돈입니다.' })]);
+        h('p', { class: 'hint', text: '선 한 가닥 한 가닥이 돈입니다. 공제 지점에 가까워지면 붉게 물들어 폭포처럼 떨어지고, 끝까지 흘러간 초록 선이 남는 돈입니다.' })]);
       body.appendChild(fl);
       try { window.MoneyFlow.mount(fl, R, { A: state.names.A || '공고 A', B: state.names.B || '공고 B' }, state.tab); } catch (e) { if (fl.parentNode) fl.parentNode.removeChild(fl); }
     }

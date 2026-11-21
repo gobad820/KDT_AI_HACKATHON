@@ -1,13 +1,14 @@
-/* 결과 화면의 돈 흐름 시각화 (별빛 Sankey).
+/* 결과 화면의 돈 흐름 시각화 (실처럼 흐르는 선 Sankey, 라이트 모드).
    점 하나하나가 돈이다. 연봉이 왼쪽에서 들어와 오른쪽으로 흐르고, 4대보험·세금·월세만큼 폭포처럼 떨어져 사라진다.
    떨어질 점은 공제 지점까지 거리의 4/5를 지나면서 붉게 물든다. 마지막 폭포를 지난 점이 남는 돈이다.
    금액은 서버 응답(/api/compare)만 쓴다. 연봉 = 실수령 + 4대보험 + 소득세 + 지방소득세. */
 (function () {
   'use strict';
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var NS = 'http://www.w3.org/2000/svg', DPR = Math.min(2, window.devicePixelRatio || 1), SIZES = [1.7, 3.6, 7], GAP = 2.5;
-  var COLORS = { money: '219,230,255', keep: '69,240,166', loss: '255,93,82', save: '255,212,92' };
-  var SPR = null;
+  var NS = 'http://www.w3.org/2000/svg', DPR = Math.min(2, window.devicePixelRatio || 1), GAP = 2.5;
+  var WIDTH = [.55, .85, 1.25], ALPHA = [.26, .45, .75];               // 선 굵기 3등급
+  var C_MONEY = [47, 52, 60], C_LOSS = [226, 62, 68], C_KEEP = [12, 150, 100], C_SAVE = [214, 150, 0];
+  var COLS = (function () { var out = []; for (var b = 0; b < 6; b++) out.push(C_MONEY.map(function (v, j) { return Math.round(v + (C_LOSS[j] - v) * b / 5); })); out.push(C_KEEP, C_SAVE); return out; })();
 
   function man(n) { return Math.round(n / 1e4).toLocaleString('ko-KR') + '만'; }
   function eok(n) { var e = Math.floor(n / 1e8), m = Math.round((n % 1e8) / 1e4); return (e ? e + '억 ' : '') + (m ? m.toLocaleString('ko-KR') + '만' : (e ? '' : '0')); }
@@ -15,26 +16,11 @@
   function txt(parent, x, y, t, cls, anchor) { var e = s('text', { x: x, y: y, 'text-anchor': anchor || 'start' }, parent); if (cls) e.setAttribute('class', cls); e.textContent = t; return e; }
   function el(tag, cls, parent, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; if (parent) parent.appendChild(e); return e; }
 
-  function sprite(c, r) {
-    var cv = document.createElement('canvas'), d = Math.ceil(r * 2 * DPR); cv.width = cv.height = d;
-    var g = cv.getContext('2d'), gr = g.createRadialGradient(d / 2, d / 2, 0, d / 2, d / 2, d / 2);
-    gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.18, 'rgba(' + c + ',.95)'); gr.addColorStop(.45, 'rgba(' + c + ',.35)'); gr.addColorStop(1, 'rgba(' + c + ',0)');
-    g.fillStyle = gr; g.fillRect(0, 0, d, d); return cv;
-  }
-  function sprites() {
-    if (SPR) return SPR;
-    var m = COLORS.money.split(',').map(Number), l = COLORS.loss.split(',').map(Number), cols = [];
-    for (var b = 0; b < 6; b++) cols.push(m.map(function (v, j) { return Math.round(v + (l[j] - v) * b / 5); }).join(','));   // 0~5: 별빛 흰색 → 빨강
-    cols.push(COLORS.keep, COLORS.save);                                                                                     // 6: 남는 돈, 7: 감면
-    SPR = cols.map(function (c) { return SIZES.map(function (r) { return sprite(c, r); }); });
-    return SPR;
-  }
-
   /* 줄기 하나 = 공고 하나. 위에서부터 [남는 돈][마지막 공제]...[첫 공제] 순서로 구간이 쌓인다 */
   function Stream(cfg) {
     var N = cfg.n, X = new Float32Array(N), Y = new Float32Array(N), V = new Float32Array(N), VX = new Float32Array(N), VY = new Float32Array(N),
       ST = new Uint8Array(N), T = new Float32Array(N), SV = new Uint8Array(N), EV = new Int8Array(N), PH = new Float32Array(N), FR = new Float32Array(N),
-      AM = new Float32Array(N), SZ = new Uint8Array(N), TW = new Float32Array(N);
+      AM = new Float32Array(N), SZ = new Uint8Array(N), TW = new Float32Array(N), PX = new Float32Array(N), PY = new Float32Array(N);
     var self = { cfg: cfg, time: 0 }, C;
     function cuts() { var c = 0, out = []; cfg.events.forEach(function (e) { out.push([c, c + e.amt]); c += e.amt; }); return { list: out, total: c }; }
     function gapsAbove(v) { if (v >= C.total) return 0; var n = 0; for (var e = C.list.length - 1; e >= 0; e--) { n++; if (v >= C.list[e][0]) return n; } return n; }
@@ -49,7 +35,7 @@
       PH[i] = Math.random() * 6.283; FR[i] = 1.2 + Math.random() * 1.8;
       var rr = Math.random(); SZ[i] = rr < .8 ? 0 : rr < .98 ? 1 : 2; TW[i] = 1.5 + Math.random() * 4;
       SV[i] = (cfg.rescue && EV[i] === cfg.rescue.ev && Math.random() < cfg.rescue.frac) ? 1 : 0;
-      Y[i] = baseY(V[i]);
+      Y[i] = baseY(V[i]); PX[i] = X[i]; PY[i] = Y[i];
     }
     self.reset = function (empty) { C = cuts(); for (var i = 0; i < N; i++) spawn(i, empty ? cfg.x0 - Math.random() * (cfg.xEnd - cfg.x0 + 260) : cfg.x0 + Math.random() * (cfg.xEnd - cfg.x0)); };
     self.setCfg = function (patch) { for (var k in patch) cfg[k] = patch[k]; C = cuts(); for (var i = 0; i < N; i++) spawn(i, X[i]); };
@@ -57,7 +43,7 @@
       self.time += dt;
       var g = 620, tm = self.time;
       for (var i = 0; i < N; i++) {
-        var st = ST[i];
+        var st = ST[i]; PX[i] = X[i]; PY[i] = Y[i];
         if (st === 0 || st === 3) {
           X[i] += VX[i] * dt;
           Y[i] = (st === 3 ? VY[i] : baseY(V[i])) + wave(X[i]) + Math.sin(PH[i] + tm * FR[i]) * AM[i];
@@ -77,23 +63,40 @@
         }
       }
     };
+    var LISTS = []; for (var q = 0; q < 8 * 3 + 9; q++) LISTS.push([]);
     self.draw = function (ctx) {
-      var spr = sprites(), lastX = cfg.events.length ? cfg.events[cfg.events.length - 1].x : cfg.x0, tm = self.time, BASE = [.62, .85, 1], i, b, a, r;
-      ctx.save(); ctx.globalCompositeOperation = 'lighter';
+      // 같은 색·굵기의 선을 모아 한 번에 그린다. 꼬리 = 직전 프레임에서 움직인 방향
+      var lastX = cfg.events.length ? cfg.events[cfg.events.length - 1].x : cfg.x0, i, b, key, q;
+      for (q = 0; q < LISTS.length; q++) LISTS[q].length = 0;
       for (i = 0; i < N; i++) {
-        var st = ST[i], x = X[i], y = Y[i];
+        var st = ST[i], x = X[i];
         if (x < cfg.x0 - 2 || x > cfg.xEnd + 2) continue;
-        a = BASE[SZ[i]] * (.6 + .4 * Math.sin(tm * TW[i] + PH[i]));
+        if (st === 1) {
+          var dp = (Y[i] - cfg.top) / (cfg.floor - cfg.top), fa = dp < .55 ? 0 : dp < .8 ? 1 : 2;
+          LISTS[24 + fa * 3 + Math.max(1, SZ[i])].push(i); continue;
+        }
         if (st === 0) {
           if (EV[i] < 0) b = x <= lastX ? 0 : 6;
           else { var pr = (x - cfg.x0) / (cfg.events[EV[i]].x - cfg.x0); b = pr < .8 ? 0 : Math.min(5, 1 + (((pr - .8) / .2 * 4.999) | 0)); }
-        } else if (st === 1) { b = 5; var dp = (y - cfg.top) / (cfg.floor - cfg.top); a = Math.max(a, .75) * (dp < .6 ? 1 : Math.max(0, 1 - (dp - .6) / .4)); if (a <= .02) continue; }
-        else b = 7;
-        var zc = st === 1 ? Math.max(1, SZ[i]) : SZ[i]; r = SIZES[zc];
-        ctx.globalAlpha = Math.min(1, a);
-        ctx.drawImage(spr[b][zc], x - r, y - r, r * 2, r * 2);
+        } else b = 7;
+        LISTS[b * 3 + SZ[i]].push(i);
       }
-      ctx.restore();
+      ctx.lineCap = 'round';
+      for (key = 0; key < LISTS.length; key++) {
+        var L = LISTS[key]; if (!L.length) continue;
+        var falling = key >= 24, sz = falling ? (key - 24) % 3 : key % 3, col = falling ? C_LOSS : COLS[(key / 3) | 0];
+        var al = falling ? [.9, .55, .22][((key - 24) / 3) | 0] : ALPHA[sz], tail = falling ? 3.2 : 10;
+        ctx.strokeStyle = 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + al + ')';
+        ctx.lineWidth = WIDTH[sz];
+        ctx.beginPath();
+        for (var n = 0; n < L.length; n++) {
+          i = L[n]; var dx = (X[i] - PX[i]) * tail, dy = (Y[i] - PY[i]) * tail, len = Math.sqrt(dx * dx + dy * dy);
+          if (len > 34) { dx *= 34 / len; dy *= 34 / len; }
+          if (len < 6) { var f6 = len > .01 ? 6 / len : 0; dx = len > .01 ? dx * f6 : 6; dy = len > .01 ? dy * f6 : 0; }
+          ctx.moveTo(X[i] - dx, Y[i] - dy); ctx.lineTo(X[i], Y[i]);
+        }
+        ctx.stroke();
+      }
     };
     self.reset(false);
     for (var w = 0; w < 300; w++) self.step(1 / 30);
@@ -164,7 +167,7 @@
   function mountYear(host, jobs) {
     var max = Math.max(jobs[0].salary, jobs[1].salary), k = 150 / max, tops = [30, 360], sts = [];
     jobs.forEach(function (j, i) {
-      sts.push(Stream({ salary: j.salary, top: tops[i], k: k, x0: 170, xEnd: 780, floor: tops[i] + 220, speed: 105, n: 8500, wave: 5, events: events(j, 1) }));
+      sts.push(Stream({ salary: j.salary, top: tops[i], k: k, x0: 170, xEnd: 780, floor: tops[i] + 220, speed: 105, n: 6500, wave: 5, events: events(j, 1) }));
     });
     var scn = Scene(host, 660, sts);
     scn.canvas.setAttribute('aria-label', '두 공고의 1년 연봉 흐름');
@@ -192,7 +195,7 @@
       var j = jobOf(job), sv = scen(j), Y = sv.yearly.length, yrs = Math.min(sv.reliefYears, Y), saved = j.taxRelief * yrs, tax = j.tax * Y;
       var ev = events(j, Y, saved), ti = -1; ev.forEach(function (e, i) { if (e.tax) ti = i; });
       return { Y: Y, saved: saved, total: sv.cumulativeRemaining,
-        cfg: { salary: j.salary * Y, top: 50, k: 230 / (Math.max(jobs[0].salary, jobs[1].salary) * Y), x0: 160, xEnd: 780, floor: 470, speed: 105, n: 14000, wave: 7, events: ev,
+        cfg: { salary: j.salary * Y, top: 50, k: 230 / (Math.max(jobs[0].salary, jobs[1].salary) * Y), x0: 160, xEnd: 780, floor: 470, speed: 105, n: 10000, wave: 7, events: ev,
           rescue: saved > 0 && ti >= 0 ? { ev: ti, frac: saved / tax } : null } };
     }
     var c = cfgFor(), st = Stream(c.cfg), scn = Scene(box, 560, [st]);

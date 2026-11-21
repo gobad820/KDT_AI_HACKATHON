@@ -1,0 +1,33 @@
+{
+ "image": "pos_printer.png",
+ "width": 1400,
+ "height": 900,
+ "slotLeft": {
+  "x": 0.36044,
+  "y": 0.41663
+ },
+ "slotRight": {
+  "x": 0.63956,
+  "y": 0.41663
+ },
+ "slotCenter": {
+  "x": 0.5,
+  "y": 0.41663
+ },
+ "slotFrontEdge": {
+  "x": 0.5,
+  "y": 0.42215
+ },
+ "bodyLeft": {
+  "x": 0.31787,
+  "y": 0.81774
+ },
+ "bodyRight": {
+  "x": 0.68213,
+  "y": 0.81774
+ },
+ "bodyBottom": {
+  "x": 0.5,
+  "y": 0.81774
+ }
+}
