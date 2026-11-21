@@ -263,6 +263,14 @@
       if (state.profileVals[k] === undefined) { state.profileVals[k] = PROFILE_DEFAULTS[k]; state.assumed.push(k); }
     });
   }
+  // 답을 받지 않고 계산했을 때 실제로 쓴 값
+  function skippedAnswer(pid, field) {
+    var m = state.model[pid];
+    if (field === 'housing.mode') return m.housing.mode === 'dormitory' ? '→ 이용한다고 보고 주거비 0원으로 계산했습니다.' : '→ 이용하지 않는다고 보고 근무지 원룸 월세로 계산했습니다.';
+    if (field === 'companySize') { var v = m.f.companySize.value; return !v || v === 'unknown' ? '→ 모름으로 계산했습니다. 그래서 감면 판정이 불확실로 나옵니다.' : '→ ' + optLabel(SIZE_OPTS, v) + '(으)로 계산했습니다.'; }
+    if (field === 'proceed') return '→ 같은 조건이 이어진다고 보고 비교했습니다.';
+    return '→ 공고에서 읽은 값으로 계산했습니다.';
+  }
   function optLabel(opts, v) { var f = (opts || []).filter(function (o) { return o[0] === v; })[0]; return f ? f[1] : String(v); }
 
   // 결과 화면 맨 위: 확인 없이 계산했을 때 무엇을 가정했는지, AI가 무엇을 되물었는지
@@ -280,7 +288,8 @@
       var asked = {};
       qs.filter(function (q) { return q.postingId === pid; }).forEach(function (q) {
         asked[q.field] = true;
-        ul.appendChild(h('li', null, [h('strong', { text: jobName(pid) + ' ' }), badge('AI가 되물은 것', 'accent'), ' ' + q.text]));
+        ul.appendChild(h('li', null, [h('strong', { text: jobName(pid) + ' ' }), badge('AI가 되물은 것', 'accent'), ' ' + q.text,
+          h('div', { class: 'assumed-as', text: skippedAnswer(pid, q.field) })]));
       });
       pendingKeys(pid).forEach(function (d) {
         if (asked[d.key]) return;
