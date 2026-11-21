@@ -7,6 +7,7 @@
 - 세후 계산은 따로 짠 참고 구현(`scripts/calc_ref.py`)과만 대조했다. 공식 계산기와는 아직 대조하지 않았다(README "지금 상태", HANDOFF T14).
 - 대회 규정상 결과 검증은 팀이 직접 한다([docs/plan.md 4장](../plan.md#4-놓치면-안-되는-규칙)).
 - 대조표는 소개서와 AI 활용내역의 검증 근거가 된다.
+- 11/22 02시 결정(D-17)으로 W8이 계산 모듈에 연봉 인상을 넣는다(`app/calc/scenarios.py`, `scripts/calc_ref.py`의 누적·손익분기). 계산 담당으로서 그 PR을 리뷰한다. 이 작업의 세후 계산(`netpay.py`)은 W8이 건드리지 않는다.
 
 ## 할 일
 
@@ -25,20 +26,26 @@
 9. `app/calc/`를 고치면 `python3 scripts/calc_ref.py`의 출력과 결과가 같은지 본다.
 10. 상수를 바꾸면 `docs/calc-rules.md` 2장 상수표도 같이 고친다.
 11. 대조한 값을 테스트 기대값으로 넣는다. 차이를 허용하는 방식(정확히 같음 또는 연 1,000원 이내)은 정상훈이 정하고 테스트 주석에 적는다.
-12. `HANDOFF.md` 5장의 T14 체크박스를 고친다.
-13. PR 본문에 "Claude Code가 한 일"과 "내가 직접 확인한 일"을 한 줄씩 적는다.
+12. W8 PR(`feat/sanghae-salary-growth`)이 올라오면 계산 부분을 리뷰한다.
+    - 인상률 0%이면 지금 금액과 1원도 다르지 않은지 본다.
+    - 연차별 연봉의 원 단위 내림과 분수 계산, 연차별 감면 한도, "1년차 연봉" 기준 손익분기가 [docs/calc-rules.md](../calc-rules.md) 7장의 새 정의와 같은지 본다.
+    - `scripts/calc_ref.py`와 `app/calc/`가 같은 값을 내는지 본다.
+13. `HANDOFF.md` 5장의 T14 체크박스를 고친다.
+14. PR 본문에 "Claude Code가 한 일"과 "내가 직접 확인한 일"을 한 줄씩 적는다.
 
 ## 건드리는 파일
 
 - `docs/calc-rules.md` 8장 표와 그 아래 설명
 - `tests/test_calc_netpay.py` 또는 새 `tests/test_calc_*.py`: 대조값 기대값
-- `app/calc/`, `scripts/calc_ref.py`, `docs/calc-rules.md` 2장 상수표: 계산 코드나 상수를 고칠 때만
+- `app/calc/netpay.py`, `app/calc/constants.py`, `scripts/calc_ref.py`의 세후 계산 부분, `docs/calc-rules.md` 2장 상수표: 계산 코드나 상수를 고칠 때만
+- W8 PR의 리뷰 의견
 - `HANDOFF.md` 5장의 T14 체크박스
 - 이 파일의 상태 줄
 
 ## 건드리지 않는 파일
 
-- `docs/calc-rules.md` 1행 제목과 7장 기본값 문구: W1이 고친다.
+- `docs/calc-rules.md` 1행 제목과 7장 기본값 문구: W1이 고친다. 1장 가정과 7장 연차별 연봉은 W8이 고친다.
+- `app/calc/scenarios.py`, `scripts/calc_ref.py`의 `simulate`·`break_even_salary`: W8이 고친다. 고칠 곳은 W8 PR 리뷰로 남긴다. `calc_ref.py`를 같이 고쳤다면 뒤에 합치는 쪽이 pull하고 출력을 다시 확인한다.
 - `docs/ai-usage-log.md`: W4가 고친다. 기록할 내용은 PR 본문에 적는다.
 - `app/web/hero.json`: 계산 결과가 바뀌어도 직접 고치지 않는다. 김상해에게 알린다. 첫 화면 영상을 다시 만들어야 할 수 있다.
 - `app/relief/`, `app/pipeline.py`, `app/main.py`: 이 작업 범위 밖이다. `app/main.py`는 W1과 W5가 고친다.
@@ -49,6 +56,7 @@
 - 차이는 연 1,000원 이내이거나, 넘는 행마다 이유가 적혀 있다.
 - 표 아래에 쓴 계산기, 날짜, 입력 조건이 적혀 있다.
 - 대조값이 테스트 기대값으로 들어가 있다.
+- W8 PR에 계산 리뷰를 남겼다.
 - `python3 -m pytest`가 전부 통과한다.
 
 ## 확인 방법
@@ -76,5 +84,6 @@ docs/tasks/W3-calc-check.md를 읽고 그대로 진행해.
 공식 계산기 값은 내가 직접 계산해서 알려 줄게.
 그 전에 내가 계산기에 넣을 입력값(연봉별 총급여, 월 보수)을 목록으로 뽑아 줘.
 브랜치는 feat/sanghoon-calc-check로 만들어.
+W8 PR이 올라오면 계산 부분 리뷰를 도와줘.
 끝나면 pytest 전부 통과를 확인하고 PR을 올려.
 ```

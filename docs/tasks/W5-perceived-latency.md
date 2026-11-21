@@ -1,6 +1,6 @@
 # W5 체감 속도 개선 세 가지
 
-- 담당: Claude Code(승인 김상해) / 브랜치: `feat/sanghae-perceived-latency` (개선 3은 `feat/sanghae-classify-at-extract`로 따로) / 상태: 제안(대표자 승인 전) / 마감: 11/22(일) 19:00 PR, 22:00 동결 전 배포 확인 / 먼저 끝나야 하는 것: W1(이름 변경, 기본 10년) main 병합
+- 담당: Claude Code(승인 김상해) / 브랜치: `feat/sanghae-perceived-latency` (개선 3은 `feat/sanghae-classify-at-extract`로 따로) / 상태: 제안(대표자 승인 전) / 마감: 11/22(일) 19:00 PR, 22:00 동결 전 배포 확인 / 먼저 끝나야 하는 것: W1(이름 변경, 기본 10년)과 W8(연봉 인상) main 병합. W8이 `app/schemas.py`, `app/pipeline.py`, `app/web/app.js`, `index.html`, `docs/api-spec.md`, `docs/dev-notes.md`를 먼저 고친다
 
 ## 왜
 
