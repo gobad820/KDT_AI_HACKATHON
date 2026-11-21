@@ -43,13 +43,31 @@ def load_env_file(path: Path) -> dict:
     return out
 
 
-def get_service_key(env: Optional[Mapping[str, str]] = None, env_path: Optional[Path] = None) -> Optional[str]:
-    """환경변수 DATA_GO_KR_KEY, 없으면 저장소 루트 .env. 비어 있으면 None."""
+def key_env_name(housing_type: Optional[str] = None) -> str:
+    """유형별 키 변수 이름. 예: officetel -> DATA_GO_KR_KEY_OFFICETEL"""
+    return f"{KEY_ENV}_{housing_type.upper()}" if housing_type else KEY_ENV
+
+
+def get_service_key(env: Optional[Mapping[str, str]] = None, env_path: Optional[Path] = None,
+                    housing_type: Optional[str] = None) -> Optional[str]:
+    """인증키를 찾는다. 비어 있으면 None.
+
+    찾는 순서: 유형별 변수(DATA_GO_KR_KEY_OFFICETEL 등) -> 공통 변수 DATA_GO_KR_KEY.
+    각 변수는 환경변수를 먼저 보고, 없으면 저장소 루트 .env 를 본다.
+    공공데이터포털은 보통 계정당 키 하나를 모든 API 에 쓴다. 유형별 변수는 API 마다 키가 다를 때만 쓴다.
+    """
     env = os.environ if env is None else env
-    value = (env.get(KEY_ENV) or "").strip()
-    if not value:
-        value = (load_env_file(env_path or ROOT / ".env").get(KEY_ENV) or "").strip()
-    return value or None
+    file_env = None
+    names = ([key_env_name(housing_type)] if housing_type else []) + [KEY_ENV]
+    for name in names:
+        value = (env.get(name) or "").strip()
+        if not value:
+            if file_env is None:
+                file_env = load_env_file(env_path or ROOT / ".env")
+            value = (file_env.get(name) or "").strip()
+        if value:
+            return value
+    return None
 
 
 def normalize_service_key(key: str) -> str:

@@ -434,3 +434,17 @@ def test_dry_run_cli_without_network():
                        capture_output=True, text=True, env={"PATH": "/usr/bin:/bin"})
     assert r.returncode == 0 and "예상 호출 수 18" in r.stdout and "serviceKey=***" in r.stdout
     assert not (ROOT / "nonexistent_dir_for_test").exists()
+
+
+def test_service_key_per_type_and_fallback(tmp_path):
+    from _common import get_service_key
+    env_file = tmp_path / ".env"
+    env_file.write_text("DATA_GO_KR_KEY=common\nDATA_GO_KR_KEY_OFFICETEL=offi\nDATA_GO_KR_KEY_ROW_MULTI=\n", encoding="utf-8")
+    assert get_service_key(env={}, env_path=env_file, housing_type="officetel") == "offi"
+    assert get_service_key(env={}, env_path=env_file, housing_type="row_multi") == "common"
+    assert get_service_key(env={}, env_path=env_file) == "common"
+    assert get_service_key(env={"DATA_GO_KR_KEY_DETACHED_MULTI": "env-sh"}, env_path=env_file,
+                           housing_type="detached_multi") == "env-sh"
+    empty = tmp_path / "empty.env"
+    empty.write_text("", encoding="utf-8")
+    assert get_service_key(env={}, env_path=empty, housing_type="officetel") is None

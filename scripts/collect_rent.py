@@ -2,7 +2,7 @@
 """전월세 실거래가 수집 -> SQLite (data/rent.sqlite, 테이블 rent_deals). docs/data-spec.md 2, 3장.
 
 호출 단위는 (유형, 시군구 5자리 코드, 계약월). 이미 받은 단위는 건너뛴다(--force 로 다시 받기).
-인증키: 환경변수 DATA_GO_KR_KEY, 없으면 저장소 루트 .env. 키는 로그·예외·실패 파일에 남기지 않는다.
+인증키: DATA_GO_KR_KEY(공통). API 마다 키가 다르면 DATA_GO_KR_KEY_OFFICETEL, _DETACHED_MULTI, _ROW_MULTI. 환경변수, 없으면 저장소 루트 .env. 키는 로그·예외·실패 파일에 남기지 않는다.
 금액은 쉼표·공백을 지우고 만 원 -> 원(x10,000) 정수로 저장한다. 원본 필드는 raw_json 에 보관한다.
 응답 필드명·단위는 [2차] 확인 상태다. 실제 호출 결과로 먼저 확인할 것(data-spec 2장).
 
@@ -445,10 +445,19 @@ def main(argv: Optional[list] = None) -> int:
         print_plan(keys, args, done)
         return 0
 
-    key = get_service_key()
-    if not key:
-        print("인증키가 없습니다. 환경변수 DATA_GO_KR_KEY 를 설정하거나 저장소 루트 .env 에 적으세요.", file=sys.stderr)
+    types_needed = sorted({t for t, _, _ in keys})
+    type_keys = {t: get_service_key(housing_type=t) for t in types_needed}
+    missing = [t for t, k in type_keys.items() if not k]
+    if missing:
+        print("인증키가 없습니다. 저장소 루트 .env 에 DATA_GO_KR_KEY 를 적으세요. "
+              f"API 마다 키가 다르면 DATA_GO_KR_KEY_<유형> 을 쓰세요(없는 유형: {', '.join(missing)}).", file=sys.stderr)
         return 2
+    all_keys = list(dict.fromkeys(type_keys.values()))
+
+    def hide(text: str) -> str:
+        for k in all_keys:
+            text = redact(text, k)
+        return text
 
     conn = init_db(args.db)
     started = datetime.now()
@@ -456,17 +465,18 @@ def main(argv: Optional[list] = None) -> int:
     saved = skipped = fails = total_items = 0
     exit_code = 0
     with httpx.Client(timeout=args.timeout, follow_redirects=True) as client:
-        fetcher = Fetcher(client, key, args.base_url, args.rows, args.retries, args.retry_wait, args.sleep)
+        fetchers = {t: Fetcher(client, type_keys[t], args.base_url, args.rows, args.retries, args.retry_wait, args.sleep)
+                    for t in types_needed}
         for i, (t, c, ym) in enumerate(keys, 1):
             if not args.force and is_done(conn, t, c, ym):
                 skipped += 1
                 failed.pop((t, c, ym), None)
                 continue
             try:
-                items, total = fetcher.fetch_key(t, c, ym)
+                items, total = fetchers[t].fetch_key(t, c, ym)
                 n = save_key(conn, t, c, ym, items, total)
             except ApiError as e:
-                msg = redact(str(e), key)
+                msg = hide(str(e))
                 fails += 1
                 failed[(t, c, ym)] = {"type": t, "code": c, "ym": ym, "error": msg,
                                       "failedAt": datetime.now().isoformat(timespec="seconds")}
@@ -482,10 +492,10 @@ def main(argv: Optional[list] = None) -> int:
             if (t, c, ym) in failed:
                 del failed[(t, c, ym)]
                 write_failed(args.failed_file, failed)
-            log(f"[{i}/{len(keys)}] {t} {c} {ym}: {n}건 (totalCount {total}, 누적 호출 {fetcher.calls})")
+            log(f"[{i}/{len(keys)}] {t} {c} {ym}: {n}건 (totalCount {total}, 누적 호출 {sum(f.calls for f in fetchers.values())})")
     conn.close()
     write_failed(args.failed_file, failed)
-    log(f"종료: 저장 {saved}단위 {total_items}건, 건너뜀 {skipped}, 실패 {fails}, 호출 {fetcher.calls}회, "
+    log(f"종료: 저장 {saved}단위 {total_items}건, 건너뜀 {skipped}, 실패 {fails}, 호출 {sum(f.calls for f in fetchers.values())}회, "
         f"소요 {(datetime.now() - started).seconds}초")
     if fails or failed:
         log(f"실패 목록: {args.failed_file} ({len(failed)}건). 다시 받으려면 --only-failed")
