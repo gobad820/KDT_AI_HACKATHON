@@ -5,16 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>남는 돈 비교</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm_code/style.css">
-<link rel="stylesheet" href="style.css?v=20261121t">
+<link rel="stylesheet" href="style.css?v=20261121x">
   <link rel="icon" href="data:,">
 </head>
 <body>
 <header class="top">
-  <div class="wrap">
-    <h1>남는 돈 비교</h1>
-    <p class="lead">채용공고 두 건을 넣으면 세후 급여, 근무지 월세, 청년 세제를 계산해 어느 쪽이 얼마 더 남는지 보여줍니다.</p>
-    <ol class="stepper" id="stepper">
+  <div class="wrap topbar">
+    <h1 class="mark">남는 돈 비교</h1>
+    <ol class="stepper" id="stepper" aria-label="진행 단계">
       <li data-step="1" class="on"><span>1</span> 입력</li>
       <li data-step="2"><span>2</span> 확인</li>
       <li data-step="3"><span>3</span> 결과</li>
@@ -25,12 +23,24 @@
 <main class="wrap">
   <!-- 1 입력 -->
   <section id="step1" class="step">
-    <div class="hero" id="hero" hidden>
-      <p class="hero-title">연봉이 높은 쪽이 더 남을까요?</p>
-      <div class="hero-rows" id="heroRows" aria-hidden="true"></div>
-      <p class="hero-caption" id="heroCaption"></p>
-      <div class="hero-foot">
-        <p class="small" id="heroNote"></p>
+    <div class="hero" id="hero">
+      <div class="hero-copy">
+        <p class="hero-kicker">채용공고 두 건, 1년 뒤 통장에 남는 돈</p>
+        <h2 class="hero-title">연봉 말고,<br>남는 돈으로<br>고르세요</h2>
+        <p class="hero-lead">세후 급여에서 근무지 원룸 월세를 빼고, 청년 소득세 감면까지 넣어 어느 공고가 얼마 더 남는지 계산합니다.</p>
+        <p class="hero-fact" id="heroFact"></p>
+        <div class="hero-cta">
+          <button type="button" class="primary" id="heroTry">샘플 공고로 계산해 보기</button>
+          <button type="button" class="ghost" id="heroOwn">내 공고 붙여 넣기</button>
+        </div>
+        <p class="hero-note" id="heroNote"></p>
+      </div>
+      <div class="hero-stage" aria-hidden="true">
+        <div class="paper-wrap" id="paperWrap"></div>
+        <div class="pos">
+          <div class="pos-slot"></div>
+          <div class="pos-face"><span class="pos-led"></span><span class="pos-btn"></span></div>
+        </div>
         <button type="button" class="hero-replay" id="heroReplay">다시 출력</button>
       </div>
     </div>
@@ -86,7 +96,7 @@
   <p>계산 결과는 입력한 값과 가정에 따른 참고용 수치이며, 세무·법률 자문이 아닙니다.</p>
 </footer>
 
-<script src="app.js?v=20261121t"></script>
-<script src="hero.js?v=20261121t"></script>
+<script src="app.js?v=20261121x"></script>
+<script src="hero.js?v=20261121x"></script>
 </body>
 </html>

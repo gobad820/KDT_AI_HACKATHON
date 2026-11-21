@@ -1,167 +1,222 @@
-/* 첫 화면: 한국 POS 감열지 영수증 두 장이 출력된다.
-   - 한 줄 42칸, 한글 2칸(전각)·영숫자 1칸(반각)으로 공백을 채워 정렬한다 (ESC/POS 프린터 방식)
-   - 강조는 프린터 기능만 쓴다: 2배 확대, 반전 인쇄
-   - "다시 출력"을 누르면 이전 영수증은 구겨져 버려지고 새로 출력된다
+/* 첫 화면: POS 감열 프린터 시뮬레이션.
+   감열 프린터는 글꼴을 그리지 않고 한 줄 576개의 점(80mm, 203dpi)을 열로 태운다.
+   그래서 576점 폭 캔버스에 글자를 그린 뒤, 점마다 찍힐지 판정하고 진하기를 흩뜨린다.
+   - 한 줄 42칸: 영숫자 12점(반각), 한글 24점(전각). 공백으로 정렬한다
+   - 강조는 프린터 기능(2배 확대, 굵게)과 형광펜만 쓴다
    숫자는 hero.json(계산 모듈 출력, scripts/build_hero.py)만 쓴다. */
 (function () {
   'use strict';
   var hero = document.getElementById('hero');
-  if (!hero || !window.fetch) return;
-  var rowsEl = document.getElementById('heroRows');
+  var wrap = document.getElementById('paperWrap');
+  if (!hero || !wrap || !window.fetch) return;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var W = 42;                 // 80mm 감열지 한 줄 칸 수
-  var timers = [];
-  var data = null;
-  var printedOnce = false;
+  var DOTS = 576, COLS = 42, CELL = 12, ROW = 30, MARGIN = (DOTS - COLS * CELL) / 2, FONT = '"Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif';
+  var data = null, paper = null, timers = [], printedOnce = false, seq = 0;
 
   function won(n) { return Math.round(n).toLocaleString('ko-KR'); }
   function man(n) { return Math.round(n / 10000).toLocaleString('ko-KR'); }
   function later(ms, fn) { timers.push(setTimeout(fn, ms)); }
-  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-
-  // 칸 수: 한글·전각 2칸, 나머지 1칸
-  function cols(s) {
-    var n = 0;
-    for (var i = 0; i < s.length; i++) {
-      var c = s.charCodeAt(i);
-      n += ((c >= 0x1100 && c <= 0x115f) || (c >= 0x2e80 && c <= 0xa4cf) || (c >= 0xac00 && c <= 0xd7a3) ||
-            (c >= 0xf900 && c <= 0xfaff) || (c >= 0xff00 && c <= 0xff60) || (c >= 0xffe0 && c <= 0xffe6)) ? 2 : 1;
-    }
-    return n;
-  }
+  function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
+  function wide(c) { return (c >= 0x1100 && c <= 0x115f) || (c >= 0x2e80 && c <= 0xa4cf) || (c >= 0xac00 && c <= 0xd7a3) || (c >= 0xff00 && c <= 0xff60); }
+  function cols(s) { var n = 0; for (var i = 0; i < s.length; i++) n += wide(s.charCodeAt(i)) ? 2 : 1; return n; }
   function sp(n) { return n > 0 ? new Array(n + 1).join(' ') : ''; }
-  function lr(l, r, w) { return l + sp(Math.max(1, (w || W) - cols(l) - cols(r))) + r; }
-  function center(s, w) { return sp(Math.floor(Math.max(0, (w || W) - cols(s)) / 2)) + s; }
-  function rule(ch) { return new Array(W + 1).join(ch); }
-  function ln(text, cls) { return '<span class="pl' + (cls ? ' ' + cls : '') + '">' + esc(text) + '</span>'; }
+  function lr(l, r, w) { w = w || COLS; return l + sp(Math.max(1, w - cols(l) - cols(r))) + r; }
+  function center(s, w) { w = w || COLS; return sp(Math.floor(Math.max(0, w - cols(s)) / 2)) + s; }
+  function rpad(s, w) { return sp(w - cols(s)) + s; }
+  function row3(a, b, c) { return a + sp(18 - cols(a)) + rpad(b, 12) + rpad(c, 12); }
+  function rule(ch) { return new Array(COLS + 1).join(ch); }
 
-  // 바코드: 요청 문자열로 막대 폭을 정한다 (장식)
-  function barcode(seed) {
-    var h = 0, bars = '';
-    for (var i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-    for (var k = 0; k < 46; k++) {
-      h = (h * 1103515245 + 12345) >>> 0;
-      bars += '<i style="width:' + (1 + (h >>> 29) % 3) + 'px;margin-right:' + (1 + (h >>> 26) % 3) + 'px"></i>';
-    }
-    return '<div class="bc">' + bars + '</div>';
+  // 영수증 줄 목록. size 2 = 가로·세로 2배, bold = 두 번 찍기
+  function lines(now) {
+    var A = data.jobs[0], B = data.jobs[1];
+    var win = A.remaining >= B.remaining ? A : B, gap = Math.abs(A.remaining - B.remaining), wk = win === A ? 'A' : 'B';
+    var d = now, ts = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2) + ' ' +
+      ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+    return [
+      { t: center('남는 돈 계산서', COLS / 2), size: 2 },
+      { t: center('nammeun-don.vercel.app') },
+      { t: lr(ts, 'No.' + ('000' + (seq % 10000)).slice(-4)) },
+      { t: rule('-') },
+      { t: 'A ' + A.region },
+      { t: 'B ' + B.region },
+      { t: rule('-') },
+      { t: row3('항목', 'A ' + A.label, 'B ' + B.label), bold: true },
+      { t: rule('-') },
+      { t: row3('연봉', won(A.salary), won(B.salary)) },
+      { t: row3('세금과 4대보험', '-' + won(A.taxAndInsurance), '-' + won(B.taxAndInsurance)) },
+      { t: row3('월세 x 12', '-' + won(A.rentAnnual), '-' + won(B.rentAnnual)) },
+      { t: rule('=') },
+      { t: row3('남는 돈', won(A.remaining), won(B.remaining)), bold: true, key: 'remain', hiCol: wk },
+      { t: rule('=') },
+      { t: lr('1년 차이', wk + ' +' + won(gap)), bold: true, key: 'gap' },
+      { t: '' },
+      { t: '* 1년차, 감면 없음, 식대 월 20만 원 비과세' },
+      { t: '* 월세: ' + data.rentPeriod + ' 원룸 중위값' },
+      { t: '* 금액은 서버의 계산 코드가 산출' },
+      { t: '' },
+      { barcode: true },
+      { t: center('연봉 말고 남는 돈으로 고르세요') },
+      { t: '' }
+    ];
   }
 
-  function receiptHtml(j, isWinner, gap, today) {
-    var x = [];
-    x.push(ln(center('[남는 돈 계산서]', W / 2), 'dbl'));
-    x.push(ln(''));
-    x.push(ln('근무지  ' + j.region));
-    x.push(ln('기준    ' + data.rentPeriod + ' 원룸 월세'));
-    x.push(ln('출력    ' + today));
-    x.push(ln(rule('-')));
-    x.push(ln(lr('항목', '금액')));
-    x.push(ln(rule('-')));
-    x.push(ln(lr('연봉', won(j.salary))));
-    x.push(ln(lr('세금과 4대보험', '-' + won(j.taxAndInsurance))));
-    x.push(ln(lr('월세 ' + won(j.rentMonthly) + ' x 12', '-' + won(j.rentAnnual))));
-    x.push(ln(rule('=')));
-    x.push(ln(lr('남는 돈', won(j.remaining), W / 2), 'dbl'));
-    x.push(ln(rule('=')));
-    if (isWinner) {
-      x.push(ln(center(j.label + ' 쪽이 1년에 ' + won(gap) + '원 더 남음'), 'rev tall'));
-    } else {
-      x.push(ln(center('* 연봉이 높아도 남는 돈은 적습니다 *')));
-    }
-    x.push(ln(''));
-    x.push(ln(center('1년차, 감면 없음, 식대 월 20만 원 비과세')));
-    return '<pre class="tp">' + x.join('\n') + '</pre>' + barcode(j.sggCode + j.salary) + '<div class="feedtail"></div>';
-  }
-
-  function render() {
-    var a = data.jobs[0], b = data.jobs[1];
-    var winner = a.remaining >= b.remaining ? a : b, loser = winner === a ? b : a;
-    var richer = a.salary >= b.salary ? a : b, other = richer === a ? b : a;
-    var gap = winner.remaining - loser.remaining;
-    var d = new Date(), today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
-    rowsEl.innerHTML = '';
-    data.jobs.forEach(function (j) {
-      var box = document.createElement('div');
-      box.className = 'printer';
-      box.innerHTML = '<div class="slot"></div><div class="feed"><div class="receipt thermal">' +
-        receiptHtml(j, j === winner, gap, today) + '</div></div>';
-      rowsEl.appendChild(box);
-      j._box = box;
+  // 1) 576점 캔버스에 글자를 칸 단위로 그린다
+  function typeset(L) {
+    var y = 34, rows = [];
+    L.forEach(function (ln) { var h = ln.barcode ? 86 : ln.size === 2 ? ROW * 2 : ROW; rows.push({ y: y, h: h, ln: ln }); y += h; });
+    var H = y + 30;
+    var c = document.createElement('canvas'); c.width = DOTS; c.height = H;
+    var g = c.getContext('2d'); g.fillStyle = '#000'; g.textBaseline = 'alphabetic';
+    var r = rng(7 + seq * 13);
+    rows.forEach(function (rw) {
+      var ln = rw.ln;
+      if (ln.barcode) {
+        var x = MARGIN + 60;
+        while (x < DOTS - MARGIN - 60) { var w = 2 + Math.floor(r() * 3) * 2; if (r() > .42) g.fillRect(x, rw.y + 6, w, 66); x += w + 2 + Math.floor(r() * 2) * 2; }
+        return;
+      }
+      var s = ln.size || 1, col = 0, text = ln.t || '';
+      for (var i = 0; i < text.length; i++) {
+        var ch = text[i], cw = (wide(text.charCodeAt(i)) ? 2 : 1) * CELL * s;
+        if (ch !== ' ') {
+          g.font = (wide(text.charCodeAt(i)) ? '600 ' + (22 * s) : '700 ' + (21 * s)) + 'px ' + FONT;
+          var m = g.measureText(ch).width, x0 = MARGIN + col * CELL + (cw - m) / 2;
+          var by = rw.y + 21 * s;
+          if (ch === '-' || ch === '=') {   // 구분선은 칸을 꽉 채운 점선으로
+            if (ch === '-') g.fillRect(MARGIN + col * CELL + 1, rw.y + 12 * s, CELL - 2, 2);
+            else { g.fillRect(MARGIN + col * CELL + 1, rw.y + 9, CELL - 2, 2); g.fillRect(MARGIN + col * CELL + 1, rw.y + 15, CELL - 2, 2); }
+          } else {
+            g.fillText(ch, x0, by);
+            if (ln.bold || s === 2) g.fillText(ch, x0 + 1, by);
+          }
+        }
+        col += cw / CELL;
+      }
     });
-    var cap = document.getElementById('heroCaption');
-    cap.textContent = winner === richer
-      ? '연봉이 ' + man(richer.salary - other.salary) + '만 원 높은 ' + richer.label + ' 쪽이 1년에 ' + man(gap) + '만 원 더 남습니다.'
-      : '연봉은 ' + richer.label + '이 ' + man(richer.salary - other.salary) + '만 원 높지만, 1년에 남는 돈은 ' + winner.label + '이 ' + man(gap) + '만 원 많습니다.';
-    document.getElementById('heroNote').textContent = '예시: ' + data.assumption + '. 금액은 서버의 계산 코드가 산출했습니다.';
+    return { canvas: c, rows: rows, H: H };
   }
 
-  // 이전 영수증을 구겨서 버린다: 당김 → 구김(윤곽이 뭉개지고 작아짐) → 중력으로 낙하
+  // 2) 점 단위 판정: 열 헤드가 점을 태우는 방식
+  function burn(ts) {
+    var c = ts.canvas, g = c.getContext('2d'), img = g.getImageData(0, 0, c.width, c.height), px = img.data;
+    var r = rng(91 + seq * 7), W = c.width, H = c.height;
+    var band = [], streak = [];
+    for (var y = 0; y < H; y++) band.push(.86 + .14 * Math.sin(y / 9.5 + r() * .8) * .5 + r() * .08);  // 헤드 온도에 따른 가로 얼룩
+    for (var x = 0; x < W; x++) streak.push(1);
+    [137, 138, 311, 449].forEach(function (sx) { streak[sx] = .25; });                               // 점이 빠진 세로 줄
+    for (var i = 0; i < W * H; i++) {
+      var a = px[i * 4 + 3] / 255, x2 = i % W, y2 = (i / W) | 0;
+      var on = a > .44 + (r() - .5) * .22;
+      if (on && r() < .015) on = false;                                                                 // 드문드문 빠지는 점
+      var dens = on ? Math.min(1, band[y2] * streak[x2] * (.84 + r() * .2)) : 0;
+      px[i * 4] = 38; px[i * 4 + 1] = 38; px[i * 4 + 2] = 42; px[i * 4 + 3] = Math.round(dens * 238);
+    }
+    g.putImageData(img, 0, 0);
+    return c.toDataURL('image/png');
+  }
+
+  function build() {
+    seq += 1;
+    var L = lines(new Date()), ts = typeset(L), url = burn(ts);
+    var el = document.createElement('div'); el.className = 'thermal-paper';
+    var img = document.createElement('img'); img.alt = ''; img.src = url; img.draggable = false; el.appendChild(img);
+    var hl = [];
+    ts.rows.forEach(function (rw) {
+      if (rw.ln.key === 'remain') hl.push({ y: rw.y, h: rw.h, x0: MARGIN + (rw.ln.hiCol === 'A' ? 18 : 30) * CELL - 2, x1: MARGIN + (rw.ln.hiCol === 'A' ? 30 : 42) * CELL + 2 });
+      if (rw.ln.key === 'gap') hl.push({ y: rw.y, h: rw.h, x0: MARGIN + 26 * CELL, x1: MARGIN + 42 * CELL + 2 });
+    });
+    hl.forEach(function (h, i) {
+      var m = document.createElement('i'); m.className = 'marker m' + i;
+      m.style.left = (h.x0 / DOTS * 100) + '%'; m.style.width = ((h.x1 - h.x0) / DOTS * 100) + '%';
+      m.style.top = ((h.y - 3) / ts.H * 100) + '%'; m.style.height = ((h.h + 2) / ts.H * 100) + '%';
+      el.appendChild(m);
+    });
+    var shade = document.createElement('div'); shade.className = 'paper-shade'; el.appendChild(shade);
+    return { el: el, rows: ts.rows, H: ts.H };
+  }
+
+  // 3) 출력: 줄마다 덜컥 밀려 올라온다 (아래가 프린터 출구)
+  function print(p) {
+    wrap.appendChild(p.el);
+    var fullW = p.el.getBoundingClientRect().width, k = fullW / DOTS;
+    var stops = p.rows.map(function (rw) { return (rw.y + rw.h) * k; }).concat([p.H * k]);
+    p.el.style.height = '0px';
+    if (reduce) { p.el.style.height = p.H * k + 'px'; p.el.classList.add('done'); hero.classList.add('printed'); return; }
+    var t = 250;
+    stops.forEach(function (h, i) {
+      later(t, function () { p.el.style.height = h + 'px'; wrap.classList.add('feeding'); });
+      t += i === 0 ? 180 : (p.rows[i] && p.rows[i].ln.barcode ? 160 : 95);
+    });
+    later(t + 60, function () { wrap.classList.remove('feeding'); p.el.classList.add('done'); hero.classList.add('printed'); });
+  }
+
+  // 다시 출력: 이전 영수증을 뜯어서 구겨 버린다
   function crumplePoly(w, h, seed, amount) {
-    var pts = [], n = 22, cx = w / 2, cy = h / 2, R = Math.min(w, h) * 0.34, s = seed;
+    var pts = [], n = 22, cx = w / 2, cy = h / 2, R = Math.min(w, h) * .36, r = rng(seed);
     for (var i = 0; i < n; i++) {
-      var t = i / n, px, py, per = 2 * (w + h), dpos = t * per;
-      if (dpos < w) { px = dpos; py = 0; }
-      else if (dpos < w + h) { px = w; py = dpos - w; }
-      else if (dpos < 2 * w + h) { px = w - (dpos - w - h); py = h; }
-      else { px = 0; py = h - (dpos - 2 * w - h); }
-      s = (s * 9301 + 49297) % 233280;
-      var ang = Math.atan2(py - cy, px - cx), r = R * (0.72 + 0.5 * (s / 233280));
-      var bx = cx + Math.cos(ang) * r, by = cy + Math.sin(ang) * r;
-      pts.push((px + (bx - px) * amount).toFixed(1) + 'px ' + (py + (by - py) * amount).toFixed(1) + 'px');
+      var d = i / n * 2 * (w + h), px, py;
+      if (d < w) { px = d; py = 0; } else if (d < w + h) { px = w; py = d - w; } else if (d < 2 * w + h) { px = w - (d - w - h); py = h; } else { px = 0; py = h - (d - 2 * w - h); }
+      var a = Math.atan2(py - cy, px - cx), rr = R * (.7 + .55 * r());
+      pts.push((px + (cx + Math.cos(a) * rr - px) * amount).toFixed(1) + 'px ' + (py + (cy + Math.sin(a) * rr - py) * amount).toFixed(1) + 'px');
     }
     return 'polygon(' + pts.join(',') + ')';
   }
-
-  function discard(box, idx) {
-    var paper = box.querySelector('.receipt');
-    if (!paper || !paper.animate) return;
-    var r = paper.getBoundingClientRect();
-    if (r.height < 10 || r.bottom < 0) return;
+  function discard(old) {
+    if (!old || !old.el.animate) { if (old) old.el.remove(); return; }
+    var r = old.el.getBoundingClientRect();
     var layer = document.getElementById('trashLayer');
     if (!layer) { layer = document.createElement('div'); layer.id = 'trashLayer'; document.body.appendChild(layer); }
-    var c = paper.cloneNode(true);
-    c.classList.add('discarding');
+    var c = old.el; c.classList.add('discarding');
     c.style.left = r.left + 'px'; c.style.top = r.top + 'px'; c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
     var wr = document.createElement('div'); wr.className = 'wrinkle'; c.appendChild(wr);
     layer.appendChild(c);
-    var w = r.width, h = r.height, seed = 17 + idx * 101;
-    var dir = idx === 0 ? -1 : 1;
-    var fall = window.innerHeight - r.top + 200;
-    var anim = c.animate([
-      { offset: 0, transform: 'translate(0,0) rotate(0deg) scale(1)', clipPath: crumplePoly(w, h, seed, 0), easing: 'cubic-bezier(.3,0,.2,1)' },
-      { offset: 0.14, transform: 'translate(0,16px) rotate(' + (dir * 1.5) + 'deg) scale(1)', clipPath: crumplePoly(w, h, seed, 0.04), easing: 'cubic-bezier(.5,0,.3,1)' },
-      { offset: 0.5, transform: 'translate(' + (dir * 30) + 'px,-10px) rotate(' + (dir * 35) + 'deg) scale(.36)', clipPath: crumplePoly(w, h, seed, 1), easing: 'cubic-bezier(.55,0,1,.45)' },
-      { offset: 1, transform: 'translate(' + (dir * 160) + 'px,' + fall + 'px) rotate(' + (dir * 320) + 'deg) scale(.3)', clipPath: crumplePoly(w, h, seed, 1) }
-    ], { duration: 1150, fill: 'forwards' });
-    wr.animate([{ opacity: 0 }, { opacity: 0 , offset: 0.15 }, { opacity: 1, offset: 0.5 }, { opacity: 1 }], { duration: 1150, fill: 'forwards' });
-    anim.onfinish = function () { c.remove(); };
+    var w = r.width, h = r.height, fall = window.innerHeight - r.top + 240;
+    var an = c.animate([
+      { offset: 0, transform: 'translate(0,0) rotate(0deg) scale(1)', clipPath: crumplePoly(w, h, 5, 0), easing: 'cubic-bezier(.3,0,.2,1)' },
+      { offset: .16, transform: 'translate(0,-22px) rotate(-1.5deg) scale(1)', clipPath: crumplePoly(w, h, 5, .03), easing: 'cubic-bezier(.5,0,.3,1)' },
+      { offset: .52, transform: 'translate(-60px,-40px) rotate(-38deg) scale(.34)', clipPath: crumplePoly(w, h, 5, 1), easing: 'cubic-bezier(.55,0,1,.45)' },
+      { offset: 1, transform: 'translate(-260px,' + fall + 'px) rotate(-340deg) scale(.3)', clipPath: crumplePoly(w, h, 5, 1) }
+    ], { duration: 1250, fill: 'forwards' });
+    wr.animate([{ opacity: 0 }, { opacity: 0, offset: .16 }, { opacity: 1, offset: .52 }, { opacity: 1 }], { duration: 1250, fill: 'forwards' });
+    an.onfinish = function () { c.remove(); };
   }
 
   function play() {
     timers.forEach(clearTimeout); timers = [];
-    var delay = 0;
-    if (printedOnce && !reduce) {
-      data.jobs.forEach(function (j, i) { discard(j._box, i); });
-      delay = 450;
-    }
-    printedOnce = true;
     hero.classList.remove('printed');
-    data.jobs.forEach(function (j) { j._box.classList.remove('go'); });
-    void hero.offsetWidth;
-    if (reduce) { hero.classList.add('printed'); data.jobs.forEach(function (j) { j._box.classList.add('go'); }); return; }
-    later(delay + 200, function () { data.jobs[0]._box.classList.add('go'); });
-    later(delay + 650, function () { data.jobs[1]._box.classList.add('go'); });
-    later(delay + 2900, function () { hero.classList.add('printed'); });
+    var old = paper;
+    paper = build();
+    if (old) { if (reduce) old.el.remove(); else discard(old); }
+    later(old && !reduce ? 380 : 0, function () { print(paper); });
+    printedOnce = true;
+  }
+
+  function wire() {
+    var A = data.jobs[0], B = data.jobs[1], win = A.remaining >= B.remaining ? A : B, lose = win === A ? B : A;
+    var rich = A.salary >= B.salary ? A : B, poor = rich === A ? B : A;
+    document.getElementById('heroFact').innerHTML = win !== rich
+      ? '연봉이 <b>' + man(rich.salary - poor.salary) + '만 원</b> 낮은 ' + win.label + ' 공고가 1년에 <mark>' + man(win.remaining - lose.remaining) + '만 원</mark> 더 남습니다.'
+      : win.label + ' 공고가 1년에 <mark>' + man(win.remaining - lose.remaining) + '만 원</mark> 더 남습니다.';
+    document.getElementById('heroNote').textContent = '예시: ' + A.region + ' 연봉 ' + man(A.salary) + '만 원과 ' + B.region + ' 연봉 ' + man(B.salary) + '만 원, 1년차, 감면 없음.';
+    document.getElementById('heroReplay').addEventListener('click', play);
+    var card = document.querySelector('#step1 .card');
+    document.getElementById('heroOwn').addEventListener('click', function () { card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); setTimeout(function () { var t = document.getElementById('textA'); if (t) t.focus({ preventScroll: true }); }, 450); });
+    document.getElementById('heroTry').addEventListener('click', function () {
+      var b = document.querySelector('#sampleButtons button');
+      if (b) b.click();
+      card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
   }
 
   fetch('hero.json', { cache: 'no-cache' }).then(function (r) {
     if (!r.ok) throw new Error('hero.json ' + r.status);
     return r.json();
   }).then(function (d) {
-    if (!d || !d.jobs || d.jobs.length !== 2) return;
+    if (!d || !d.jobs || d.jobs.length !== 2) throw new Error('bad');
     data = d;
-    render();
-    hero.hidden = false;
-    document.getElementById('heroReplay').addEventListener('click', play);
-    play();
-  }).catch(function () { hero.hidden = true; });
+    wire();
+    var probe = data.jobs.map(function (j) { return j.region; }).join('') + '남는 돈 계산서 항목 연봉 세금과 4대보험 월세 차이 감면 없음 식대 비과세 원룸 중위값 금액은 서버의 계산 코드가 산출 고르세요';
+    var fonts = document.fonts ? Promise.all([document.fonts.load('600 22px "Pretendard Variable"', probe), document.fonts.load('700 21px "Pretendard Variable"', '0123456789,-+.:No')]) : Promise.resolve();
+    return fonts.catch(function () {}).then(function () { play(); });
+  }).catch(function () { var s = hero.querySelector('.hero-stage'); if (s) s.hidden = true; });
 })();

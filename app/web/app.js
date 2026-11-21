@@ -637,7 +637,7 @@
     setStep(2);
     var unknown = state.extraQs.filter(function (q) { return !q.postingId || !state.model[q.postingId]; });
     var names = state.extraQs.map(function (q) { return q.postingId ? '공고 ' + q.postingId : '공통'; });
-    showMsg('msg2', '계산에 필요한 값이 더 있습니다. (' + names.join(', ') + ') 아래 빨간 점선 칸에 답한 뒤 다시 계산해 주세요.' + (unknown.length ? ' 일부 질문은 표시만 됩니다.' : ''), 'info');
+    showMsg('msg2', '계산에 필요한 값이 더 있습니다. (' + names.join(', ') + ') 아래 노란 칸에 답한 뒤 다시 계산해 주세요.' + (unknown.length ? ' 일부 질문은 표시만 됩니다.' : ''), 'info');
     if (unknown.length) {
       var box = h('div', { class: 'card soft' }, unknown.map(function (q) { return h('p', { text: q.text }); }));
       $('confirmBody').insertBefore(box, $('confirmBody').firstChild);
@@ -780,7 +780,7 @@
         return h('tr', { class: anyRelief ? 'relief' : '' }, [h('td', { text: yr + '년차' })].concat(cells));
       });
       col.appendChild(h('div', { class: 'scroll' }, h('table', { class: 'yearly' }, [h('thead', null, yh), h('tbody', null, yb)])));
-      col.appendChild(h('p', { class: 'small', text: '왼쪽에 빨간 선이 있는 줄은 감면이 적용되는 해입니다.' }));
+      col.appendChild(h('p', { class: 'small', text: '왼쪽에 노란 선이 있는 줄은 감면이 적용되는 해입니다.' }));
     }
     return col;
   }
