@@ -1,0 +1,14 @@
+# 배포 번들에서 뺀다. 키는 Vercel 환경변수로만 넣는다.
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+.git/
+__pycache__/
+.pytest_cache/
+data/raw/
+data/rent.sqlite
+tests/
+scripts/
+docs/

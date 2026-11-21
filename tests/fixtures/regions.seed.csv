@@ -1,0 +1,5 @@
+sggCode,sidoCode,sidoName,sggName,aliases,memberCodes,regionClass,typeBase,typePref,prefCandidate,classUncertain,note
+11680,11,서울특별시,강남구,,,capital,1,2,false,false,
+26230,26,부산광역시,부산진구,,,metro,2,3,false,false,
+27720,27,대구광역시,군위군,,,metro,2,3,true,false,인구감소지역 후보. 고시 목록으로 확인
+36110,36,세종특별자치시,,세종시|세종,,metro,2,3,false,true,분류 미확정
