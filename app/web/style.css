@@ -80,10 +80,8 @@ main { padding-bottom: 32px; }
 .thermal-paper.done .marker.m1 { transition-delay: .7s; transform: rotate(.6deg) scaleX(1); }
 .pos3d { position: absolute; left: 50%; bottom: 6px; width: 640px; aspect-ratio: 784 / 666; transform: translateX(-50%); }
 .pos3d > img { position: absolute; inset: 0; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
-/* 렌더 바닥 그림자가 이미지 끝에서 잘려 보이지 않도록 가장자리를 타원으로 지운다 */
-.pos3d > img { -webkit-mask-image: radial-gradient(ellipse 50% 46% at 50% 62%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 50% 46% at 50% 62%, #000 62%, transparent 100%); }
 .pos-back { z-index: 1; }
-.pos-front { z-index: 3; clip-path: inset(40.8% 16.5% 50% 16.5%); }   /* 출구 앞 가장자리 아래 좁은 띠만: 종이 아랫단을 가리고 그림자는 겹치지 않게 */
+.pos-front { z-index: 3; clip-path: inset(40.8% 16.5% 50% 16.5%); }   /* 출구 앞 가장자리 아래 본체 띠만 앞에 둔다(종이 아랫단을 가림) */
 .paper-wrap { position: absolute; left: 50%; bottom: 58.6%; width: 286px; height: 620px; margin-left: -143px; z-index: 2; }
 .pos3d:has(.feeding) > img { animation: buzz .09s linear infinite; }
 @keyframes buzz { 50% { transform: translateY(.6px); } }
@@ -238,9 +236,10 @@ a:hover { text-decoration-color: var(--ink); }
   .topbar { height: auto; padding: 14px 16px; flex-wrap: wrap; }
   .stepper li { padding: 5px 9px 5px 6px; }
   .hero-title { font-size: 2.6rem; }
-  .hero-stage { height: 590px; margin-top: 8px; overflow: hidden; }
-  .pos3d { width: 520px; }
-  .paper-wrap { width: 232px; margin-left: -116px; height: 500px; }
+  .hero-stage { height: 590px; margin: 8px -16px 0; overflow: hidden; }   /* 좌우 여백까지 넓혀 그림자가 화면 끝에서 잘리게 */
+  .hero-replay { right: 16px; }
+  .pos3d { width: 460px; }
+  .paper-wrap { width: 222px; margin-left: -111px; height: 500px; }
   .stepper li { font-size: .76rem; padding: 4px 8px 4px 4px; gap: 4px; }
   .stepper li span { width: 18px; height: 18px; }
   .mark { font-size: .98rem; }
