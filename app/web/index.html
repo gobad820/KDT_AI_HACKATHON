@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>남는 돈 비교</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>남는 돈 비교</h1>
+    <p class="lead">채용공고 두 건을 넣으면 세후 급여, 근무지 월세, 청년 세제를 계산해 어느 쪽이 얼마 더 남는지 보여줍니다.</p>
+    <ol class="stepper" id="stepper">
+      <li data-step="1" class="on"><span>1</span> 입력</li>
+      <li data-step="2"><span>2</span> 확인</li>
+      <li data-step="3"><span>3</span> 결과</li>
+    </ol>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- 1 입력 -->
+  <section id="step1" class="step">
+    <div class="card">
+      <h2>공고 두 건</h2>
+      <p class="hint">이름과 연락처는 지우고 붙여 넣어 주세요.</p>
+      <div id="samples" class="samples">
+        <span class="small">샘플</span>
+        <span id="sampleButtons"></span>
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="textA">공고 A</label>
+          <textarea id="textA" rows="12" maxlength="8000" placeholder="채용공고 본문을 붙여 넣어 주세요"></textarea>
+          <div class="count"><span id="countA">0</span> / 8,000자</div>
+        </div>
+        <div class="field">
+          <label for="textB">공고 B</label>
+          <textarea id="textB" rows="12" maxlength="8000" placeholder="채용공고 본문을 붙여 넣어 주세요"></textarea>
+          <div class="count"><span id="countB">0</span> / 8,000자</div>
+        </div>
+      </div>
+      <div id="msg1" class="msg" role="alert" hidden></div>
+      <div id="busy1" class="busy" hidden><span class="spin"></span><span class="busytext"></span></div>
+      <div class="actions"><button id="btnStart" class="primary" type="button">비교 시작</button></div>
+    </div>
+  </section>
+
+  <!-- 2 확인 -->
+  <section id="step2" class="step" hidden>
+    <div id="confirmBody"></div>
+    <div id="msg2" class="msg" role="alert" hidden></div>
+    <div id="busy2" class="busy" hidden><span class="spin"></span><span class="busytext"></span></div>
+    <div class="actions">
+      <button id="btnBack1" class="ghost" type="button">입력으로</button>
+      <button id="btnCalc" class="primary" type="button">계산</button>
+    </div>
+  </section>
+
+  <!-- 3 결과 -->
+  <section id="step3" class="step" hidden>
+    <div id="resultBody"></div>
+    <div id="msg3" class="msg" role="alert" hidden></div>
+    <div id="busy3" class="busy" hidden><span class="spin"></span><span class="busytext"></span></div>
+    <div class="actions">
+      <button id="btnBack2" class="ghost" type="button">확인 화면으로</button>
+      <button id="btnReset" class="ghost" type="button">처음부터</button>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>계산 결과는 입력한 값과 가정에 따른 참고용 수치이며, 세무·법률 자문이 아닙니다.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

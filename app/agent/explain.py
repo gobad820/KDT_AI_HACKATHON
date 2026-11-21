@@ -38,7 +38,12 @@ def template_explanation(core: CompareCore) -> str:
     base = base_scenario(core)
     c = _cmp(core, base)
     h = core.horizon_years
-    base_label = "감면 없음 기준" if base == "none" or core.hire_year >= 2027 else "현행법 기준"
+    if base == "none":
+        base_label = "감면 없음 기준"
+    elif core.hire_year >= 2027:
+        base_label = "현행법 기준. 2027년 이후 입사는 현행법 감면이 없음"
+    else:
+        base_label = "현행법 기준"
     parts = []
     if c.difference == 0:
         parts.append(f"{h}년 동안 세금과 주거비를 빼면 두 공고에 남는 돈이 같습니다({base_label}).")
@@ -62,7 +67,9 @@ def template_explanation(core: CompareCore) -> str:
 
     pb, pp = _cmp(core, "proposal_base"), _cmp(core, "proposal_pref")
     if base != "none":
-        if pb.better_job_id == c.better_job_id:
+        if pb.better_job_id == c.better_job_id and pb.difference == pp.difference:
+            parts.append(f"정부안이 통과되면 차이는 {label(pb.difference)}이 됩니다.")
+        elif pb.better_job_id == c.better_job_id:
             parts.append(f"정부안이 통과되면 차이는 우대지역이 아닐 때 {label(pb.difference)}, "
                          f"우대지역으로 지정될 때 {label(pp.difference)}입니다.")
         else:
@@ -72,7 +79,7 @@ def template_explanation(core: CompareCore) -> str:
     if be:
         x = be[0]
         line = f"{nm(x.break_even.job_id)}의 연봉이 {label(x.break_even.annual_salary, exact=True)}이면 두 공고가 같아집니다"
-        line += f"({SCENARIO_NAMES[x.scenario_id]} 기준)."
+        line += f"({base_label})." if x is c else f"({SCENARIO_NAMES[x.scenario_id]} 기준)."
         parts.append(line)
     if any(j.eligibility.status != "likely" for j in core.jobs):
         parts.append("감면 대상 여부가 확실하지 않은 공고가 있어 회사에 확인이 필요합니다.")
