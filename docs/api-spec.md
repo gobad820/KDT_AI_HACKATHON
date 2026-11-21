@@ -259,7 +259,7 @@
 | 429 | `RATE_LIMITED` | IP당 일일 한도 또는 전체 일일 한도 초과 | `sample_mode` (샘플 저장본 안내) |
 | 503 | `LLM_UNAVAILABLE` | `extract`에서 LLM 호출 실패 또는 시간 초과 | `manual_input` |
 
-- `compare`에서 LLM 호출이 실패하거나 시간 제한을 넘으면 오류를 내지 않는다. 같은 도구를 정해진 순서(`get_rent_stats` → `check_relief_rules` → `simulate`)로 부르는 결정적 파이프라인으로 계산해 200으로 응답하고 `degraded`를 true로 둔다. 이때 `explanation.text`는 서버 템플릿 문장이고 `aiGenerated`는 false다. 업종을 분류할 수 없으므로 `industry` 판정은 `unknown`이 된다.
+- `compare`에서 LLM 호출이 실패하거나 시간 제한을 넘으면 오류를 내지 않는다. 같은 도구를 정해진 순서(`get_rent_stats` → `check_relief_rules` → `simulate`)로 부르는 결정적 파이프라인으로 계산해 200으로 응답하고 `degraded`를 true로 둔다. 이때 `explanation.text`는 서버 템플릿 문장이고 `aiGenerated`는 false다. 업종은 보수적인 키워드 규칙으로 분류하고(대상 업종 하나에 분명히 해당할 때만), 그렇지 않으면 `industry` 판정은 `unknown`이 된다.
 - 시간 제한은 2장의 값을 제안한다. LLM 호출 한 번의 제한과 재시도 횟수는 `docs/agent-spec.md`에서 정한다.
 
 ## 8. 에이전트 도구
