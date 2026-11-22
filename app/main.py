@@ -113,7 +113,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="남는 돈 비교", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=lifespan)
+app = FastAPI(title="첫 직장, 10년 뒤 경제력", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=lifespan)
 
 
 @app.exception_handler(ApiError)

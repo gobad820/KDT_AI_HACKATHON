@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>남는 돈 비교 15초</title>
+<title>첫 직장, 10년 뒤 경제력 15초</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root { --bg: #e4e5e8; --ink: #131416; --sub: #5b5f66; --faint: #8b9097; --hl: #f4ea45;
@@ -142,6 +142,9 @@ function makeOdo(parent, nDigits) {
 }
 
 let D, S = {};
+// 마지막 장면의 서비스 이름. END_HL 부분에 형광펜을 긋는다
+const END_NAME = '첫 직장, 10년 뒤 경제력', END_HL = '10년 뒤';
+const HL0 = END_NAME.indexOf(END_HL), HL1 = HL0 + [...END_HL].length - 1;
 const SLOT_Y = 930, PAPER_W = 560, BAR_W = 130, GAP = 30, GROUP_W = PAPER_W + GAP + BAR_W;
 const SCALE = 560 / 38000000;
 const LEFT_CENTER = (1920 - GROUP_W) / 2, LEFT_A = 190, LEFT_B = 1010;
@@ -247,9 +250,9 @@ function init(data) {
 
   S.cut = el('div', 'abs', S.overlay); S.cut.style.cssText += 'top:538px;height:0;border-top:4px dashed #131416';
   S.sc = el('div', 'abs', S.overlay, `<svg width="96" height="96" viewBox="0 0 96 96"><g fill="none" stroke="#131416" stroke-width="6" stroke-linecap="round"><circle cx="20" cy="26" r="13"/><circle cx="20" cy="70" r="13"/><path class="b1" d="M31 33 L88 56"/><path class="b2" d="M31 63 L88 40"/></g></svg>`);
-  S.endTitle = el('div', 'abs', S.end); S.endTitle.style.cssText += 'width:1920px;text-align:center;top:300px;font-size:176px;font-weight:850;letter-spacing:-0.06em';
+  S.endTitle = el('div', 'abs', S.end); S.endTitle.style.cssText += 'width:1920px;text-align:center;top:300px;font-size:150px;font-weight:850;letter-spacing:-0.06em';
   S.endMark = el('div', 'abs', S.endTitle); S.endMark.style.cssText += 'background:#f4ea45;transform-origin:0 50%;border-radius:8px 18px 10px 20px / 14px 8px 16px 10px';
-  S.endChars = [...'남는 돈 비교'].map(ch => { const m = el('span', 'mask', S.endTitle); m.style.padding = '0'; m.style.position = 'relative'; return el('span', '', m, ch === ' ' ? '&nbsp;' : ch); });
+  S.endChars = [...END_NAME].map(ch => { const m = el('span', 'mask', S.endTitle); m.style.padding = '0'; m.style.position = 'relative'; return el('span', '', m, ch === ' ' ? '&nbsp;' : ch); });
   S.endTag = el('div', 'abs', S.end, '연봉 말고, 남는 돈으로 고르세요.'); S.endTag.style.cssText += 'width:1920px;text-align:center;top:540px;font-size:54px;font-weight:700;letter-spacing:-0.035em;color:#d6d8dc';
   S.endRule = el('div', 'abs', S.end); S.endRule.style.cssText += 'left:660px;top:650px;width:600px;height:0;border-top:3px dashed #5b5f66;transform-origin:0 50%';
   S.endUrl = el('div', 'abs', S.end); S.endUrl.style.cssText += 'width:1920px;text-align:center;top:690px;font-size:46px;font-weight:600;color:#fff;white-space:pre;letter-spacing:0';
@@ -258,7 +261,7 @@ function init(data) {
 }
 async function layout() {
   await Promise.all([typesetPaper(S.RA), typesetPaper(S.RB), typesetPaper(S.roll)]);
-  const t = S.endTitle.getBoundingClientRect(), a = S.endChars[0].parentNode.getBoundingClientRect(), b = S.endChars[3].parentNode.getBoundingClientRect();
+  const t = S.endTitle.getBoundingClientRect(), a = S.endChars[HL0].parentNode.getBoundingClientRect(), b = S.endChars[HL1].parentNode.getBoundingClientRect();
   const sc = S.stage.getBoundingClientRect().width / 1920;
   S.endMark.style.left = ((a.left - t.left) / sc - 10) + 'px'; S.endMark.style.width = ((b.right - a.left) / sc + 20) + 'px';
   S.endMark.style.top = ((a.top - t.top) / sc + (a.height / sc) * .1) + 'px'; S.endMark.style.height = (a.height / sc * .82) + 'px';
@@ -428,10 +431,11 @@ function render(t) {
     if (S.splitClone) { S.splitClone.remove(); S.splitClone = null; }
     S.scene.style.clipPath = 'none'; S.scene.style.transform = 'none';
   }
-  S.endChars.forEach((c, i) => { const p = E.outExpo(P(t, 13.95 + i * .045, 14.45 + i * .045)); c.style.transform = `translateY(${(1 - p) * 110}%)`; });
+  const st = .225 / Math.max(1, S.endChars.length - 1);   // 글자 수와 상관없이 마지막 글자가 같은 때 올라온다
+  S.endChars.forEach((c, i) => { const p = E.outExpo(P(t, 13.95 + i * st, 14.45 + i * st)); c.style.transform = `translateY(${(1 - p) * 110}%)`; });
   const mp = E.inOutCubic(P(t, 14.32, 14.6));
   S.endMark.style.transform = `scaleX(${mp})`;
-  S.endChars.slice(0, 4).forEach(c => c.style.color = mixColor('ffffff', '131416', clamp(mp * 1.6 - .3)));
+  S.endChars.slice(HL0, HL1 + 1).forEach(c => c.style.color = mixColor('ffffff', '131416', clamp(mp * 1.6 - .3)));
   const tg = E.outExpo(P(t, 14.2, 14.55)); S.endTag.style.opacity = tg; S.endTag.style.transform = `translateY(${(1 - tg) * 30}px)`;
   S.endRule.style.transform = `scaleX(${E.outExpo(P(t, 14.25, 14.55))})`;
   const url = 'nammeun-don.vercel.app', un = Math.round(url.length * P(t, 14.35, 14.72));

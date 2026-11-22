@@ -1,4 +1,4 @@
-/* 남는 돈 비교: 화면 3단계. 바닐라 JS. 서버 문자열은 모두 textContent로만 넣는다(innerHTML 사용 안 함). */
+/* 첫 직장, 10년 뒤 경제력: 화면 3단계. 바닐라 JS. 서버 문자열은 모두 textContent로만 넣는다(innerHTML 사용 안 함). */
 (function () {
   'use strict';
 
@@ -33,7 +33,7 @@
   function freshState() {
     return {
       samples: [], extract: null, manual: false, model: {}, profileQs: [], profileVals: {},
-      extraQs: [], earlyTrace: [], horizon: 5, lastReq: null, result: null, names: {}, tab: 'current_law', step: 1,
+      extraQs: [], earlyTrace: [], horizon: 10, lastReq: null, result: null, names: {}, tab: 'current_law', step: 1,
       skipped: false, assumed: []
     };
   }
