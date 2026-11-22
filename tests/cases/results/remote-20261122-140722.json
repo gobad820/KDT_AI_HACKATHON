@@ -1,0 +1,1909 @@
+{
+ "meta": {
+  "mode": "remote",
+  "runAt": "2026-11-22T14:07:22+09:00",
+  "commit": "423b731+작업 중 변경",
+  "prompts": {
+   "extract": "extract_v2",
+   "classify": "classify_v1",
+   "explain": "explain_v1"
+  },
+  "repeat": 1,
+  "baseUrl": "https://nammeun-don.vercel.app",
+  "model": {
+   "note": "팀 현황(CLAUDE.md, 11/21) 기재 설정: gemini-flash-lite-latest → 대체 gemini-3.5-flash-lite → gemini-3.1-flash-lite. 배포 API 응답에는 모델명이 없어 이번 실행에서 직접 확인하지 못함"
+  },
+  "batch": "원격 1차: 전체 실행(Codex). T13·T21·T25 행은 2차 보충 결과가 대체한다"
+ },
+ "runs": [
+  [
+   {
+    "id": "T01",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": 38000000,
+      "actual": 38000000,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "extracted",
+      "actual": "extracted",
+      "skipped": false
+     },
+     {
+      "name": "salaryEvidenceInSource",
+      "ok": true,
+      "expected": true,
+      "actual": "급여: 연봉 3,800만원",
+      "skipped": false
+     },
+     {
+      "name": "questions.exclude:annualSalary",
+      "ok": true,
+      "expected": "annualSalary 없음",
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 3442
+   },
+   {
+    "id": "T02",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": 36000000,
+      "actual": 36000000,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "questions.include:annualSalary",
+      "ok": true,
+      "expected": "annualSalary",
+      "actual": [
+       "annualSalary",
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:annualSalary:12개월",
+      "ok": true,
+      "expected": "12개월",
+      "actual": "나래물류(가상) 공고의 연봉을 36,000,000원으로 계산했습니다(월급을 12개월로 환산함). 이 금액으로 비교할까요? 다르면 고쳐 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1771
+   },
+   {
+    "id": "T03",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "명세 차이",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": 30000000,
+      "actual": 30000000,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "questions.include:annualSalary",
+      "ok": true,
+      "expected": "annualSalary",
+      "actual": [
+       "annualSalary",
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:annualSalary:범위",
+      "ok": true,
+      "expected": "범위",
+      "actual": "다솜테크(가상) 공고의 연봉을 30,000,000원으로 계산했습니다(범위로 적혀 있어 하한으로 계산함). 이 금액으로 비교할까요? 다르면 고쳐 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:annualSalary:3,400",
+      "ok": false,
+      "expected": "3,400",
+      "actual": "다솜테크(가상) 공고의 연봉을 30,000,000원으로 계산했습니다(범위로 적혀 있어 하한으로 계산함). 이 금액으로 비교할까요? 다르면 고쳐 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [
+     "questions.textContains:annualSalary:3,400"
+    ],
+    "knownGaps": [
+     "questions.textContains:annualSalary:3,400"
+    ],
+    "error": null,
+    "note": null,
+    "ms": 1754
+   },
+   {
+    "id": "T04",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": null,
+      "actual": null,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "missing",
+      "actual": "missing",
+      "skipped": false
+     },
+     {
+      "name": "questions.include:annualSalary",
+      "ok": true,
+      "expected": "annualSalary",
+      "actual": [
+       "annualSalary",
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.required:annualSalary",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:annualSalary:내규",
+      "ok": true,
+      "expected": "내규",
+      "actual": "라움건설(가상) 공고에는 연봉이 '급여: 회사 내규에 따름'로만 나와 있습니다. 제안받았거나 예상하는 연봉(원)을 입력해 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1993
+   },
+   {
+    "id": "T05",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": null,
+      "actual": null,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "missing",
+      "actual": "missing",
+      "skipped": false
+     },
+     {
+      "name": "questions.include:annualSalary",
+      "ok": true,
+      "expected": "annualSalary",
+      "actual": [
+       "annualSalary",
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.required:annualSalary",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:annualSalary:협의",
+      "ok": true,
+      "expected": "협의",
+      "actual": "마루디자인(가상) 공고에는 연봉이 '급여: 면접 후 협의'로만 나와 있습니다. 제안받았거나 예상하는 연봉(원)을 입력해 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1776
+   },
+   {
+    "id": "T06",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": 36000000,
+      "actual": 36000000,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "extracted",
+      "actual": "extracted",
+      "skipped": false
+     },
+     {
+      "name": "othersContain:성과급",
+      "ok": true,
+      "expected": "성과급",
+      "actual": [
+       "성과급 별도"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1878
+   },
+   {
+    "id": "T07",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": 36000000,
+      "actual": 36000000,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "extracted",
+      "actual": "extracted",
+      "skipped": false
+     },
+     {
+      "name": "othersContain:수습",
+      "ok": true,
+      "expected": "수습",
+      "actual": [
+       "수습: 수습 3개월 급여 90%"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1836
+   },
+   {
+    "id": "T08",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": 27600000,
+      "actual": 27600000,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "employmentType",
+      "ok": true,
+      "expected": "intern",
+      "actual": "intern",
+      "skipped": false
+     },
+     {
+      "name": "questions.include:annualSalary",
+      "ok": true,
+      "expected": "annualSalary",
+      "actual": [
+       "annualSalary",
+       "proceed"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.include:proceed",
+      "ok": true,
+      "expected": "proceed",
+      "actual": [
+       "annualSalary",
+       "proceed"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1936
+   },
+   {
+    "id": "T09",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": 27588000,
+      "actual": 27588000,
+      "skipped": false
+     },
+     {
+      "name": "salary.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "questions.include:annualSalary",
+      "ok": true,
+      "expected": "annualSalary",
+      "actual": [
+       "annualSalary",
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:annualSalary:근로시간",
+      "ok": true,
+      "expected": "근로시간",
+      "actual": "한결푸드(가상) 공고의 연봉을 27,588,000원으로 계산했습니다(시급을 월 209시간, 12개월로 환산함. 근로시간 확인 필요). 이 금액으로 비교할까요? 다르면 고쳐 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1964
+   },
+   {
+    "id": "T10",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "명세 차이",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salaryStatusIn",
+      "ok": false,
+      "expected": [
+       "inferred",
+       "missing"
+      ],
+      "actual": "extracted",
+      "skipped": false
+     },
+     {
+      "name": "questions.include:annualSalary",
+      "ok": false,
+      "expected": "annualSalary",
+      "actual": [
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.textExcludes:annualSalary:범위",
+      "ok": true,
+      "expected": "'범위' 없음",
+      "actual": null,
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [
+     "salaryStatusIn",
+     "questions.include:annualSalary"
+    ],
+    "knownGaps": [
+     "salaryStatusIn",
+     "questions.include:annualSalary"
+    ],
+    "error": null,
+    "note": null,
+    "ms": 1767
+   },
+   {
+    "id": "T11",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "region.sggCodes",
+      "ok": true,
+      "expected": [
+       "11680"
+      ],
+      "actual": [
+       "11680"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "region.ambiguous",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     },
+     {
+      "name": "questions.exclude:workLocationText",
+      "ok": true,
+      "expected": "workLocationText 없음",
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "questions.exclude:sggCode",
+      "ok": true,
+      "expected": "sggCode 없음",
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1767
+   },
+   {
+    "id": "T12",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "region.ambiguous",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "region.minCandidates",
+      "ok": true,
+      "expected": ">=2",
+      "actual": 5,
+      "skipped": false
+     },
+     {
+      "name": "questions.include:sggCode",
+      "ok": true,
+      "expected": "sggCode",
+      "actual": [
+       "companySize",
+       "sggCode"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.required:sggCode",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1812
+   },
+   {
+    "id": "T13",
+    "variant": "후보 1개만 걸림",
+    "mode": "remote",
+    "verdict": "명세 차이",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "location.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "region.undecided",
+      "ok": false,
+      "expected": "후보 확정 아님",
+      "actual": {
+       "codes": [
+        "11680"
+       ],
+       "ambiguous": false
+      },
+      "skipped": false
+     },
+     {
+      "name": "questions.include:workLocationText",
+      "ok": false,
+      "expected": "workLocationText",
+      "actual": [
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.required:workLocationText",
+      "ok": false,
+      "expected": true,
+      "actual": null,
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:workLocationText:여러 곳",
+      "ok": false,
+      "expected": "여러 곳",
+      "actual": null,
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [
+     "region.undecided",
+     "questions.include:workLocationText",
+     "questions.required:workLocationText",
+     "questions.textContains:workLocationText:여러 곳"
+    ],
+    "knownGaps": [],
+    "error": null,
+    "note": "지역 표에는 강남구 하나만 걸린다. 11/22 수정 전에는 질문 없이 11680을 확정 후보로 내보내 화면이 확인 없이 계산했다(questions.py, main.py 수정과 회귀 테스트)",
+    "ms": 1736
+   },
+   {
+    "id": "T14",
+    "variant": "전면 재택",
+    "mode": "remote",
+    "verdict": "명세 차이",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "region.undecided",
+      "ok": true,
+      "expected": "후보 확정 아님",
+      "actual": {
+       "codes": [],
+       "ambiguous": true
+      },
+      "skipped": false
+     },
+     {
+      "name": "questions.include:workLocationText",
+      "ok": true,
+      "expected": "workLocationText",
+      "actual": [
+       "companySize",
+       "workLocationText"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:workLocationText:살",
+      "ok": false,
+      "expected": "살",
+      "actual": "하늘소프트(가상) 공고의 근무지 '전면 재택근무'를 지역 표에서 찾지 못했습니다. 시군구까지 적어 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [
+     "questions.textContains:workLocationText:살"
+    ],
+    "knownGaps": [
+     "questions.textContains:workLocationText:살"
+    ],
+    "error": null,
+    "note": null,
+    "ms": 2678
+   },
+   {
+    "id": "T14",
+    "variant": "해외 법인",
+    "mode": "remote",
+    "verdict": "명세 차이",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "region.undecided",
+      "ok": true,
+      "expected": "후보 확정 아님",
+      "actual": {
+       "codes": [],
+       "ambiguous": true
+      },
+      "skipped": false
+     },
+     {
+      "name": "questions.include:workLocationText",
+      "ok": true,
+      "expected": "workLocationText",
+      "actual": [
+       "companySize",
+       "workLocationText"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:workLocationText:계산하지",
+      "ok": false,
+      "expected": "계산하지",
+      "actual": "푸른무역(가상) 공고의 근무지 '베트남 하노이'를 지역 표에서 찾지 못했습니다. 시군구까지 적어 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [
+     "questions.textContains:workLocationText:계산하지"
+    ],
+    "knownGaps": [
+     "questions.textContains:workLocationText:계산하지"
+    ],
+    "error": null,
+    "note": "질문 문구에는 근무지 원문('해외 법인…')만 인용되고 '해외 근무는 계산하지 않는다'는 안내가 없다",
+    "ms": 2689
+   },
+   {
+    "id": "T15",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "companySize.value",
+      "ok": true,
+      "expected": "sme",
+      "actual": "sme",
+      "skipped": false
+     },
+     {
+      "name": "companySize.status",
+      "ok": true,
+      "expected": "extracted",
+      "actual": "extracted",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     },
+     {
+      "name": "eligibility",
+      "ok": true,
+      "expected": "likely",
+      "actual": "likely",
+      "skipped": false
+     },
+     {
+      "name": "checkResult.company_size",
+      "ok": true,
+      "expected": "pass",
+      "actual": "pass",
+      "skipped": false
+     },
+     {
+      "name": "checkResult.industry",
+      "ok": true,
+      "expected": "pass",
+      "actual": "pass",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 3260
+   },
+   {
+    "id": "T16",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "companySize.value",
+      "ok": true,
+      "expected": "large",
+      "actual": "large",
+      "skipped": false
+     },
+     {
+      "name": "companySize.status",
+      "ok": true,
+      "expected": "extracted",
+      "actual": "extracted",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     },
+     {
+      "name": "eligibility",
+      "ok": true,
+      "expected": "unlikely",
+      "actual": "unlikely",
+      "skipped": false
+     },
+     {
+      "name": "baseScenario",
+      "ok": true,
+      "expected": "none",
+      "actual": "none",
+      "skipped": false
+     },
+     {
+      "name": "reliefYearsZero",
+      "ok": true,
+      "expected": 0,
+      "actual": {
+       "none": 0,
+       "current_law": 0,
+       "proposal_base": 0,
+       "proposal_pref": 0
+      },
+      "skipped": false
+     },
+     {
+      "name": "noticeContains:감면 없음 기준",
+      "ok": true,
+      "expected": "감면 없음 기준",
+      "actual": "금액은 서버의 계산 코드가 산출했습니다. 설명 문장은 정해진 틀로 작성했습니다. / 2026년 8월 정부 세제개편안 기준입니다. 국회에서 확정되지 않았고 지역 구분은 시행령으로 정해질 예정입니다. / 감면은 회사를 통해 신청해야 하며 대상 여부는 회사와 국세청에서 확인해야 합니다. / 남는 돈에는 식비·교통비 등 생활비가 들어 있지 않습니다. / 공고 A: 감면 대상이 아닐 가능성이 높아 감면 없음 기준으로 계산했습니다.",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 2839
+   },
+   {
+    "id": "T17",
+    "variant": "은행",
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     },
+     {
+      "name": "eligibility",
+      "ok": true,
+      "expected": "unlikely",
+      "actual": "unlikely",
+      "skipped": false
+     },
+     {
+      "name": "checkResult.industry",
+      "ok": true,
+      "expected": "fail",
+      "actual": "fail",
+      "skipped": false
+     },
+     {
+      "name": "baseScenario",
+      "ok": true,
+      "expected": "none",
+      "actual": "none",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 10159
+   },
+   {
+    "id": "T17",
+    "variant": "병원",
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     },
+     {
+      "name": "eligibility",
+      "ok": true,
+      "expected": "unlikely",
+      "actual": "unlikely",
+      "skipped": false
+     },
+     {
+      "name": "checkResult.industry",
+      "ok": true,
+      "expected": "fail",
+      "actual": "fail",
+      "skipped": false
+     },
+     {
+      "name": "baseScenario",
+      "ok": true,
+      "expected": "none",
+      "actual": "none",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 4548
+   },
+   {
+    "id": "T18",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "companySize.value",
+      "ok": true,
+      "expected": "unknown",
+      "actual": "unknown",
+      "skipped": false
+     },
+     {
+      "name": "companySize.status",
+      "ok": true,
+      "expected": "missing",
+      "actual": "missing",
+      "skipped": false
+     },
+     {
+      "name": "questions.include:companySize",
+      "ok": true,
+      "expected": "companySize",
+      "actual": [
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     },
+     {
+      "name": "eligibility",
+      "ok": true,
+      "expected": "uncertain",
+      "actual": "uncertain",
+      "skipped": false
+     },
+     {
+      "name": "hrQuestionContains:중소기업",
+      "ok": true,
+      "expected": "중소기업",
+      "actual": "귀사가 중소기업기본법상 중소기업에 해당하는지, 주된 사업이 중소기업 취업자 소득세 감면 대상 업종인지, 입사 후 감면신청서를 제출하면 중소기업 취업자 소득세 감면(조세특례제한법 제30조) 처리가 가능한지 확인 부탁드립니다.",
+      "skipped": false
+     },
+     {
+      "name": "hrQuestionContains:업종",
+      "ok": true,
+      "expected": "업종",
+      "actual": "귀사가 중소기업기본법상 중소기업에 해당하는지, 주된 사업이 중소기업 취업자 소득세 감면 대상 업종인지, 입사 후 감면신청서를 제출하면 중소기업 취업자 소득세 감면(조세특례제한법 제30조) 처리가 가능한지 확인 부탁드립니다.",
+      "skipped": false
+     },
+     {
+      "name": "noticeContains:불확실",
+      "ok": true,
+      "expected": "불확실",
+      "actual": "금액은 서버의 계산 코드가 산출했습니다. 설명 문장은 정해진 틀로 작성했습니다. / 2026년 8월 정부 세제개편안 기준입니다. 국회에서 확정되지 않았고 지역 구분은 시행령으로 정해질 예정입니다. / 감면은 회사를 통해 신청해야 하며 대상 여부는 회사와 국세청에서 확인해야 합니다. / 남는 돈에는 식비·교통비 등 생활비가 들어 있지 않습니다. / 공고 A: 감면 대상 여부가 불확실합니다. 대상이 아닐 때의 값은 '감면 없음'을 보세요.",
+      "skipped": false
+     },
+     {
+      "name": "noticeContains:감면 없음",
+      "ok": true,
+      "expected": "감면 없음",
+      "actual": "금액은 서버의 계산 코드가 산출했습니다. 설명 문장은 정해진 틀로 작성했습니다. / 2026년 8월 정부 세제개편안 기준입니다. 국회에서 확정되지 않았고 지역 구분은 시행령으로 정해질 예정입니다. / 감면은 회사를 통해 신청해야 하며 대상 여부는 회사와 국세청에서 확인해야 합니다. / 남는 돈에는 식비·교통비 등 생활비가 들어 있지 않습니다. / 공고 A: 감면 대상 여부가 불확실합니다. 대상이 아닐 때의 값은 '감면 없음'을 보세요.",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 3247
+   },
+   {
+    "id": "T19",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "명세 차이",
+    "checks": [
+     {
+      "name": "rentScope.B",
+      "ok": true,
+      "expected": "sido",
+      "actual": "sido",
+      "skipped": false
+     },
+     {
+      "name": "traceContains:get_rent_stats",
+      "ok": true,
+      "expected": "넓힘",
+      "actual": "A 서울특별시 강남구: 최근 6개월 표본 3228건 / B 경상북도 청송군: 시도 전체 표본 3208건(표본이 30건 미만이라 최근 6개월 → 최근 12개월 → 시도 전체 순으로 넓힘)",
+      "skipped": false
+     },
+     {
+      "name": "rentDecisionTrace",
+      "ok": false,
+      "expected": "type=decision 인 범위 확장 기록",
+      "actual": [
+       "tool_call:get_rent_stats",
+       "tool_call:check_relief_rules",
+       "decision:scenario_selection",
+       "tool_call:simulate",
+       "explain:explanation"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "explanationContains:시도",
+      "ok": false,
+      "expected": "시도",
+      "actual": {
+       "aiGenerated": true,
+       "text": "현행법 기준 10년 동안 보기정밀(가상)이 예시소프트(가상)보다 약 3,688만 원 더 남는 것으로 계산됩니다. 이는 예시소프트(가상)의 세후 연봉이 더 높음에도 불구하고, 보기정밀(가상)의 연 주거비가 약 681만 원 더 낮아 생활비 부담이 적기 때문입니다. 정부안이 통과되어 우대지역으로 지정될 경우, 두 회사 모두 감면 혜택이 늘어나지만 누적 남는 돈의"
+      },
+      "skipped": false
+     }
+    ],
+    "failed": [
+     "rentDecisionTrace",
+     "explanationContains:시도"
+    ],
+    "knownGaps": [
+     "rentDecisionTrace",
+     "explanationContains:시도"
+    ],
+    "error": null,
+    "note": "원격(실제 스냅샷)은 경북 청송군 47750(6개월 12건, 12개월 20건 → 시도 확장, 11/22 사용자 확인)을 쓴다",
+    "ms": 5442
+   },
+   {
+    "id": "T20",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "dormitory",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "questions.include:housing.mode",
+      "ok": true,
+      "expected": "housing.mode",
+      "actual": [
+       "housing.mode"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.inputType:housing.mode",
+      "ok": true,
+      "expected": "boolean",
+      "actual": "boolean",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     },
+     {
+      "name": "housingMonthly.A",
+      "ok": true,
+      "expected": 0,
+      "actual": 0,
+      "skipped": false
+     },
+     {
+      "name": "rentNull.A",
+      "ok": true,
+      "expected": null,
+      "actual": null,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 6194
+   },
+   {
+    "id": "T21",
+    "variant": "세종(월세 직접 입력)",
+    "mode": "remote",
+    "verdict": "미측정",
+    "checks": [],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "고정 월세가 필요해 원격에서 재지 않음",
+    "ms": 0
+   },
+   {
+    "id": "T21",
+    "variant": "세종(월세 통계 부족)",
+    "mode": "remote",
+    "verdict": "미측정",
+    "checks": [],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "고정 월세가 필요해 원격에서 재지 않음 / 고정 월세에서 세종은 6개월 표본 9건, 넓힐 범위가 없어 '확인 불가'로 월세를 되묻는다(needsInput)",
+    "ms": 0
+   },
+   {
+    "id": "T21",
+    "variant": "옛 광주 동구",
+    "mode": "remote",
+    "verdict": "미측정",
+    "checks": [],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "고정 월세가 필요해 원격에서 재지 않음",
+    "ms": 0
+   },
+   {
+    "id": "T22",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "noticeContains:우대지역으로 지정될 가능성",
+      "ok": true,
+      "expected": "우대지역으로 지정될 가능성",
+      "actual": "AI가 생성한 답변입니다. 금액은 서버의 계산 코드가 산출했습니다. / 2026년 8월 정부 세제개편안 기준입니다. 국회에서 확정되지 않았고 지역 구분은 시행령으로 정해질 예정입니다. / 감면은 회사를 통해 신청해야 하며 대상 여부는 회사와 국세청에서 확인해야 합니다. / 남는 돈에는 식비·교통비 등 생활비가 들어 있지 않습니다. / 대구광역시 군위군: 인구감소지역이라 우대지역으로 지정될 가능성이 있으나 확정이 아닙니다.",
+      "skipped": false
+     },
+     {
+      "name": "explanationContains:우대지역",
+      "ok": true,
+      "expected": "우대지역",
+      "actual": {
+       "aiGenerated": true,
+       "text": "현행법 기준 시나리오에서 10년 동안 보기정밀(가상)이 예시소프트(가상)보다 약 2,668만 원 더 남는 것으로 계산됩니다. 이는 예시소프트(가상)의 세후 연봉이 더 높음에도 불구하고, 보기정밀(가상)의 연 주거비가 약 579만 원 더 낮아 생활비 부담이 적기 때문입니다. 정부안이 통과되어 우대지역으로 지정될 경우, 예시소프트(가상)는 약 679만 원, 보"
+      },
+      "skipped": false
+     },
+     {
+      "name": "scenarios",
+      "ok": true,
+      "expected": [
+       "none",
+       "current_law",
+       "proposal_base",
+       "proposal_pref"
+      ],
+      "actual": [
+       "none",
+       "current_law",
+       "proposal_base",
+       "proposal_pref"
+      ],
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 4512
+   },
+   {
+    "id": "T23",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "remote.aiExplanationVerified",
+      "ok": true,
+      "expected": {
+       "aiGenerated": true,
+       "numbersVerified": true
+      },
+      "actual": {
+       "aiGenerated": true,
+       "numbersVerified": true
+      },
+      "skipped": false
+     },
+     {
+      "name": "label:none.difference",
+      "ok": true,
+      "expected": "약 839만 원",
+      "actual": "약 839만 원",
+      "skipped": false
+     },
+     {
+      "name": "label:proposal_base.difference",
+      "ok": true,
+      "expected": "약 594만 원",
+      "actual": "약 594만 원",
+      "skipped": false
+     },
+     {
+      "name": "label:none.breakEven",
+      "ok": true,
+      "expected": "4,019만 원",
+      "actual": "4,019만 원",
+      "skipped": false
+     },
+     {
+      "name": "label:proposal_base.breakEven",
+      "ok": true,
+      "expected": "3,934만 원",
+      "actual": "3,934만 원",
+      "skipped": false
+     },
+     {
+      "name": "templateNumbersVerified",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "docText:agent-spec-8",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "calcRules:5:none",
+      "ok": true,
+      "expected": {
+       "A": 116049030,
+       "B": 124441480,
+       "diff": 8392450,
+       "be": 40190000,
+       "better": "B"
+      },
+      "actual": {
+       "A": 116049030,
+       "B": 124441480,
+       "diff": 8392450,
+       "be": 40190000,
+       "better": "B"
+      },
+      "skipped": false
+     },
+     {
+      "name": "calcRules:5:current_law",
+      "ok": true,
+      "expected": {
+       "A": 116049030,
+       "B": 124441480,
+       "diff": 8392450,
+       "be": 40190000,
+       "better": "B"
+      },
+      "actual": {
+       "A": 116049030,
+       "B": 124441480,
+       "diff": 8392450,
+       "be": 40190000,
+       "better": "B"
+      },
+      "skipped": false
+     },
+     {
+      "name": "calcRules:5:proposal_base",
+      "ok": true,
+      "expected": {
+       "A": 121705600,
+       "B": 127649000,
+       "diff": 5943400,
+       "be": 39340000,
+       "better": "B"
+      },
+      "actual": {
+       "A": 121705600,
+       "B": 127649000,
+       "diff": 5943400,
+       "be": 39340000,
+       "better": "B"
+      },
+      "skipped": false
+     },
+     {
+      "name": "calcRules:5:proposal_pref",
+      "ok": true,
+      "expected": {
+       "A": 121705600,
+       "B": 127649000,
+       "diff": 5943400,
+       "be": 39340000,
+       "better": "B"
+      },
+      "actual": {
+       "A": 121705600,
+       "B": 127649000,
+       "diff": 5943400,
+       "be": 39340000,
+       "better": "B"
+      },
+      "skipped": false
+     },
+     {
+      "name": "brief:none.difference",
+      "ok": true,
+      "expected": "8,392,450",
+      "actual": "8,392,450",
+      "skipped": false
+     },
+     {
+      "name": "brief:proposal_base.difference",
+      "ok": true,
+      "expected": "5,943,400",
+      "actual": "5,943,400",
+      "skipped": false
+     },
+     {
+      "name": "brief:A.none.firstYear",
+      "ok": true,
+      "expected": "23,209,806",
+      "actual": "23,209,806",
+      "skipped": false
+     },
+     {
+      "name": "brief:B.none.firstYear",
+      "ok": true,
+      "expected": "24,888,296",
+      "actual": "24,888,296",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 2001
+   },
+   {
+    "id": "T24",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "remote.aiExplanationVerified",
+      "ok": true,
+      "expected": {
+       "aiGenerated": true,
+       "numbersVerified": true
+      },
+      "actual": {
+       "aiGenerated": true,
+       "numbersVerified": true
+      },
+      "skipped": false
+     },
+     {
+      "name": "label:none.difference",
+      "ok": true,
+      "expected": "약 1,678만 원",
+      "actual": "약 1,678만 원",
+      "skipped": false
+     },
+     {
+      "name": "label:proposal_base.difference",
+      "ok": true,
+      "expected": "약 1,498만 원",
+      "actual": "약 1,498만 원",
+      "skipped": false
+     },
+     {
+      "name": "label:proposal_pref.difference",
+      "ok": true,
+      "expected": "약 1,449만 원",
+      "actual": "약 1,449만 원",
+      "skipped": false
+     },
+     {
+      "name": "templateNumbersVerified",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "docText:api-spec-explanation",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "calcRules:10:none",
+      "ok": true,
+      "expected": {
+       "A": 232098060,
+       "B": 248882960,
+       "diff": 16784900,
+       "be": 40190000,
+       "better": "B"
+      },
+      "actual": {
+       "A": 232098060,
+       "B": 248882960,
+       "diff": 16784900,
+       "be": 40190000,
+       "better": "B"
+      },
+      "skipped": false
+     },
+     {
+      "name": "calcRules:10:current_law",
+      "ok": true,
+      "expected": {
+       "A": 232098060,
+       "B": 248882960,
+       "diff": 16784900,
+       "be": 40190000,
+       "better": "B"
+      },
+      "actual": {
+       "A": 232098060,
+       "B": 248882960,
+       "diff": 16784900,
+       "be": 40190000,
+       "better": "B"
+      },
+      "skipped": false
+     },
+     {
+      "name": "calcRules:10:proposal_base",
+      "ok": true,
+      "expected": {
+       "A": 237754630,
+       "B": 252731984,
+       "diff": 14977354,
+       "be": 39810000,
+       "better": "B"
+      },
+      "actual": {
+       "A": 237754630,
+       "B": 252731984,
+       "diff": 14977354,
+       "be": 39810000,
+       "better": "B"
+      },
+      "skipped": false
+     },
+     {
+      "name": "calcRules:10:proposal_pref",
+      "ok": true,
+      "expected": {
+       "A": 238885944,
+       "B": 253373488,
+       "diff": 14487544,
+       "be": 39730000,
+       "better": "B"
+      },
+      "actual": {
+       "A": 238885944,
+       "B": 253373488,
+       "diff": 14487544,
+       "be": 39730000,
+       "better": "B"
+      },
+      "skipped": false
+     },
+     {
+      "name": "brief:none.difference",
+      "ok": true,
+      "expected": "16,784,900",
+      "actual": "16,784,900",
+      "skipped": false
+     },
+     {
+      "name": "brief:proposal_base.difference",
+      "ok": true,
+      "expected": "14,977,354",
+      "actual": "14,977,354",
+      "skipped": false
+     },
+     {
+      "name": "brief:proposal_pref.difference",
+      "ok": true,
+      "expected": "14,487,544",
+      "actual": "14,487,544",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1992
+   },
+   {
+    "id": "T25",
+    "variant": "10년",
+    "mode": "remote",
+    "verdict": "미측정",
+    "checks": [],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "고정 월세가 필요해 원격에서 재지 않음",
+    "ms": 0
+   },
+   {
+    "id": "T25",
+    "variant": "5년(정부안도 감면 연수 같음)",
+    "mode": "remote",
+    "verdict": "미측정",
+    "checks": [],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "고정 월세가 필요해 원격에서 재지 않음",
+    "ms": 0
+   },
+   {
+    "id": "T26",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "salary.value",
+      "ok": true,
+      "expected": 38000000,
+      "actual": 38000000,
+      "skipped": false
+     },
+     {
+      "name": "salaryNot",
+      "ok": true,
+      "expected": "≠100000000",
+      "actual": 38000000,
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1835
+   },
+   {
+    "id": "T28",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "미구현",
+    "checks": [
+     {
+      "name": "route:/api/followup",
+      "ok": true,
+      "expected": "경로 없음(미구현)",
+      "actual": "없음",
+      "skipped": false
+     },
+     {
+      "name": "promptRule:선택하세요",
+      "ok": true,
+      "expected": "선택하세요",
+      "actual": "있음",
+      "skipped": false
+     },
+     {
+      "name": "promptRule:권유",
+      "ok": true,
+      "expected": "권유",
+      "actual": "있음",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 220
+   },
+   {
+    "id": "T29",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "미구현",
+    "checks": [
+     {
+      "name": "route:/api/followup",
+      "ok": true,
+      "expected": "경로 없음(미구현)",
+      "actual": "없음",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 0
+   },
+   {
+    "id": "T30",
+    "variant": null,
+    "mode": "remote",
+    "verdict": "미측정",
+    "checks": [],
+    "failed": [],
+    "knownGaps": [
+     "compareDegraded"
+    ],
+    "error": null,
+    "note": "모의 장애로만 잰다(실제 장애를 일으키지 않음)",
+    "ms": 0
+   }
+  ]
+ ]
+}
