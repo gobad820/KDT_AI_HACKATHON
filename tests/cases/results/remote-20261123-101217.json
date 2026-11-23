@@ -1,0 +1,231 @@
+{
+ "meta": {
+  "mode": "remote",
+  "runAt": "2026-11-23T10:12:17+09:00",
+  "commit": "b6842b6+작업 중 변경",
+  "prompts": {
+   "extract": "extract_v2",
+   "classify": "classify_v1",
+   "explain": "explain_v1"
+  },
+  "repeat": 1,
+  "baseUrl": "https://nammeun-don.vercel.app",
+  "model": {
+   "note": "팀 현황(CLAUDE.md, 11/21) 기재 설정: gemini-flash-lite-latest → 대체 gemini-3.5-flash-lite → gemini-3.1-flash-lite. 배포 API 응답에는 모델명이 없어 이번 실행에서 직접 확인하지 못함"
+  },
+  "deployedVersion": "API로 확인 불가. commit 은 평가기를 돌린 로컬 저장소의 커밋이며 배포본의 커밋이 아니다"
+ },
+ "runs": [
+  [
+   {
+    "id": "T13",
+    "variant": "명세 문구",
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "location.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "multipleLocations",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "region.sggCodes",
+      "ok": true,
+      "expected": [
+       "48120"
+      ],
+      "actual": [
+       "48120"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "region.ambiguous",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "questions.include:workLocationText",
+      "ok": true,
+      "expected": "workLocationText",
+      "actual": [
+       "companySize",
+       "workLocationText"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.exclude:sggCode",
+      "ok": true,
+      "expected": "sggCode 없음",
+      "actual": [
+       "companySize",
+       "workLocationText"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.required:workLocationText",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "questions.inputType:workLocationText",
+      "ok": true,
+      "expected": "text",
+      "actual": "text",
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:workLocationText:여러 곳",
+      "ok": true,
+      "expected": "여러 곳",
+      "actual": "금강기계(가상) 공고에 근무지가 여러 곳으로 적혀 있습니다 ('서울 본사 또는 창원 공장'). 실제 근무할 시군구 코드를 입력해 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:workLocationText:시군구 코드",
+      "ok": true,
+      "expected": "시군구 코드",
+      "actual": "금강기계(가상) 공고에 근무지가 여러 곳으로 적혀 있습니다 ('서울 본사 또는 창원 공장'). 실제 근무할 시군구 코드를 입력해 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "11/22 공개 배포본은 후보 없이 일반 근무지 질문을 반환했다. / 창원(48120)만 찾아 참고로 보여 주고 실제 근무지의 시군구 코드 입력을 요구한다.",
+    "ms": 5808
+   },
+   {
+    "id": "T13",
+    "variant": "후보 1개만 걸림",
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "location.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "multipleLocations",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "region.sggCodes",
+      "ok": true,
+      "expected": [
+       "11680",
+       "48120"
+      ],
+      "actual": [
+       "11680",
+       "48120"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "region.ambiguous",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "questions.include:sggCode",
+      "ok": true,
+      "expected": "sggCode",
+      "actual": [
+       "companySize",
+       "sggCode"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.exclude:workLocationText",
+      "ok": true,
+      "expected": "workLocationText 없음",
+      "actual": [
+       "companySize",
+       "sggCode"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.required:sggCode",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "questions.inputType:sggCode",
+      "ok": true,
+      "expected": "select",
+      "actual": "select",
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:sggCode:여러 곳",
+      "ok": true,
+      "expected": "여러 곳",
+      "actual": "금강기계(가상) 공고에 근무지가 여러 곳으로 적혀 있습니다 ('서울 강남구 본사 또는 창원 공장'). 실제 근무할 시군구를 고르거나 직접 입력해 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "11/22 공개 배포본은 강남구(11680) 한 곳을 질문 없이 확정했다. / 기존 결과와 대조하기 위해 변형 이름을 유지한다. 이제 강남구(11680)와 창원(48120)을 찾아 시군구 선택을 요구한다.",
+    "ms": 4438
+   }
+  ]
+ ]
+}
