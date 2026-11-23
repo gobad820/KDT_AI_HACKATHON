@@ -205,6 +205,27 @@ def extract(req: ExtractRequest, request: Request):
     return JSONResponse(dump(resp))
 
 
+@app.get("/api/company")
+def company_info(name: str = "", sgg: str = ""):
+    """회사 이름으로 국민연금 가입 사업장 정보(가입자 수)를 참고로 돌려준다. 계산에는 쓰지 않는다.
+    키가 없거나, 못 찾거나, 후보가 여럿이거나, 시간이 넘으면 found=false."""
+    from app.data import company
+    name = (name or "").strip()[:60]
+    hint = sgg if re.fullmatch(r"\d{5}", sgg or "") else None
+    if not company.enabled() or not name:
+        return JSONResponse({"found": False})
+    try:
+        hit = company.lookup(name, hint)
+    except Exception:
+        hit = None
+    if hit is None:
+        return JSONResponse({"found": False})
+    as_of = f"{hit.as_of[:4]}-{hit.as_of[4:6]}" if len(hit.as_of) >= 6 else hit.as_of
+    return JSONResponse({"found": True, "name": hit.name, "headcount": hit.headcount, "asOf": as_of,
+                         "smeLikely": hit.headcount < company.SME_HEADCOUNT_LIMIT,
+                         "source": "국민연금공단 국민연금 가입 사업장 내역(공공데이터포털)"})
+
+
 @app.post("/api/compare")
 def compare(req: CompareRequest, request: Request):
     started = time.perf_counter()
