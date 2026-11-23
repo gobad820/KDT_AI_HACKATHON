@@ -65,9 +65,14 @@ def _posting_questions(pid: str, f: PostingFields, region: RegionResolution) -> 
         qs.append(dict(field="workLocationText", input_type="text", required=True,
                        text=f"{who}의 근무지 '{loc}'의 시군구를 확정할 수 없습니다. 시군구 코드를 입력해 주세요."))
     if f.company_size.value == "unknown" or f.company_size.status == "inferred":
-        qs.append(dict(field="companySize", input_type="select", required=True, options=SIZE_OPTIONS,
-                       text=f"{who}에는 회사 규모가 적혀 있지 않습니다. 어디에 해당하나요?" if f.company_size.value == "unknown"
-                       else f"{who}의 회사 규모를 단서로만 '{_SIZE_LABEL.get(f.company_size.value, f.company_size.value)}'(으)로 읽었습니다. 맞나요?"))
+        nps = (f.company_size.note or "") if (f.company_size.note or "").startswith("국민연금") else ""
+        if f.company_size.value == "unknown":
+            size_q = f"{who}에는 회사 규모가 적혀 있지 않습니다. 어디에 해당하나요?" + (f" (참고: {nps})" if nps else "")
+        elif nps:
+            size_q = f"{who}의 회사 규모를 {nps.split('. ')[0]}로 '{_SIZE_LABEL.get(f.company_size.value, f.company_size.value)}'(으)로 추정했습니다. 맞나요?"
+        else:
+            size_q = f"{who}의 회사 규모를 단서로만 '{_SIZE_LABEL.get(f.company_size.value, f.company_size.value)}'(으)로 읽었습니다. 맞나요?"
+        qs.append(dict(field="companySize", input_type="select", required=True, options=SIZE_OPTIONS, text=size_q))
     if f.benefits.dormitory.value is True:
         qs.append(dict(field="housing.mode", input_type="boolean", required=False,
                        text=f"{who}에 기숙사가 제공된다고 나와 있습니다. 이용할 계획인가요?"))

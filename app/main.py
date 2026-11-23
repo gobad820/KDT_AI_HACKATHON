@@ -191,6 +191,15 @@ def extract(req: ExtractRequest, request: Request):
             notes.append(f"{pid} '{text}'는 후보 {len(res.candidates)}개")
     trace.append(("tool_call", "resolve_region", " / ".join(notes)))
 
+    from app.data.company import apply_company_lookup, enabled as company_lookup_enabled
+    if company_lookup_enabled():
+        try:
+            found = apply_company_lookup(fields, regions)
+        except Exception:
+            found = []
+        if found:
+            trace.append(("tool_call", "lookup_company", "국민연금 가입 사업장 정보로 회사 규모 단서를 찾음: " + " / ".join(found)))
+
     questions = build_questions(fields, regions)
     asked = [q for q in questions if q.posting_id]
     if asked:
