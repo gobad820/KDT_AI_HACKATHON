@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개발 설명 자료 | 첫 직장, 10년 뒤 경제력</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --bg: #f7f7f4;
+    --card: #ffffff;
+    --ink: #1c1f24;
+    --sub: #5a616b;
+    --line: #dfe1dc;
+    --ai: #7a4bd1;
+    --ai-bg: #f1eafc;
+    --code: #0f6b5c;
+    --code-bg: #e4f3ef;
+    --data: #8a5a00;
+    --data-bg: #fbf1d9;
+    --link: #1f5fbf;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 32px 16px 64px; }
+  header.top { padding: 8px 0 24px; border-bottom: 2px solid var(--ink); margin-bottom: 8px; }
+  .eyebrow { font-size: 13px; font-weight: 600; color: var(--sub); letter-spacing: 0.04em; margin: 0 0 6px; }
+  h1 { font-size: 30px; line-height: 1.3; margin: 0 0 10px; font-weight: 800; }
+  .lead { margin: 0 0 14px; color: var(--sub); }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; margin: 0; padding: 0; list-style: none; }
+  .meta li { min-width: 0; }
+  a { color: var(--link); text-underline-offset: 3px; }
+  nav.toc { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 0 0; }
+  nav.toc a {
+    font-size: 13px; text-decoration: none; color: var(--ink);
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 4px 11px;
+  }
+  section { padding-top: 40px; }
+  h2 { font-size: 22px; margin: 0 0 14px; font-weight: 700; line-height: 1.35; }
+  h3 { font-size: 16px; margin: 20px 0 6px; font-weight: 700; }
+  p { margin: 0 0 10px; }
+  ul, ol { margin: 0 0 10px; padding-left: 20px; }
+  li { margin-bottom: 4px; }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.88em; background: #ecedea; border-radius: 4px; padding: 1px 5px;
+  }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .three .card b { display: block; font-size: 13px; color: var(--sub); margin-bottom: 4px; font-weight: 600; }
+  .three .card p { margin: 0; font-weight: 500; }
+
+  /* 아키텍처 그림 */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; margin: 0 0 12px; padding: 0; list-style: none; }
+  .legend li { display: flex; align-items: center; gap: 6px; margin: 0; }
+  .sw { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid; display: inline-block; }
+  .sw.ai { background: var(--ai-bg); border-color: var(--ai); }
+  .sw.code { background: var(--code-bg); border-color: var(--code); }
+  .sw.data { background: var(--data-bg); border-color: var(--data); }
+  .sw.ui { background: #fff; border-color: var(--ink); }
+  .arch { display: flex; flex-direction: column; gap: 0; }
+  .box { border: 1.5px solid; border-radius: 10px; padding: 9px 11px; font-size: 14px; line-height: 1.5; }
+  .box b { display: block; font-size: 14px; }
+  .box span { display: block; font-size: 13px; color: var(--sub); }
+  .box.ui { background: #fff; border-color: var(--ink); }
+  .box.ai { background: var(--ai-bg); border-color: var(--ai); }
+  .box.code { background: var(--code-bg); border-color: var(--code); }
+  .box.data { background: var(--data-bg); border-color: var(--data); }
+  .arrow { text-align: center; color: var(--sub); font-size: 13px; line-height: 1; padding: 7px 0; }
+  .arrow::before { content: ""; display: block; width: 0; height: 12px; border-left: 1.5px solid var(--sub); margin: 0 auto; }
+  .arrow::after { content: ""; display: block; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--sub); margin: 0 auto -5px; }
+  .lanes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .lane { border: 1px dashed #b9bdb5; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 8px; background: #fbfbf9; }
+  .lane > h3 { margin: 0; font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .lane .step { font-size: 12px; color: var(--sub); font-weight: 600; margin: 0; }
+
+  /* 흐름 */
+  ol.flow { list-style: none; padding: 0; margin: 0; counter-reset: s; }
+  ol.flow > li { counter-increment: s; position: relative; padding: 0 0 16px 44px; margin: 0; }
+  ol.flow > li::before {
+    content: counter(s); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--ink); color: #fff; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;
+  }
+  ol.flow > li::after { content: ""; position: absolute; left: 14px; top: 34px; bottom: 2px; border-left: 1.5px solid var(--line); }
+  ol.flow > li:last-child::after { display: none; }
+  ol.flow b.t { display: block; }
+  ol.flow p { margin: 2px 0 0; color: var(--sub); font-size: 15px; }
+
+  /* 표 */
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14.5px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  thead th { background: #f0f1ed; font-weight: 700; font-size: 13.5px; white-space: nowrap; }
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 600; white-space: nowrap; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 7px; white-space: nowrap; }
+  .tag.ai { background: var(--ai-bg); color: var(--ai); }
+  .tag.code { background: var(--code-bg); color: var(--code); }
+  .nums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .nums .card { padding: 14px; }
+  .nums strong { display: block; font-size: 24px; line-height: 1.25; font-variant-numeric: tabular-nums; }
+  .nums span { font-size: 13px; color: var(--sub); display: block; margin-top: 2px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .two .card h3 { margin-top: 0; }
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--sub); }
+
+  @media (max-width: 720px) {
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    .three, .two { grid-template-columns: 1fr; }
+    .nums { grid-template-columns: 1fr 1fr; }
+    .lanes { grid-template-columns: 1fr; }
+    .wrap { padding-top: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">개발 설명 자료 · 2026 대한민국 청년 CAREER FAIR AI 해커톤 · 팀 MOAYO</p>
+  <h1>첫 직장, 10년 뒤 경제력</h1>
+  <p class="lead">채용공고 두 개를 넣으면 세금과 월세를 빼고 10년 동안 남는 돈을 비교합니다. 이 문서는 서비스가 어떻게 만들어졌는지 설명합니다.</p>
+  <ul class="meta">
+    <li>서비스 <a href="https://nammeun-don.vercel.app">nammeun-don.vercel.app</a></li>
+    <li>시연 영상 <a href="https://nammeun-don.vercel.app/demo.mp4">/demo.mp4</a></li>
+    <li>저장소 <a href="https://github.com/gobad820/KDT_AI_HACKATHON">github.com/gobad820/KDT_AI_HACKATHON</a> (태그 <code>submission-2026-11-23-final4</code>)</li>
+  </ul>
+  <nav class="toc" aria-label="목차">
+    <a href="#glance">한눈에</a>
+    <a href="#arch">아키텍처</a>
+    <a href="#flow">요청 흐름</a>
+    <a href="#boundary">AI와 코드의 경계</a>
+    <a href="#data">데이터와 출처</a>
+    <a href="#verify">검증</a>
+    <a href="#limits">한계와 다음 단계</a>
+    <a href="#repo">저장소 구조</a>
+  </nav>
+</header>
+
+<section id="glance">
+  <h2>한눈에</h2>
+  <div class="three">
+    <div class="card"><b>무엇을 합니까</b><p>채용공고 두 건을 읽고 세후 급여, 근무지 월세, 지역별 청년 세제를 계산해 어느 쪽이 얼마 더 남는지 보여줍니다.</p></div>
+    <div class="card"><b>AI는 무엇을 합니까</b><p>AI는 공고 해석, 업종 분류, 설명문 작성만 합니다. 금액과 감면 판정은 코드가 계산합니다.</p></div>
+    <div class="card"><b>AI가 멈추면 어떻게 됩니까</b><p>AI가 없어도 금액은 똑같이 나옵니다. 추출, 업종 분류, 설명문마다 대체 경로가 있습니다.</p></div>
+  </div>
+  <h3>팀</h3>
+  <ul>
+    <li>이동한(대표): AI 에이전트</li>
+    <li>김상해: 기획, 백엔드, 데이터, 배포</li>
+    <li>정상훈: 계산 모듈</li>
+  </ul>
+</section>
+
+<section id="arch">
+  <h2>아키텍처</h2>
+  <p>FastAPI 서버 하나가 API와 화면을 같이 올립니다. 화면은 빌드 없는 정적 HTML/JS입니다. Vercel에 배포했습니다.</p>
+  <ul class="legend" aria-label="범례">
+    <li><span class="sw ui"></span>화면</li>
+    <li><span class="sw ai"></span>AI가 하는 일 (Gemini)</li>
+    <li><span class="sw code"></span>코드가 하는 일</li>
+    <li><span class="sw data"></span>데이터</li>
+  </ul>
+  <div class="card arch" role="img" aria-label="브라우저가 API 네 개를 순서대로 부르고, 각 API가 AI와 코드와 데이터를 쓰는 구조">
+    <div class="box ui">
+      <b>브라우저: 화면 3장 (입력 → 확인 → 결과)</b>
+      <span>붙여넣기, 샘플 버튼, 공고 PDF 불러오기(pdf.js가 브라우저 안에서 글자만 추출). 확인 화면은 필요할 때만 나옵니다.</span>
+    </div>
+    <div class="arrow"></div>
+    <div class="lanes">
+      <div class="lane">
+        <p class="step">1단계</p>
+        <h3>POST /api/extract</h3>
+        <div class="box code"><b>전화·이메일 가림</b><span>LLM에 보내기 전에 처리</span></div>
+        <div class="box ai"><b>조건과 원문 근거 추출</b><span>연봉, 근무지, 회사 규모, 업종, 복리후생</span></div>
+        <div class="box code"><b>근거 대조, 지시문 거부</b><span>원문에 없는 근거는 버림</span></div>
+        <div class="box code"><b>되물을 질문 고르기</b></div>
+        <div class="box data"><b>저장된 샘플 추출</b><span>LLM 장애 때 대체</span></div>
+      </div>
+      <div class="lane">
+        <p class="step">2단계</p>
+        <h3>POST /api/compare</h3>
+        <div class="box code"><b>resolve_region</b><span>근무지 → 시군구</span></div>
+        <div class="box code"><b>get_rent_stats</b><span>원룸 월세 조회</span></div>
+        <div class="box code"><b>check_relief_rules</b><span>감면 가능성 판정</span></div>
+        <div class="box code"><b>simulate</b><span>세후, 4개 시나리오, 10년 누적, 손익분기</span></div>
+        <div class="box ai"><b>업종 분류</b><span>실패하면 키워드 규칙</span></div>
+        <div class="box data"><b>월세 스냅샷, 지역 테이블</b><span>2026-11-21 수집</span></div>
+      </div>
+      <div class="lane">
+        <p class="step">3단계</p>
+        <h3>POST /api/explain</h3>
+        <div class="box ai"><b>결과 설명문 작성</b></div>
+        <div class="box code"><b>숫자 검증</b><span>설명문 속 숫자를 계산 결과와 대조</span></div>
+        <div class="box code"><b>템플릿 문장</b><span>검증 2회 실패 시 사용</span></div>
+      </div>
+      <div class="lane">
+        <p class="step">결과 뒤 비동기</p>
+        <h3>GET /api/company</h3>
+        <div class="box code"><b>회사 가입자 수 조회</b><span>참고로만 표시, 계산에 쓰지 않음</span></div>
+        <div class="box data"><b>국민연금 가입 사업장 API</b></div>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:12px">2단계는 결정적 파이프라인입니다. 도구를 고정된 순서로 부르고, 같은 입력에는 같은 금액이 나옵니다. 도구는 <code>pipeline.Deps</code>로 주입하므로 테스트에서는 가짜 도구로 바꿔 끼웁니다.</p>
+</section>
+
+<section id="flow">
+  <h2>요청 흐름</h2>
+  <ol class="flow">
+    <li><b class="t">공고 입력</b><p>공고 두 건을 붙여넣거나, 샘플 버튼(가상 회사 2쌍)을 누르거나, 공고 PDF를 불러옵니다. PDF는 pdf.js가 브라우저 안에서 글자만 뽑고 파일은 서버로 보내지 않습니다. 두 칸이 차면 자동으로 비교를 시작합니다.</p></li>
+    <li><b class="t">추출: <code>POST /api/extract</code></b><p>코드가 전화번호와 이메일을 가린 뒤 Gemini에 보냅니다. Gemini는 조건과 근거 문장을 JSON으로 돌려줍니다. 코드는 근거가 원문에 있는지 대조하고, 공고 안의 지시문은 따르지 않습니다. 빠진 조건이 있으면 코드가 되물을 질문을 고릅니다.</p></li>
+    <li><b class="t">확인 (필요할 때만)</b><p>추출값을 근거 문장과 함께 보여주고 사용자가 확인합니다. 연봉이나 근무지가 없거나 서로 다르면 계산하지 않고 묻습니다.</p></li>
+    <li><b class="t">계산: <code>POST /api/compare</code></b><p><code>resolve_region</code> → <code>get_rent_stats</code> → <code>check_relief_rules</code> → <code>simulate</code> 순서로 실행합니다. 화면은 템플릿 설명으로 금액을 먼저 띄웁니다. 조건이 모자라면 계산하지 않고 추가 입력을 요청합니다.</p></li>
+    <li><b class="t">설명: <code>POST /api/explain</code></b><p>같은 요청으로 AI 설명문을 받아 바꿔 끼웁니다. 설명문 속 숫자가 계산 결과와 다르면 버립니다. 두 번 통과하지 못하면 템플릿 문장을 그대로 둡니다. AI가 쓴 글에는 "AI가 생성한 답변" 표시를 붙입니다.</p></li>
+    <li><b class="t">회사 정보: <code>GET /api/company</code></b><p>결과가 나온 뒤 비동기로 국민연금 가입 사업장 API에서 실제 회사의 가입자 수를 가져옵니다. 참고로만 보여주고 계산에는 쓰지 않습니다.</p></li>
+  </ol>
+  <h3>결과 화면이 보여주는 것</h3>
+  <ul>
+    <li>시나리오 4개: <code>none</code>, <code>current_law</code>, <code>proposal_base</code>, <code>proposal_pref</code></li>
+    <li>연차별 표와 10년 누적 남는 돈, 손익분기 연봉</li>
+    <li>감면 가능성(<code>likely</code> / <code>uncertain</code> / <code>unlikely</code>)과 이유, 인사팀에 확인할 질문</li>
+    <li>근거와 가정, 월세 수집 기준일</li>
+  </ul>
+</section>
+
+<section id="boundary">
+  <h2>AI와 코드의 경계</h2>
+  <p>숫자 계산과 규칙 판정은 코드가 합니다. AI는 문서 해석과 문장 작성만 맡고 금액을 직접 만들지 않습니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>일</th><th>담당</th><th>방법</th><th>AI 장애 때</th></tr></thead>
+      <tbody>
+        <tr><th>공고에서 조건 읽기</th><td><span class="tag ai">AI</span></td><td>연봉, 근무지, 회사 규모, 업종, 복리후생을 근거 문장과 함께 추출합니다.</td><td>샘플 공고는 저장된 추출을 씁니다. 그 밖의 공고는 오류를 알립니다.</td></tr>
+        <tr><th>근거 대조</th><td><span class="tag code">코드</span></td><td>근거 문장이 원문에 없으면 그 값을 버립니다.</td><td>영향 없음</td></tr>
+        <tr><th>개인정보 가림</th><td><span class="tag code">코드</span></td><td>전화번호와 이메일을 LLM에 보내기 전에 가립니다. 나이·병역 등 사용자 정보는 LLM에 보내지 않습니다.</td><td>영향 없음</td></tr>
+        <tr><th>되물을 질문 고르기</th><td><span class="tag code">코드</span></td><td>빠졌거나 서로 다른 조건을 규칙으로 찾아 묻습니다.</td><td>영향 없음</td></tr>
+        <tr><th>업종 분류</th><td><span class="tag ai">AI</span></td><td>사업 내용을 읽고 업종을 분류합니다.</td><td>키워드 규칙으로 처리합니다.</td></tr>
+        <tr><th>월세 조회</th><td><span class="tag code">코드</span></td><td>수집 스냅샷에서 시군구 원룸 월세를 읽습니다. 런타임에 실거래가 API를 부르지 않습니다.</td><td>영향 없음</td></tr>
+        <tr><th>감면 판정</th><td><span class="tag code">코드</span></td><td>규칙으로 가능성을 세 단계로 판정합니다. 단정하지 않습니다.</td><td>영향 없음</td></tr>
+        <tr><th>금액 계산</th><td><span class="tag code">코드</span></td><td>원 단위 정수와 분수 연산으로 계산합니다. float를 쓰지 않습니다.</td><td>영향 없음. 금액이 같습니다.</td></tr>
+        <tr><th>도구 호출 순서</th><td><span class="tag code">코드</span></td><td>고정된 순서로 부릅니다.</td><td>영향 없음</td></tr>
+        <tr><th>결과 설명문</th><td><span class="tag ai">AI</span></td><td>계산 결과를 문장으로 씁니다. 코드가 숫자를 대조합니다.</td><td>템플릿 문장을 씁니다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>LLM 설정</h3>
+  <ul>
+    <li>주 모델: Google Gemini <code>gemini-flash-lite-latest</code></li>
+    <li>대체 모델: <code>gemini-3.5-flash-lite</code> → <code>gemini-3.1-flash-lite</code></li>
+    <li>응답 온도 0, 한 번 시도는 8초까지입니다. 429·5xx·시간 초과면 바로 다음 모델로 넘어갑니다.</li>
+    <li><code>-latest</code>는 별칭입니다. Google이 가리키는 버전을 바꾸면 동작이 달라질 수 있습니다.</li>
+  </ul>
+</section>
+
+<section id="data">
+  <h2>데이터와 출처</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>데이터</th><th>출처</th><th>쓰는 곳</th></tr></thead>
+      <tbody>
+        <tr><th>원룸 월세 통계</th><td>국토교통부 전월세 실거래가 자료(공공데이터포털). 2026-11-21 수집 스냅샷</td><td>근무지 시군구 월세. 수집 기준일을 화면에 표시합니다.</td></tr>
+        <tr><th>지역 코드</th><td>행정표준코드관리시스템 법정동 코드</td><td>근무지를 시군구로 바꿉니다.</td></tr>
+        <tr><th>인구감소지역</th><td>행정안전부 인구감소지역 지정 고시(92곳, <code>data/depop_2026.csv</code>)</td><td>지역 유형별 세제 시나리오</td></tr>
+        <tr><th>회사 가입자 수</th><td>국민연금공단 국민연금 가입 사업장 내역 OpenAPI</td><td>결과 화면에 참고로만 표시합니다. 계산에 쓰지 않습니다.</td></tr>
+        <tr><th>샘플 공고</th><td>팀이 만든 가상 회사 2쌍(<code>data/samples/</code>)</td><td>로그인 없이 바로 체험. 실제 회사명은 넣지 않았습니다.</td></tr>
+        <tr><th>세법 상수와 요율</th><td>팀이 출처를 주석으로 달아 한 파일에 모음</td><td>세후 계산과 감면 시나리오</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>오픈소스와 글꼴</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>이름</th><th>라이선스</th><th>용도</th></tr></thead>
+      <tbody>
+        <tr><th>FastAPI</th><td>MIT</td><td>API 서버</td></tr>
+        <tr><th>Starlette</th><td>BSD-3-Clause</td><td>FastAPI의 기반, 정적 파일 제공</td></tr>
+        <tr><th>Pydantic</th><td>MIT</td><td>타입 검증</td></tr>
+        <tr><th>Uvicorn</th><td>BSD-3-Clause</td><td>서버 실행</td></tr>
+        <tr><th>HTTPX</th><td>BSD-3-Clause</td><td>실거래가 수집, 테스트</td></tr>
+        <tr><th>pytest (개발용)</th><td>MIT</td><td>테스트</td></tr>
+        <tr><th>pdf.js 3.11.174</th><td>Apache-2.0</td><td>공고 PDF의 글자를 브라우저 안에서 추출</td></tr>
+        <tr><th>Pretendard</th><td>SIL OFL 1.1</td><td>화면 글꼴</td></tr>
+        <tr><th>Nanum Gothic Coding</th><td>SIL OFL 1.1</td><td>결과 화면 계산서의 고정폭 글꼴</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:10px">전체 목록과 링크는 저장소 <code>README.md</code>의 Credits / Licenses에 있습니다.</p>
+</section>
+
+<section id="verify">
+  <h2>검증</h2>
+  <div class="nums">
+    <div class="card"><strong>216개</strong><span>pytest 통과</span></div>
+    <div class="card"><strong>24 / 30건</strong><span>가상 공고, 배포 URL 실측 통과</span></div>
+    <div class="card"><strong>0건</strong><span>금액 추정, 설명문 숫자 불일치, 원문에 없는 근거</span></div>
+    <div class="card"><strong>78 / 100</strong><span>컨텍스트 없는 새 세션 심사. QA 치명 0건</span></div>
+  </div>
+  <ul>
+    <li><b>자동 테스트.</b> pytest 216개가 통과합니다. 계산 모듈은 순수 함수로 두고 단위 테스트를 붙였습니다.</li>
+    <li><b>가상 공고 30건.</b> 배포 URL에서 실측해 24건이 통과했습니다. 금액을 추정한 경우, 설명문 숫자가 계산과 다른 경우, 원문에 없는 근거를 낸 경우는 0건입니다.</li>
+    <li><b>계산 대조.</b> 계산 모듈과 따로 짠 참고 구현(<code>scripts/calc_ref.py</code>)의 결과를 연봉 2,000만 원부터 2억 원까지 5만 원 간격으로 대조했습니다.</li>
+    <li><b>외부 시선 점검.</b> 컨텍스트가 없는 새 세션에 심사와 QA를 맡겼습니다. 심사 78/100, QA 치명 0건이었습니다. 점검 뒤 '현행법 감면 0년 이유' 안내를 추가했습니다.</li>
+    <li><b>모델 선택.</b> 11/21 실측에서 주 모델의 추출 중앙값은 3.2초였고 샘플 정답 필드 84/84가 일치했습니다.</li>
+  </ul>
+</section>
+
+<section id="limits">
+  <h2>한계와 다음 단계</h2>
+  <div class="two">
+    <div class="card">
+      <h3>지금의 한계</h3>
+      <ul>
+        <li>정부안 시나리오는 2026년 8월 정부 세제개편안 기준이며 국회 확정 전입니다.</li>
+        <li>공식 연말정산 계산기와는 대조하지 않았습니다.</li>
+        <li>휴대폰 폭에서 일부 그래프와 표가 잘립니다.</li>
+        <li>시군구를 찾지 못하면 사용자가 코드를 입력해야 합니다.</li>
+        <li>돈만 계산합니다. 그 밖의 조건은 비교하지 않습니다.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>다음 단계</h3>
+      <ul>
+        <li>세법이 확정되면 정부안 시나리오의 상수를 고칩니다.</li>
+        <li>공식 연말정산 계산기와 대조합니다.</li>
+        <li>휴대폰 폭에서 그래프와 표가 잘리지 않게 고칩니다.</li>
+        <li>근무지 검색을 넓혀 코드 입력이 필요 없게 합니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="repo">
+  <h2>저장소 구조</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>경로</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><th><code>app/main.py</code></th><td>FastAPI 서버. API 경로와 화면 제공, 실제 도구를 묶는 <code>build_deps</code></td></tr>
+        <tr><th><code>app/pipeline.py</code></th><td><code>run_compare</code>. 도구를 고정 순서로 부르는 결정적 파이프라인</td></tr>
+        <tr><th><code>app/agent/</code></th><td>추출, 되묻기, 업종 분류, 설명문, 숫자 검증, LLM 어댑터, 버전을 붙인 프롬프트</td></tr>
+        <tr><th><code>app/calc/</code></th><td>세후, 시나리오, 10년 누적, 손익분기 계산</td></tr>
+        <tr><th><code>app/relief/</code></th><td>감면 규칙 판정</td></tr>
+        <tr><th><code>app/data/</code></th><td>월세 통계와 지역 조회</td></tr>
+        <tr><th><code>app/web/</code></th><td>정적 HTML/JS 화면 3장</td></tr>
+        <tr><th><code>data/</code></th><td>월세 스냅샷, 지역 테이블, 샘플 공고</td></tr>
+        <tr><th><code>tests/</code></th><td>pytest와 가상 공고 케이스(<code>tests/cases/</code>)</td></tr>
+        <tr><th><code>docs/</code></th><td>API, 계산 규칙, 데이터, 에이전트 명세와 AI 활용 기록</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>기술 스택</h3>
+  <p>Python 3.11+, FastAPI, pydantic v2, pytest. 화면은 빌드 없는 정적 HTML/JS입니다.</p>
+</section>
+
+<footer>
+  <p>팀 MOAYO · 이동한, 김상해, 정상훈 · 2026-11-23 기준. 시연과 테스트에는 가상·샘플 데이터만 썼습니다.</p>
+</footer>
+
+</div>
+</body>
+</html>
