@@ -5,7 +5,7 @@
 ```text
 1. 활용 AI 모델·도구
 [서비스] Google Gemini gemini-flash-lite-latest(주 모델), 장애 시 gemini-3.5-flash-lite → gemini-3.1-flash-lite 순으로 대체. OpenAI 호환 주소로 호출하고 JSON으로만 받는다. 응답 온도 0, 한 번 시도는 8초까지, 429·5xx·시간 초과면 바로 다음 모델로 넘어간다. 11/21 실측에서 기존 3.1-flash-lite는 같은 요청이 1.7~51초로 흔들려 주 모델을 바꿨다(추출 중앙값 3.2초, 샘플 정답 필드 84/84 일치). -latest는 별칭이라 Google이 가리키는 버전을 바꾸면 동작이 달라질 수 있다.
-[개발] Claude(claude.ai): 대회 규정 정리, 주제 후보 조사, 설계 문서 초안. Claude Code(Anthropic Claude Opus 계열): 코드 작성, 테스트, 화면, 데이터 수집 스크립트, 배포와 배포 후 확인, 소개서 PDF 초안(배포 화면 캡처와 계산값으로 작성, 팀 검토 후 제출), 배포 URL 시연 영상 녹화(Playwright). Codex(OpenAI)와 GPT-6.2: 테스트 30건 검증, T10·T13 버그 수정 구현과 코드 검토.
+[개발] Claude(claude.ai): 대회 규정 정리, 주제 후보 조사, 설계 문서 초안. Claude Code(Anthropic Claude Opus 계열): 코드 작성, 테스트, 화면, 데이터 수집 스크립트, 배포와 배포 후 확인, 소개서 PDF 초안(배포 화면 캡처와 계산값으로 작성, 팀 검토 후 제출), 배포 URL 시연 영상 녹화(Playwright). 시연 영상의 내레이션 대본과 검수는 Claude Code 에이전트(Claude Fable 계열)가, 음성은 Microsoft Edge 신경망 TTS(edge-tts)가 만들었고 팀이 숫자를 화면과 대조함. Codex(OpenAI)와 GPT-6.2: 테스트 30건 검증, T10·T13 버그 수정 구현과 코드 검토.
 
 2. AI 활용 범위와 팀의 기여
 서비스 안에서 AI는 세 가지만 한다. ① 채용공고에서 연봉·근무지·회사 규모·업종·복리후생을 근거 문장과 함께 읽기, ② 업종 분류, ③ 결과 설명문 쓰기. 금액, 감면 대상 판정, 질문 고르기, 도구 호출 순서는 코드가 정한다. 월세 조회 → 감면 판정 → 계산 → 설명을 고정 순서로 부르므로 AI가 없어도 금액은 똑같이 나온다.
