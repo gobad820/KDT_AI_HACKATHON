@@ -84,6 +84,7 @@ Gemini `gemini-flash-lite-latest`를 OpenAI 호환 주소로 부른다(`app/agen
 | Nanum Gothic Coding | SIL Open Font License 1.1 | https://fonts.google.com/specimen/Nanum+Gothic+Coding | 결과 화면 공고별 계산서의 고정폭 글꼴 (Google Fonts) |
 | 국토교통부 전월세 실거래가 자료 | 공공데이터포털 이용허락범위 제한 없음(오피스텔 15126475, 연립다세대 15126473, 단독/다가구 15126472 페이지에서 11/23 확인) | https://www.data.go.kr | 원룸 월세 통계 (수집 2026-11-21, 오피스텔·연립다세대·단독다가구) |
 | 행정표준코드관리시스템 법정동 코드 | 확인 필요(code.go.kr에 이용 조건 표기를 찾지 못함. 같은 코드를 담은 공공데이터포털 「국토교통부_전국 법정동」(15063424)은 이용허락범위 제한 없음) | https://www.code.go.kr | 시군구 코드 |
+| 국민연금공단 국민연금 가입 사업장 내역 OpenAPI | 공공데이터포털 이용허락범위(확인 필요) | https://www.data.go.kr (NpsBplcInfoInqireServiceV2) | 결과 화면에 회사 가입자 수를 참고로만 표시. 계산에는 쓰지 않음. 가상 회사는 조회하지 않음 |
 | 행정안전부 인구감소지역 지정 고시 | 정부 고시. 저작권법 제7조 2호(국가의 고시·공고는 보호받지 못하는 저작물) | https://www.mois.go.kr | 인구감소지역 92곳 (`data/depop_2026.csv`) |
 | pdf.js 3.11.174 | Apache-2.0 | https://github.com/mozilla/pdf.js (cdnjs) | 입력 화면에서 공고 PDF의 글자를 브라우저 안에서 뽑음. 처음 쓸 때만 받음, 파일은 서버로 보내지 않음 |
 | Playwright (개발용) | Apache-2.0 | https://github.com/microsoft/playwright | 쇼릴 프레임 캡처, 화면 확인. 배포물에 포함하지 않음 |

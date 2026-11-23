@@ -914,7 +914,28 @@
     if (sub.length) box.appendChild(h('div', null, sub));
     notes.forEach(function (n) { box.appendChild(h('p', { class: 'small', text: n })); });
     box.appendChild(h('p', { class: 'small', text: '남는 돈 = 세후 소득 - 주거비. 식비 등 생활비는 들어 있지 않습니다.' }));
+    attachCompanyInfo(box, R);
     return box;
+  }
+
+  // 회사 이름으로 국민연금 가입 사업장 정보를 따로 받아 참고로만 붙인다. 계산에는 쓰지 않는다.
+  // 응답이 늦거나 못 찾으면 아무것도 붙이지 않는다. 가상 회사(샘플)는 묻지 않는다.
+  var companyCache = {};
+  function attachCompanyInfo(box, R) {
+    if (MOCK || !R.jobs) return;
+    R.jobs.forEach(function (j) {
+      var name = state.names[j.id];
+      if (!name || /가상/.test(name)) return;
+      var sgg = (j.region && j.region.sggCode) || '';
+      var key = name + '|' + sgg;
+      var got = companyCache[key] || (companyCache[key] = api('GET', '/api/company?name=' + encodeURIComponent(name) + '&sgg=' + encodeURIComponent(sgg)));
+      got.then(function (r) {
+        var d = r && r.data;
+        if (!d || !d.found || !box.isConnected) return;
+        var size = d.smeLikely ? '300명 미만이라 중소기업일 가능성이 큽니다' : '300명 이상이라 중소기업이 아닐 수 있습니다';
+        box.appendChild(h('p', { class: 'small company-info', text: '참고 · ' + jobName(j.id) + ': 국민연금 가입 사업장 \'' + d.name + '\' 가입자 ' + nf.format(d.headcount) + '명(' + d.asOf + ' 기준). ' + size + '. 중소기업 여부는 업종별 매출 기준이라 회사에 확인하세요. 이 정보는 계산에 쓰지 않았습니다.' }));
+      });
+    });
   }
 
   // 현행법 감면이 두 공고 모두 0년이면(2027년 이후 입사) 그 이유와 정부안 결과를 결론 바로 아래에 밝힌다.
