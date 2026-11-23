@@ -41,7 +41,16 @@ p { margin: 0 0 8px; }
 .brand { min-width: 0; }
 .brand-sub { margin: 2px 0 0 28px; font-size: .8rem; line-height: 1.45; color: var(--sub); word-break: keep-all; }
 .mark { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.03em; margin: 0; display: flex; align-items: center; gap: 10px; }
-.mark::before { content: ""; flex-shrink: 0; width: 18px; height: 22px; border-radius: 2px; background: var(--panel); box-shadow: 0 0 0 1.5px var(--ink) inset, 0 4px 0 -2px var(--hl) inset; }
+/* 영수증 로고: 잉크 테두리 + 종이 면 + 인쇄 줄 3개, 밑단은 톱니(6px 간격 3개). 테두리는 바깥 잉크 면 위에 안쪽 종이 면을 겹쳐 만든다 */
+.mark-logo { position: relative; flex-shrink: 0; width: 18px; height: 24px; background: var(--ink);
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) center bottom / 6px 100% repeat-x;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) center bottom / 6px 100% repeat-x; }
+.mark-logo::before { content: ""; position: absolute; inset: 1.5px 1.5px 2px; background: var(--panel);
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) -1.5px bottom / 6px 100% repeat-x;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) -1.5px bottom / 6px 100% repeat-x; }
+.mark-logo::after { content: ""; position: absolute; left: 4.5px; right: 4.5px; top: 5px; height: 8px;
+  background: linear-gradient(var(--ink), var(--ink)) 0 0 / 100% 1.5px no-repeat, linear-gradient(var(--ink), var(--ink)) 0 3px / 100% 1.5px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 0 6px / 55% 1.5px no-repeat; }
 .stepper { display: flex; flex-shrink: 0; gap: 4px; list-style: none; padding: 4px; margin: 0; background: rgba(255,255,255,.55); border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); }
 .stepper li { font-size: .84rem; font-weight: 600; color: var(--faint); padding: 6px 12px 6px 8px; border-radius: 999px; display: flex; align-items: center; gap: 6px; }
 .stepper li span { width: 20px; height: 20px; border-radius: 50%; display: inline-grid; place-items: center; font-size: .72rem; background: rgba(19,20,22,.07); font-variant-numeric: tabular-nums; }
@@ -52,25 +61,129 @@ p { margin: 0 0 8px; }
 main { padding-bottom: 32px; }
 .step[hidden], [hidden] { display: none !important; }
 
-/* ---------- 첫 화면 ---------- */
-.hero { display: grid; grid-template-columns: 1.02fr 1fr; gap: 32px; align-items: center; min-height: 640px; margin: 8px 0 28px; }
-.hero-kicker { font-size: .92rem; font-weight: 600; color: var(--sub); margin-bottom: 18px; }
-.hero-title { font-size: clamp(2.6rem, 6.2vw, 4.6rem); line-height: 1.04; font-weight: 850; letter-spacing: -0.06em; margin: 0 0 24px; }
-.hero-lead { font-size: 1.08rem; color: var(--sub); max-width: 27em; margin-bottom: 22px; }
-.hero-fact { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 28px; min-height: 1.6em; }
-.hero-fact mark, .hl { background: linear-gradient(transparent 52%, var(--hl) 52%, var(--hl) 90%, transparent 90%); color: inherit; padding: 0 2px; }
-.hero-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-.hero-note { font-size: .8rem; color: var(--faint); }
+/* ---------- 첫 화면 (step1에만 적용): Minimal fintech × 영수증 ----------
+   바탕은 오프화이트, 글자는 딥 네이비와 회색, 파랑은 행동(CTA·포커스·선택)에만. 첫 화면에서는 노랑 강조와 노이즈를 쓰지 않는다.
+   영수증 요소는 정보 표현에만 쓴다: 항목-금액 좌우 정렬, 합계 앞 점선 하나, 작은 고정폭 메타(월세 수집 기간).
+   모든 규칙은 #step1 안쪽이거나 "step1이 보일 때"(body:has)로 묶어 확인·결과 화면에는 닿지 않는다.
+   :has를 모르는 브라우저는 바탕·헤더만 공통 모습으로 남고 첫 화면 본문은 그대로 동작한다.
+   간격 4/8/12/16/24/32/48, 모서리 12(작은 요소)·14(버튼)·20(카드)·24(입력 영역) */
+#step1, body:has(> main > #step1:not([hidden])) {
+  --h-bg: #f7f8fa; --h-surface: #fff; --h-soft: #f1f3f6; --h-soft-hover: #e6e9ee;
+  --h-ink: #0f172a; --h-sub: #475467; --h-faint: #667085;
+  --h-line: #e4e7ec; --h-dash: #c3cad5;
+  --h-blue: #2563eb; --h-blue-hover: #1d4ed8; --h-blue-ring: rgba(37, 99, 235, .3);
+  --h-mono: "Nanum Gothic Coding", "D2Coding", ui-monospace, Menlo, monospace;
+}
+body:has(> main > #step1:not([hidden])) { background: var(--h-bg); }
+body:has(> main > #step1:not([hidden]))::before { opacity: 0; }
+body:has(> main > #step1:not([hidden])) .stepper { background: var(--h-surface); box-shadow: inset 0 0 0 1px var(--h-line); }
+body:has(> main > #step1:not([hidden])) .stepper li.on { background: var(--h-ink); }
+body:has(> main > #step1:not([hidden])) .stepper li.on span { background: #fff; color: var(--h-ink); }
 
-.hero-stage { position: relative; width: 100%; max-width: 580px; margin-left: auto; }
+/* 데스크톱: 글(최대 520px) + 프린터 장면(360~480px). 글이 비지 않게 CTA 아래에 샘플 영수증 요약을 둔다 */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) clamp(360px, 38vw, 480px); gap: clamp(40px, 6vw, 88px); align-items: center;
+  padding: clamp(32px, 6vh, 72px) 0 clamp(48px, 8vh, 88px); margin: 0; }
+.hero-copy { min-width: 0; max-width: 520px; }
+.hero-title { font-size: clamp(2.25rem, 4vw, 3.25rem); line-height: 1.2; font-weight: 800; letter-spacing: -0.035em; color: var(--h-ink);
+  margin: 0 0 16px; word-break: keep-all; }
+.hero-lead { font-size: 1.125rem; line-height: 1.6; color: var(--h-sub); max-width: 440px; margin: 0 0 32px; word-break: keep-all; }
+
+.hero-cta { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 32px; }
+/* CTA: 시안 2 "먹색 단색"(11/23 선택). 주 버튼 검정, 보조 버튼 검정 1.5px 테두리, 파랑은 키보드 포커스에만 */
+#step1 .hero-cta button { min-height: 56px; padding: 0 28px; border-radius: 10px; font-size: 1rem; font-weight: 600; letter-spacing: -0.01em;
+  border: 0; box-shadow: none; transform: none; transition: background-color .15s, transform .08s; }
+#step1 .hero-cta .primary { background: #000; color: #fff; }
+#step1 .hero-cta .primary:hover { background: #2b2b2b; }
+#step1 .hero-cta .ghost { background: transparent; color: #000; box-shadow: inset 0 0 0 1.5px #000; }
+#step1 .hero-cta .ghost:hover { background: rgba(0, 0, 0, .05); }
+#step1 .hero-cta button:active:not(:disabled) { transform: translateY(1px); }
+#step1 .hero-cta button:disabled { opacity: .55; cursor: progress; }
+#step1 button:focus-visible { outline: 3px solid var(--h-blue-ring); outline-offset: 2px; }
+#step1 .hero-cta button:focus-visible { outline: 2px solid var(--h-blue); outline-offset: 2px; }
+
+/* 샘플 영수증 요약 (hero.js wire, hero.json 계산값). 흰 카드 한 장, 항목-금액 좌우 정렬, 합계 앞에만 점선 */
+.hero-receipt { background: var(--h-surface); border: 1px solid var(--h-line); border-radius: 20px; padding: 20px 24px 18px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, .04); }
+.rx-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 12px; }
+.rx-tag { font-size: .8rem; font-weight: 700; color: var(--h-ink); }
+.rx-meta { font-family: var(--h-mono); font-size: .72rem; color: var(--h-faint); letter-spacing: 0; }
+.rx-cols { display: flex; justify-content: space-between; font-size: .75rem; color: var(--h-faint); padding-bottom: 6px; border-bottom: 1px solid var(--h-line); }
+.rx-rows { margin: 0; }
+.rx-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 2px 16px; padding: 10px 0 0; }
+.rx-row dt { min-width: 0; font-size: .94rem; font-weight: 600; color: var(--h-ink); word-break: keep-all; }
+.rx-row dt small { display: block; font-size: .78rem; font-weight: 500; color: var(--h-faint); }
+.rx-row dd { margin: 0 0 0 auto; font-size: 1rem; font-weight: 600; color: var(--h-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rx-row.rx-gap { margin-top: 10px; border-top: 1px solid var(--h-line); }
+.rx-row.rx-gap dd { font-weight: 700; }
+.rx-row.rx-total { margin-top: 14px; padding-top: 14px; align-items: center;
+  background: repeating-linear-gradient(90deg, var(--h-dash) 0 4px, transparent 4px 8px) top left / 100% 1px no-repeat; }
+.rx-row.rx-total dt { font-size: 1rem; font-weight: 700; }
+.rx-row.rx-total dd { font-size: clamp(1.75rem, 3.2vw, 2.25rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.15; }
+.rx-msg { margin: 10px 0 0; font-size: .9rem; font-weight: 600; color: var(--h-sub); word-break: keep-all; }
+.hero-note { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--h-line); font-size: .76rem; line-height: 1.55; color: var(--h-faint); word-break: keep-all; }
+.hero-note:empty { display: none; }
+.hl { background: linear-gradient(transparent 52%, var(--hl) 52%, var(--hl) 90%, transparent 90%); color: inherit; padding: 0 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  /* 요약이 위에서부터 출력되듯 한 번 펼쳐진다. 끝나면 clip-path를 남기지 않는다 */
+  .hero-receipt { animation: hero-feed .8s cubic-bezier(.2, .7, .2, 1) .1s backwards; }
+  @keyframes hero-feed { from { clip-path: inset(0 0 100% 0 round 20px); transform: translateY(-6px); } to { clip-path: inset(0 0 0 0 round 20px); transform: none; } }
+}
+
+/* 프린터 장면: 기존 영상·still 그대로. 사각 프레임 대신 가장자리를 오프화이트 바탕으로 흐려 한 장면처럼 잇는다.
+   영상(1080x1200)은 영수증이 더 크게 보이게 1.12배로 키우고 영수증 쪽(위 38%)을 기준으로 둔다. 잘리는 가장자리는 흐려지는 구간이다 */
+.hero-stage { position: relative; width: 100%; max-width: 480px; margin-left: auto; }
 /* Blender로 렌더한 출력 영상(img/hero_print.mp4, 1080x1200). 프린터·종이·조명·배경이 모두 한 장면이다.
    만드는 법: media/printer/render_hero.py → make_video.sh. 멈출 시점은 img/hero_print.json */
-.hero-shot { position: relative; width: 100%; aspect-ratio: 1080 / 1200; border-radius: 28px; overflow: hidden;
-  background: #e2e3e6; box-shadow: inset 0 0 0 1px rgba(255,255,255,.55), 0 1px 2px rgba(20,22,30,.06), 0 34px 70px -34px rgba(20,22,30,.38); }
-.hero-shot video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
-.hero-replay { position: absolute; right: 14px; top: 14px; padding: 7px 14px; font-size: .8rem; border-radius: 999px; background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.9); color: var(--sub); z-index: 3; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.hero-replay:hover { background: #fff; color: var(--ink); }
+.hero-shot { position: relative; width: 100%; aspect-ratio: 1080 / 1200; overflow: hidden; background: transparent;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(180deg, transparent, #000 7%, #000 84%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(180deg, transparent, #000 7%, #000 84%, transparent);
+  mask-composite: intersect; }
+.hero-shot video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; transform: scale(1.12); transform-origin: 50% 38%; }
+.hero-replay { position: absolute; right: 8px; top: 8px; padding: 7px 14px; font-size: .8rem; font-weight: 600; border-radius: 999px; background: var(--h-surface); border: 1px solid var(--h-line); color: var(--h-sub); z-index: 3; }
+.hero-replay:hover { background: var(--h-surface); color: var(--h-ink); border-color: var(--h-dash); }
 .hero-replay[aria-disabled="true"] { opacity: .55; cursor: default; }
+
+/* 첫 화면의 입력 영역: 흰 카드 + 절제된 테두리. 공고 용지는 톱니·그림자·질감을 빼고 점선 구분과 고정폭 본문만 남긴다 */
+#step1 .card { background: var(--h-surface); border: 1px solid var(--h-line); border-radius: 24px; box-shadow: none; }
+#step1 .card > h2 { font-size: 1.25rem; font-weight: 750; color: var(--h-ink); }
+#step1 .card > .hint { color: var(--h-sub); }
+#step1 .samples .small { font-weight: 600; color: var(--h-faint); }
+#step1 button.chip { background: var(--h-surface); border: 1px solid var(--h-line); color: var(--h-ink); }
+#step1 button.chip:hover { border-color: var(--h-blue); color: var(--h-blue); background: var(--h-surface); }
+#step1 .samples.flash { outline-color: var(--h-blue); }
+#step1 .field.post { filter: none; }
+#step1 .post-paper { -webkit-mask: none; mask: none; background: var(--h-surface); border: 1px solid var(--h-line); border-radius: 20px; padding: 22px 22px 18px; color: var(--h-ink); }
+#step1 .post-paper::before { display: none; }
+#step1 .post-paper label.rc-title { font-family: inherit; text-align: left; letter-spacing: -0.01em; font-size: 1.05rem; font-weight: 700; color: var(--h-ink); }
+#step1 .post-paper .rc-note { text-align: left; font-family: inherit; color: var(--h-faint); }
+#step1 .post-paper .rc-rule { height: 1px; background: repeating-linear-gradient(90deg, var(--h-dash) 0 4px, transparent 4px 8px); opacity: 1; }
+#step1 .post-paper textarea { color: var(--h-ink); }
+#step1 .post-paper textarea:focus, #step1 .post-view:focus-visible { outline: 2px solid var(--h-blue); outline-offset: 4px; }
+#step1 .post-view .rc-line.pay .hlv { background: none; padding: 0; color: var(--h-ink); }
+#step1 .post-view .rc-center { text-align: left; }
+#step1 .post-foot { color: var(--h-faint); }
+#step1 .msg { background: #fef3f2; color: #b42318; }
+#step1 .actions .primary { min-height: 56px; padding: 0 32px; border-radius: 14px; background: var(--h-blue); box-shadow: none; transform: none; }
+#step1 .actions .primary:hover { background: var(--h-blue-hover); box-shadow: none; transform: none; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 24px; padding: 20px 0 40px; }
+  .hero-copy { max-width: 560px; }
+  .hero-stage { max-width: 360px; margin: 0 auto; }
+}
+@media (max-width: 720px) {
+  body:has(> main > #step1:not([hidden])) .brand-sub { display: none; }   /* 지원 문장과 겹친다. 헤드라인과 CTA를 먼저 */
+  .hero { padding: 8px 0 32px; }
+  .hero-title { font-size: clamp(2rem, 8.4vw, 2.5rem); margin-bottom: 12px; }
+  .hero-lead { font-size: 1rem; margin-bottom: 20px; }
+  .hero-cta { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 20px; }
+  #step1 .hero-cta button { min-height: 52px; padding: 0 12px; font-size: .98rem; }
+  .hero-receipt { padding: 18px 18px 16px; }
+  .rx-row.rx-total dd { font-size: clamp(1.5rem, 7vw, 1.75rem); }
+  #step1 .card { padding: 22px 16px; border-radius: 20px; }
+  #step1 .post-paper { padding: 18px 16px 14px; }
+}
 /* ---------- 패널 ---------- */
 .card, .job, .conclusion, details {
   background: var(--panel); border-radius: var(--radius);
@@ -271,10 +384,6 @@ a { color: var(--ink); text-decoration-color: rgba(19,20,22,.35); text-underline
 a:hover { text-decoration-color: var(--ink); }
 .foot { color: var(--faint); font-size: .8rem; padding-bottom: 40px; }
 
-@media (max-width: 860px) {
-  .hero { grid-template-columns: 1fr; min-height: 0; gap: 20px; }
-  .hero-stage { margin: 0 auto; }
-}
 @media (max-width: 720px) {
   body { font-size: 15px; }
   .wrap { padding: 0 16px; }
@@ -282,8 +391,6 @@ a:hover { text-decoration-color: var(--ink); }
   .brand { flex: 1 1 100%; }
   .brand-sub { font-size: .76rem; }
   .stepper li { padding: 5px 9px 5px 6px; }
-  .hero-title { font-size: 2.6rem; }
-  .hero-shot { border-radius: 22px; }
   .stepper li { font-size: .76rem; padding: 4px 8px 4px 4px; gap: 4px; }
   .stepper li span { width: 18px; height: 18px; }
   .mark { font-size: .98rem; }

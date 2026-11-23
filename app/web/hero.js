@@ -97,32 +97,64 @@
     }).catch(still);
   }
 
-  // 1년 숫자(영수증과 같은 값)와 누적 숫자를 함께 쓴다. 누적 차이는 화면에서 곱하지 않고 hero.json comparison.difference(simulate 출력)를 쓴다
+  // 샘플 영수증 요약. 금액은 모두 hero.json(계산 모듈 출력)에서 온다: 공고별 1년차 남는 돈(remaining), 1년차 차이(두 remaining의 차),
+  // 누적 차이는 화면에서 곱하지 않고 comparison.difference(simulate 출력)를 쓴다. 날짜는 실제 데이터인 월세 수집 기간(rentPeriod)만 쓴다
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]; }); }
+  function won(n) { return man(n) + '만 원'; }
   function wire(data) {
     var A = data.jobs[0], B = data.jobs[1], win = A.remaining >= B.remaining ? A : B, lose = win === A ? B : A;
-    var rich = A.salary >= B.salary ? A : B, poor = rich === A ? B : A;
-    var c = data.comparison, n = data.horizonYears;
-    var many = c && n > 1 && c.betterJob === win.label;   // 누적에서도 같은 쪽이 더 남을 때만 이어 쓴다
-    var gap = many
-      ? '1년에 <b>' + man(win.remaining - lose.remaining) + '만 원</b>, ' + n + '년이면 <mark>' + man(c.difference) + '만 원</mark> 더 남습니다.'
-      : '1년에 <mark>' + man(win.remaining - lose.remaining) + '만 원</mark> 더 남습니다.';
-    document.getElementById('heroFact').innerHTML = (win !== rich
-      ? '연봉이 <b>' + man(rich.salary - poor.salary) + '만 원</b> 낮은 ' + win.label + ' 공고가 '
-      : win.label + ' 공고가 ') + gap;
-    document.getElementById('heroNote').textContent = '예시: ' + A.region + ' 연봉 ' + man(A.salary) + '만 원과 ' + B.region + ' 연봉 ' + man(B.salary) + '만 원, '
-      + (many ? '감면 없음. 영수증은 1년차 금액이고, ' + n + '년 금액은 같은 연봉과 월세가 이어진다고 보고 ' + n + '년을 더한 값입니다.' : '1년차, 감면 없음.');
+    var c = data.comparison, n = data.horizonYears, gap = win.remaining - lose.remaining;
+    var many = c && n > 1 && c.betterJob === win.label;   // 누적에서도 같은 쪽이 더 남을 때만 누적 줄을 쓴다
+    function place(j) { var r = String(j.region || '').split(' '); return j.label + (r.length > 1 ? ' ' + r[r.length - 1] : ''); }
+    function row(cls, k, v, sub) {
+      return '<div class="rx-row' + (cls ? ' ' + cls : '') + '"><dt>' + esc(k) + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</dt><dd>' + esc(won(v)) + '</dd></div>';
+    }
+    var rows = row('', place(A), A.remaining, '연봉 ' + won(A.salary)) + row('', place(B), B.remaining, '연봉 ' + won(B.salary))
+      + (many ? row('rx-gap', '1년차 차이', gap) + row('rx-total', n + '년 누적 차이', c.difference) : row('rx-total', '1년차 차이', gap));
+    // 우위 문장은 사실일 때만: 차이가 있을 때, 연봉이 낮은 쪽이 이기면 그 사실을 붙인다
+    var msg = gap > 0 ? (win.salary < lose.salary ? '연봉은 ' + won(lose.salary - win.salary) + ' 낮아도 ' : '') + win.label + ' 공고가 ' + (many ? '더 남아요.' : '1년차에 더 남아요.') : '';
+    document.getElementById('heroFact').innerHTML =
+      '<div class="rx-head"><span class="rx-tag">샘플 데이터로 계산한 예시</span>' + (data.rentPeriod ? '<span class="rx-meta">월세 ' + esc(data.rentPeriod) + '</span>' : '') + '</div>'
+      + '<div class="rx-cols" aria-hidden="true"><span>샘플 공고</span><span>1년 남는 돈</span></div>'
+      + '<dl class="rx-rows">' + rows + '</dl>'
+      + (msg ? '<p class="rx-msg">' + esc(msg) + '</p>' : '');
+    // 가정은 hero.json에 있는 것만 쓴다: 감면은 comparison.scenarioId, 식대·월세 기준은 assumption 문장(build_hero.py)에서 읽는다
+    var as = data.assumption || '', meal = /비과세 식대 월 ([\d,]+만 원)/.exec(as);
+    document.getElementById('heroNote').textContent = [
+      c && c.scenarioId === 'none' ? '감면 미적용' : '',
+      meal ? '비과세 식대 월 ' + meal[1] + ' 반영' : '',
+      /원룸 월세 중위값/.test(as) ? '근무지 원룸 월세 중위값' : '',
+      many ? n + '년간 연봉·월세 동일 가정' : ''
+    ].filter(Boolean).join(' · ');
+    document.getElementById('heroReceipt').hidden = false;
   }
 
-  var card = document.querySelector('#step1 .card');
-  document.getElementById('heroOwn').addEventListener('click', function () {
-    card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-    setTimeout(function () { var t = document.getElementById('textA'); if (t) t.focus({ preventScroll: true }); }, 450);
+  // CTA. 둘 다 아래 입력 영역의 기존 흐름(app.js)을 그대로 쓴다
+  var form = document.querySelector('#step1 .card'), start = document.getElementById('btnStart');
+  var own = document.getElementById('heroOwn'), tryBtn = document.getElementById('heroTry');
+  function go(el, block) { if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: block || 'start' }); }
+  // 공고 비교하기: 입력 영역으로 내려가 공고 A에 키보드 포커스. 이미 붙여 넣어 정리된 보기면 고치기 상태로 바꾼다(app.js의 보기 클릭과 같은 동작)
+  if (own && form) own.addEventListener('click', function () {
+    var ta = document.getElementById('textA'), view = document.getElementById('viewA');
+    if (ta && ta.hidden && view) { view.hidden = true; ta.hidden = false; }
+    if (ta) { try { ta.focus({ preventScroll: true }); } catch (e) { ta.focus(); } }
+    go(form);
   });
-  document.getElementById('heroTry').addEventListener('click', function () {
-    var b = document.querySelector('#sampleButtons button');
-    if (b) b.click();
-    card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-  });
+  // 샘플 결과 보기: 첫 샘플을 채우고 기존 비교 시작을 누른다. 확인이 필요 없으면 app.js가 결과까지 바로 간다.
+  // 비교 시작이 진행 중(disabled)이면 이 버튼도 잠근다. 샘플이 아직 없으면 샘플 줄로 안내한다. 실패 메시지는 app.js가 msg1에 띄운다
+  if (tryBtn && start && form) {
+    var sync = function () { tryBtn.disabled = start.disabled; tryBtn.setAttribute('aria-busy', start.disabled ? 'true' : 'false'); };
+    if (window.MutationObserver) new MutationObserver(sync).observe(start, { attributes: true, attributeFilter: ['disabled'] });
+    tryBtn.addEventListener('click', function () {
+      if (start.disabled) return;
+      var sample = document.querySelector('#sampleButtons button'), samples = document.getElementById('samples');
+      if (!sample) { if (samples) samples.classList.add('flash'); go(samples, 'center'); return; }
+      sample.click();
+      start.click();
+      var busy1 = document.getElementById('busy1'), msg1 = document.getElementById('msg1');
+      go(busy1 && !busy1.hidden ? busy1 : (msg1 && !msg1.hidden ? msg1 : form), 'center');
+    });
+  }
 
   startVideo();
   fetch('hero.json', { cache: 'no-cache' }).then(function (r) {
