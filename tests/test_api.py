@@ -7,6 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app import config, main
+from app.agent.llm import FakeLLM
 from app.data import rent as rent_data
 
 DOC = (Path(__file__).resolve().parent.parent / "docs" / "api-spec.md").read_text(encoding="utf-8")
@@ -55,6 +56,76 @@ def test_extract_sample_without_llm_uses_saved_result(client):
     profile_fields = [q["field"] for q in body["questions"] if q["postingId"] is None]
     assert profile_fields == ["profile.age", "profile.militaryServiceMonths", "profile.hireYear", "profile.priorRelief"]
     assert [t["step"] for t in body["trace"]] == list(range(1, len(body["trace"]) + 1))
+
+
+def _extract_with_fake(client, monkeypatch, text, raw):
+    llm = FakeLLM(fn=lambda *_: raw)
+    monkeypatch.setattr(main, "get_llm", lambda: llm)
+    response = client.post("/api/extract", json={"postings": [{"id": pid, "text": text} for pid in ("A", "B")]})
+    assert response.status_code == 200, response.json()
+    body = response.json()
+    questions = {q["field"]: q for q in body["questions"] if q["postingId"] == "A"}
+    return body["postings"][0], questions
+
+
+@pytest.mark.parametrize("body_pay, table_pay, amount, range_max, expected_salary", [
+    ("3,800만원", "4,200만원", 3800, None, None),
+    ("3,800만원", "3,800만원", 3800, None, 38_000_000),
+    ("3,800~4,200만원", "4,200만원", 3800, 4200, 38_000_000),
+])
+def test_extract_salary_conflict_requires_manual_amount(client, monkeypatch, body_pay, table_pay,
+                                                        amount, range_max, expected_salary):
+    salary_line = f"급여: 연봉 {body_pay}"
+    table_row = f"| 품질관리 | {table_pay} |"
+    text = f"근무지: 서울 강남구\n{salary_line}\n\n| 직무 | 연봉 |\n{table_row}"
+    raw = {"salary": {"amount": amount, "unit": "만원", "period": "year", "isRange": range_max is not None,
+                      "rangeMax": range_max, "evidence": salary_line},
+           "workLocationText": {"value": "서울 강남구", "evidence": "근무지: 서울 강남구"}}
+    posting, questions = _extract_with_fake(client, monkeypatch, text, raw)
+    fields = posting["fields"]
+    assert fields["annualSalary"]["value"] == expected_salary
+    if expected_salary is None:
+        assert fields["annualSalary"]["status"] == "missing"
+        assert fields["salaryConflictEvidence"] == [salary_line, table_row]
+        question = questions["annualSalary"]
+        assert question["required"] and question["inputType"] == "number"
+        assert "본문과 표" in question["text"] and "범위" not in question["text"]
+    else:
+        assert fields["salaryConflictEvidence"] == []
+        if range_max is None:
+            assert "annualSalary" not in questions
+        else:
+            assert "범위" in questions["annualSalary"]["text"]
+
+
+@pytest.mark.parametrize("quote_suffix, source_suffix, codes, field", [
+    (" 본사 또는 부산 부산진구 공장", " 본사 또는 부산 부산진구 공장", ["11680", "26230"], "sggCode"),
+    (" 본사 혹은 경기 공장", " 본사 혹은 경기 공장", ["11680"], "workLocationText"),
+    (" 테헤란로 / 2층", " 테헤란로 / 2층", ["11680"], None),
+    (" (정문 또는 후문)", " (정문 또는 후문)", ["11680"], None),
+    (" 혹은 경기 공장", "", ["11680"], None),
+])
+def test_extract_location_alternatives_require_verified_quote(client, monkeypatch, quote_suffix, source_suffix,
+                                                             codes, field):
+    location = "서울 강남구"
+    salary_line = "급여: 연봉 3,800만원"
+    text = f"근무지: {location}{source_suffix}\n{salary_line}\n장비: 노트북 또는 데스크톱"
+    raw = {"workLocationText": {"value": location, "evidence": f"근무지: {location}{quote_suffix}",
+                                "multipleLocations": False},
+           "salary": {"amount": 3800, "unit": "만원", "period": "year", "evidence": salary_line}}
+    posting, questions = _extract_with_fake(client, monkeypatch, text, raw)
+    assert posting["fields"]["multipleLocations"] is (field is not None)
+    assert posting["region"]["ambiguous"] is (field is not None)
+    assert [candidate["sggCode"] for candidate in posting["region"]["candidates"]] == codes
+    assert set(questions) & {"sggCode", "workLocationText"} == ({field} if field else set())
+    if field:
+        question = questions[field]
+        assert question["required"] and "여러 곳" in question["text"]
+        if field == "sggCode":
+            assert question["inputType"] == "select"
+            assert [option["value"] for option in question["options"]] == codes
+        else:
+            assert question["inputType"] == "text" and "시군구 코드" in question["text"]
 
 
 def test_extract_unknown_text_without_llm_falls_back_to_manual_input(client):

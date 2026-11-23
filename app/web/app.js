@@ -329,11 +329,13 @@
         var s = getSrc(p.fields || {}, d.key) || emptyField();
         m.f[d.key] = { value: s.value === undefined ? null : s.value, status: s.status || 'missing', evidence: s.evidence || null, note: s.note || null, confirmed: false };
       });
+      m.f.annualSalary.conflictEvidence = (p.fields || {}).salaryConflictEvidence || [];
+      m.multipleLocations = !!(p.fields || {}).multipleLocations;
       m.others = ((p.fields || {}).benefits || {}).others || [];
       var reg = p.region || {};
       m.candidates = reg.candidates || [];
       m.ambiguous = !!reg.ambiguous;
-      if (m.candidates.length === 1) m.sggCode = m.candidates[0].sggCode;
+      if (m.candidates.length === 1 && !m.ambiguous && !m.multipleLocations) m.sggCode = m.candidates[0].sggCode;
       if (m.f['benefits.dormitory'].value === true) m.housing.mode = 'dormitory';
       var meal = m.f['benefits.mealAllowanceMonthly'].value;
       if (isNum(meal) && meal > 0) m.nonTax = meal;
@@ -484,7 +486,9 @@
       r.badgeCell.appendChild(r.chkWrap);
     }
     clear(r.evCell);
-    if (f.evidence) r.evCell.appendChild(h('q', { text: f.evidence }));
+    if (f.conflictEvidence && f.conflictEvidence.length) {
+      f.conflictEvidence.forEach(function (quote) { r.evCell.appendChild(h('div', null, h('q', { text: quote }))); });
+    } else if (f.evidence) r.evCell.appendChild(h('q', { text: f.evidence }));
     if (f.note) r.evCell.appendChild(h('div', { text: f.note }));
     if (d.noteText) r.evCell.appendChild(h('div', { text: d.noteText }));
   }
@@ -492,6 +496,7 @@
   function renderRegion(pid) {
     var m = state.model[pid];
     var box = h('div', { class: 'q' });
+    var radios = [], manualInput;
     box.appendChild(h('label', { class: 't', text: '근무지 시군구' }));
     function flags(c) {
       var out = [];
@@ -499,23 +504,33 @@
       if (c.prefCandidate) out.push(badge('우대지역 후보(확정 아님)', 'accent'));
       return out;
     }
-    if (m.candidates.length === 0) {
-      if (!state.manual) box.appendChild(h('p', { text: '지역 표에 없는 근무지입니다. 시군구 코드(5자리)를 직접 입력해 주세요.' }));
-      else box.appendChild(h('p', { text: '근무지의 시군구 코드(5자리)를 입력해 주세요. 예: 서울 강남구는 11680' }));
-      var inp = h('input', { type: 'text', inputmode: 'numeric', maxlength: '5', placeholder: '시군구 코드', value: m.sggCode, 'data-role': 'sgg', 'aria-label': '시군구 코드', on: { input: function () {
-        m.sggCode = inp.value.trim();
-        refreshRow(pid, 'workLocationText', 'init');
-      } } });
-      box.appendChild(h('div', { class: 'row' }, inp));
-    } else if (m.candidates.length === 1) {
+    if (m.candidates.length === 1) {
       var c = m.candidates[0];
-      box.appendChild(h('div', null, [h('strong', { text: c.name }), ' ', h('span', { class: 'small', text: '(' + c.sggCode + ')' }), ' ', flags(c)]));
-    } else {
+      box.appendChild(h('div', null, [m.ambiguous || m.multipleLocations ? '참고: ' : '', h('strong', { text: c.name }), ' ', h('span', { class: 'small', text: '(' + c.sggCode + ')' }), ' ', flags(c)]));
+    } else if (m.candidates.length > 1) {
       box.appendChild(h('p', { class: 'small', text: '공고의 근무지에 해당하는 시군구가 여럿입니다. 해당하는 곳을 고르세요.' }));
       m.candidates.forEach(function (c) {
-        var rd = h('input', { type: 'radio', name: 'region-' + pid, value: c.sggCode, checked: m.sggCode === c.sggCode, 'data-role': 'region', on: { change: function () { m.sggCode = c.sggCode; refreshRow(pid, 'workLocationText', 'init'); } } });
+        var rd = h('input', { type: 'radio', name: 'region-' + pid, value: c.sggCode, checked: m.sggCode === c.sggCode, 'data-role': 'region', on: { change: function () {
+          m.sggCode = c.sggCode;
+          if (manualInput) manualInput.value = '';
+          refreshRow(pid, 'workLocationText', 'init');
+        } } });
+        radios.push(rd);
         box.appendChild(h('label', { class: 'radio' }, [rd, c.name + ' (' + c.sggCode + ') ', flags(c)]));
       });
+    }
+    if (!m.candidates.length || (m.candidates.length === 1 && m.ambiguous) || m.multipleLocations) {
+      var prompt = radios.length ? '해당하는 후보가 없으면 시군구 코드(5자리)를 직접 입력해 주세요.'
+        : '실제 근무할 시군구 코드(5자리)를 직접 입력해 주세요.';
+      if (state.manual) prompt += ' 예: 서울 강남구는 11680';
+      box.appendChild(h('p', { text: prompt }));
+      manualInput = h('input', { type: 'text', inputmode: 'numeric', maxlength: '5', placeholder: '시군구 코드',
+        value: radios.some(function (rd) { return rd.checked; }) ? '' : m.sggCode, 'data-role': 'sgg', 'aria-label': '시군구 코드', on: { input: function () {
+          m.sggCode = manualInput.value.trim();
+          radios.forEach(function (rd) { rd.checked = false; });
+          refreshRow(pid, 'workLocationText', 'init');
+        } } });
+      box.appendChild(h('div', { class: 'row' }, manualInput));
     }
     return box;
   }
@@ -664,7 +679,7 @@
       var name = m.f.companyName.value;
       var sal = m.f.annualSalary.value;
       if (!isNum(sal) || sal <= 0) errs.push('공고 ' + pid + ': 연봉(원)을 입력해 주세요.');
-      if (!/^\d{5}$/.test(m.sggCode || '')) errs.push('공고 ' + pid + ': 근무지 시군구가 정해지지 않았습니다.' + (m.candidates.length > 1 ? ' 위 후보 중 하나를 골라 주세요.' : ''));
+      if (!/^\d{5}$/.test(m.sggCode || '')) errs.push('공고 ' + pid + ': 근무지 시군구가 정해지지 않았습니다.' + (m.candidates.length > 1 && !m.multipleLocations ? ' 위 후보 중 하나를 골라 주세요.' : ''));
       if (!isFinite(m.nonTax) || m.nonTax < 0) errs.push('공고 ' + pid + ': 비과세 월액을 0 이상의 숫자로 입력해 주세요.');
       if (m.housing.mode === 'custom' && (!isNum(m.housing.custom) || m.housing.custom < 0)) errs.push('공고 ' + pid + ': 직접 입력 주거비(원)를 입력해 주세요.');
       var sizeV = m.f.companySize.value, empV = m.f.employmentType.value;

@@ -5,6 +5,7 @@ LLM 은 금액을 원 단위로 바꾸지 않는다. 공고 원문은 구분 태
 """
 from __future__ import annotations
 
+import re
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -12,13 +13,15 @@ from typing import Dict, List, Optional
 from app import config
 from app.schemas import Benefits, ExtractedField, PostingFields, PostingInput
 
-from .evidence import verify_field, verify_salary
+from .evidence import evidence_in_source, verify_field, verify_salary
 from .llm import LLMClient, LLMUnavailable
 from .mask import mask_pii
 from .salary import normalize_monthly_amount, normalize_salary
+from .salary_conflict import find_salary_conflict
 
 PROMPT_VERSION = "extract_v2"   # v2(11/21): 회사 규모 단서만 있을 때 값을 sme로 고정(v1은 실행마다 unknown/sme가 갈림)
 SYSTEM_PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf-8")
+_LOCATION_ALTERNATIVE = re.compile(r"(?<=\S)\s+(?:또는|혹은)\s+(?=\S)")
 
 
 class PostingUnreadable(ValueError):
@@ -80,12 +83,28 @@ def to_fields(raw: dict, masked_text: str) -> PostingFields:
     g = lambda k: raw.get(k) or {}
 
     salary_raw = g("salary")
-    salary = verify_salary(normalize_salary(salary_raw), masked_text, salary_raw.get("amount"))
+    salary_conflict = find_salary_conflict(masked_text)
+    if salary_conflict:
+        salary = ExtractedField[int](status="missing", note="본문과 표의 급여가 다름")
+    else:
+        salary = verify_salary(normalize_salary(salary_raw), masked_text, salary_raw.get("amount"))
 
     loc = g("workLocationText")
-    location = verify_field(_field(loc.get("value"), loc.get("evidence")), masked_text)
-    if location.value and loc.get("multipleLocations"):
-        location = location.model_copy(update={"status": "inferred", "note": "근무지가 여러 곳으로 적혀 있음"})
+    multiple_locations = loc.get("multipleLocations") is True
+    location_evidence = loc.get("evidence")
+    location = verify_field(_field(loc.get("value"), location_evidence), masked_text)
+    if not multiple_locations and location_evidence and evidence_in_source(location_evidence, masked_text):
+        quoted_location = re.sub(r"^근무지[ \t]*[:：][ \t]*", "", location_evidence.strip())
+        address = re.sub(r"\([^)]*\)|\[[^\]]*\]", " ", quoted_location)
+        if len(address.splitlines()) == 1 and _LOCATION_ALTERNATIVE.search(address):
+            # The model may have copied only the first option into value.
+            location = _field(quoted_location, location_evidence)
+            multiple_locations = True
+    if location.value and multiple_locations:
+        note = "근무지가 여러 곳으로 적혀 있음"
+        if location.note:
+            note = f"{note} / {location.note}"
+        location = location.model_copy(update={"status": "inferred", "note": note})
 
     emp = g("employmentType")
     emp_value = emp.get("value") if emp.get("value") in ("regular", "contract", "intern", "daily") else None
@@ -127,6 +146,8 @@ def to_fields(raw: dict, masked_text: str) -> PostingFields:
                                    masked_text),
         benefits=Benefits(meal_allowance_monthly=verify_field(meal, masked_text), dormitory=dormitory,
                           housing_support_monthly=verify_field(housing, masked_text), others=others),
+        salary_conflict_evidence=salary_conflict,
+        multiple_locations=multiple_locations,
     )
 
 
@@ -143,7 +164,7 @@ def _extract_one(posting: PostingInput, llm: LLMClient) -> PostingFields:
     if not isinstance(raw, dict):
         raise LLMUnavailable("추출 결과 형식 오류")
     fields = to_fields(raw, masked)
-    if fields.annual_salary.value is None and fields.work_location_text.value is None:
+    if fields.annual_salary.value is None and not fields.salary_conflict_evidence and fields.work_location_text.value is None:
         raise PostingUnreadable(f"공고 {posting.id}에서 연봉과 근무지를 읽지 못했습니다. 채용공고 본문이 맞는지 확인해 주세요.")
     return fields
 

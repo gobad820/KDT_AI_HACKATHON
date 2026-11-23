@@ -31,23 +31,39 @@ def _who(pid: str, f: PostingFields) -> str:
 def _posting_questions(pid: str, f: PostingFields, region: RegionResolution) -> List[dict]:
     who, qs = _who(pid, f), []
     sal = f.annual_salary
-    if sal.value is None:
+    if f.salary_conflict_evidence:
+        qs.append(dict(field="annualSalary", input_type="number", required=True,
+                       text=f"{who}의 본문과 표에 서로 다른 급여가 적혀 있습니다. 비교할 연봉(원)을 직접 입력해 주세요."))
+    elif sal.value is None:
         quoted = f"'{sal.evidence}'" if sal.evidence else "적혀 있지 않거나 협의"
         qs.append(dict(field="annualSalary", input_type="number", required=True,
                        text=f"{who}에는 연봉이 {quoted}로만 나와 있습니다. 제안받았거나 예상하는 연봉(원)을 입력해 주세요."))
     elif sal.status == "inferred":
         qs.append(dict(field="annualSalary", input_type="number", required=True,
                        text=f"{who}의 연봉을 {sal.value:,}원으로 계산했습니다({sal.note}). 이 금액으로 비교할까요? 다르면 고쳐 주세요."))
-    if not f.work_location_text.value:
+    loc = f.work_location_text.value
+    if f.multiple_locations:
+        which = f" ('{loc}')" if loc else ""
+        if len(region.candidates) > 1:
+            qs.append(dict(field="sggCode", input_type="select", required=True,
+                           options=[Option(value=c.sgg_code, label=c.name) for c in region.candidates],
+                           text=f"{who}에 근무지가 여러 곳으로 적혀 있습니다{which}. 실제 근무할 시군구를 고르거나 직접 입력해 주세요."))
+        else:
+            qs.append(dict(field="workLocationText", input_type="text", required=True,
+                           text=f"{who}에 근무지가 여러 곳으로 적혀 있습니다{which}. 실제 근무할 시군구 코드를 입력해 주세요."))
+    elif not loc:
         qs.append(dict(field="workLocationText", input_type="text", required=True,
                        text=f"{who}에 근무지가 적혀 있지 않습니다. 근무할 시군구를 알려 주세요."))
     elif len(region.candidates) > 1:
         qs.append(dict(field="sggCode", input_type="select", required=True,
                        options=[Option(value=c.sgg_code, label=c.name) for c in region.candidates],
-                       text=f"{who}의 근무지 '{f.work_location_text.value}'가 여러 지역에 해당할 수 있습니다. 어디인가요?"))
-    elif not region.candidates or region.ambiguous:
+                       text=f"{who}의 근무지 '{loc}'가 여러 지역에 해당할 수 있습니다. 어디인가요?"))
+    elif not region.candidates:
         qs.append(dict(field="workLocationText", input_type="text", required=True,
-                       text=f"{who}의 근무지 '{f.work_location_text.value}'를 지역 표에서 찾지 못했습니다. 시군구까지 적어 주세요."))
+                       text=f"{who}의 근무지 '{loc}'를 지역 표에서 찾지 못했습니다. 시군구까지 적어 주세요."))
+    elif region.ambiguous:
+        qs.append(dict(field="workLocationText", input_type="text", required=True,
+                       text=f"{who}의 근무지 '{loc}'의 시군구를 확정할 수 없습니다. 시군구 코드를 입력해 주세요."))
     if f.company_size.value == "unknown" or f.company_size.status == "inferred":
         qs.append(dict(field="companySize", input_type="select", required=True, options=SIZE_OPTIONS,
                        text=f"{who}에는 회사 규모가 적혀 있지 않습니다. 어디에 해당하나요?" if f.company_size.value == "unknown"

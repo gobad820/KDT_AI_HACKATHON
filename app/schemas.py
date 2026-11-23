@@ -67,6 +67,8 @@ class PostingFields(ApiModel):
     company_size: ExtractedField[CompanySize]
     industry_text: ExtractedField[str]
     benefits: Benefits
+    salary_conflict_evidence: List[str] = []
+    multiple_locations: bool = False
 
 
 class Region(ApiModel):

@@ -33,6 +33,7 @@
 |---|---|---|
 | Field | `value`, `status`, `evidence`, `note` | `status`는 `extracted`(원문에 있음), `inferred`(단서로 추정, 화면에서 확인 필수), `missing`(원문에 없음), `user`(사용자가 입력·수정). `evidence`는 원문을 그대로 인용하고 없으면 null |
 | 추출 필드 | `companyName`, `annualSalary`, `workLocationText`, `employmentType`, `companySize`, `industryText`, `benefits` | 각각 Field. `annualSalary`는 원. `companySize`는 `sme`, `mid`, `large`, `public`, `unknown`. `employmentType`은 `regular`, `contract`, `intern`, `daily`, `unknown`. `benefits`는 Field인 `mealAllowanceMonthly`, `dormitory`, `housingSupportMonthly`와 계산에 넣지 않는 복지 목록 `others[]` |
+| 추출 확인 정보 | `salaryConflictEvidence`, `multipleLocations` | `salaryConflictEvidence`에는 급여가 다른 본문과 표의 인용문을 담는다. 이때 `annualSalary.value`는 null이고 연봉을 직접 입력한다. `multipleLocations`는 여러 근무지가 명시되었음을 나타낸다. 원문에서 확인된 근무지 인용문에 `또는`이나 `혹은`으로 이어진 선택지가 있으면 모델이 여러 근무지를 표시하지 않아도 true로 설정한다. |
 | Question | `id`, `postingId`, `field`, `text`, `inputType`, `options`, `required` | `inputType`은 `number`, `select`, `text`, `boolean`. `options`는 `[{ value, label }]` 또는 null. `postingId`가 null이면 profile 질문 |
 | Profile | `age`, `militaryServiceMonths`, `hireYear`, `priorRelief` | `age`는 만 나이, `hireYear`는 2026 또는 2027, `priorRelief`는 `no`, `yes`, `unknown` |
 | Region | `sggCode`, `name`, `regionClass`, `typeBase`, `typePref`, `prefCandidate`, `classUncertain` | `regionClass`는 `capital`, `metro`, `other`. `typeBase`는 우대지역이 아닐 때, `typePref`는 우대지역으로 지정될 때의 유형. 분류 규칙과 미확정 지역 처리는 `docs/data-spec.md` |
@@ -121,7 +122,7 @@
 ```
 
 - `annualSalary.value`는 원 단위로 맞춘 값이다. "3,800만원" 같은 표기를 원 단위 연봉으로 바꾸는 계산은 서버 코드가 한다. 서버는 `evidence`가 원문에 그대로 있는지도 대조한다(`docs/agent-spec.md`).
-- `region`은 `resolve_region`의 출력이다. 후보가 여럿이면 `ambiguous`가 true이고 근무지를 고르는 질문이 하나 더 생긴다.
+- `region.ambiguous`가 true이면 후보를 자동으로 채우지 않는다. 여러 근무지에서 시군구 후보를 하나만 확인하면 참고용으로 표시하고 `workLocationText` 질문으로 실제 시군구 코드 입력을 요구한다. 후보가 여럿이면 `sggCode` 질문으로 선택을 요구하며, 후보에 없는 근무지는 코드를 직접 입력할 수 있다.
 - `questions`에는 공고별 질문과 profile 질문이 함께 들어간다. 공고별 질문은 에이전트가 만들고(`ask_user`), profile 질문 4개는 서버가 고정 문구로 붙인다.
 - 화면 2는 `fields`를 표로 보여주고, 사용자가 확인하거나 고친 값만 `compare`의 `confirmed`에 담는다. `inferred`와 `missing`은 사용자가 확인해야 다음으로 넘어간다.
 

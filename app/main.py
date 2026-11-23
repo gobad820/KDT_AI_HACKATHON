@@ -22,7 +22,7 @@ from app.calc import constants as C
 from app.errors import ApiError, invalid_input, llm_unavailable, posting_unreadable, rate_limited
 from app.pipeline import KST, Deps, basic_explanation, new_request_id, run_compare
 from app.schemas import (CompareRequest, DataVersion, ExplainResponse, ExtractedPosting, ExtractRequest, ExtractResponse,
-                         HealthResponse, PostingFields, PostingInput, RegionResolution, Sample, SamplesResponse,
+                         HealthResponse, PostingFields, PostingInput, Sample, SamplesResponse,
                          TraceStep, dump)
 
 log = logging.getLogger("app")
@@ -160,7 +160,7 @@ def extract(req: ExtractRequest, request: Request):
     from app.agent.extract import PostingUnreadable, extract_postings
     from app.agent.llm import LLMUnavailable
     from app.agent.questions import build_questions
-    from app.data.regions import resolve_region
+    from app.data.regions import resolve_work_location
 
     degraded = False
     trace = []
@@ -181,8 +181,9 @@ def extract(req: ExtractRequest, request: Request):
     regions = {}
     notes = []
     for pid in sorted(fields):
-        text = fields[pid].work_location_text.value or ""
-        res = resolve_region(text) if text.strip() else RegionResolution(candidates=[], ambiguous=True)
+        posting = fields[pid]
+        text = posting.work_location_text.value or ""
+        res = resolve_work_location(text, multiple_locations=posting.multiple_locations)
         regions[pid] = res
         if len(res.candidates) == 1 and not res.ambiguous:
             notes.append(f"{pid} '{text}'는 {res.candidates[0].sgg_code}")
