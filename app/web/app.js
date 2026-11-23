@@ -154,6 +154,12 @@
       view.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); edit(); } });
       upd();
     });
+    ['A', 'B'].forEach(function (id) {
+      var btn = $('pdfBtn' + id), file = $('pdfFile' + id);
+      if (!btn || !file) return;
+      btn.addEventListener('click', function () { file.value = ''; file.click(); });
+      file.addEventListener('change', function () { if (file.files && file.files[0]) onPdf(id, file.files[0]); });
+    });
     $('btnStart').addEventListener('click', onStart);
     api('GET', '/api/samples').then(function (r) {
       var box = $('sampleButtons');
@@ -191,6 +197,67 @@
     if (lines.length > POST_MAX_LINES) view.appendChild(h('div', { class: 'rc-note', text: '··· ' + nf.format(lines.length - POST_MAX_LINES) + '줄 더 있음' }));
     view.appendChild(h('div', { class: 'rc-note post-edit', text: '눌러서 고치기' }));
     view.hidden = false; ta.hidden = true;
+  }
+  // 공고 PDF: 브라우저에서 글자만 뽑아 공고 칸에 넣는다. 파일은 서버로 보내지 않는다.
+  // pdf.js(Apache-2.0)는 처음 쓸 때만 cdnjs에서 받는다.
+  var PDFJS_BASE = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+  var pdfjsReady = null;
+  function loadPdfJs() {
+    if (pdfjsReady) return pdfjsReady;
+    pdfjsReady = new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = PDFJS_BASE + 'pdf.min.js';
+      s.integrity = 'sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e';
+      s.crossOrigin = 'anonymous';
+      s.onload = function () {
+        if (!window.pdfjsLib) { reject(new Error('pdfjs')); return; }
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_BASE + 'pdf.worker.min.js';
+        resolve(window.pdfjsLib);
+      };
+      s.onerror = function () { pdfjsReady = null; reject(new Error('pdfjs')); };
+      document.head.appendChild(s);
+    });
+    return pdfjsReady;
+  }
+  function pdfToText(lib, buf) {
+    return lib.getDocument({ data: buf }).promise.then(function (doc) {
+      var pages = [];
+      for (var i = 1; i <= Math.min(doc.numPages, 10); i++) pages.push(i);
+      return pages.reduce(function (acc, n) {
+        return acc.then(function (out) {
+          return doc.getPage(n).then(function (pg) { return pg.getTextContent(); }).then(function (tc) {
+            var t = '';
+            tc.items.forEach(function (it) { t += it.str; if (it.hasEOL) t += '\n'; });
+            return out + t + '\n';
+          });
+        });
+      }, Promise.resolve(''));
+    });
+  }
+  function onPdf(id, f) {
+    hideMsg('msg1');
+    if (f.size > 10 * 1024 * 1024) { showMsg('msg1', '공고 ' + id + ': PDF는 10MB까지 올릴 수 있습니다.'); return; }
+    busy(1, ['PDF에서 글자를 뽑는 중']);
+    f.arrayBuffer().then(function (buf) {
+      return loadPdfJs().then(function (lib) { return pdfToText(lib, buf); });
+    }).then(function (text) {
+      unbusy(1);
+      text = text.replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim();
+      if (text.replace(/\s/g, '').length < 20) {
+        showMsg('msg1', '공고 ' + id + ': PDF에서 글자를 찾지 못했습니다. 스캔한 이미지 PDF일 수 있습니다. 공고 글을 복사해 붙여 넣어 주세요.');
+        return;
+      }
+      var cut = text.length > MAX_CHARS;
+      var ta = $('text' + id);
+      ta.value = cut ? text.slice(0, MAX_CHARS) : text;
+      ta.dispatchEvent(new Event('input'));
+      renderPostView(id);
+      if (cut) showMsg('msg1', '공고 ' + id + ': PDF 글이 8,000자를 넘어 앞부분 8,000자만 넣었습니다. 연봉과 근무지가 들어 있는지 확인해 주세요.');
+      if (!cut && $('textA').value.trim() && $('textB').value.trim()) onStart();
+    }).catch(function () {
+      unbusy(1);
+      showMsg('msg1', '공고 ' + id + ': PDF를 읽지 못했습니다. 공고 글을 복사해 붙여 넣어 주세요.');
+    });
   }
   function fillSample(s) {
     s.postings.forEach(function (p) {
