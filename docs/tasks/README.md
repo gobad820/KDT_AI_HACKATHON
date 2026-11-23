@@ -11,7 +11,7 @@
 번호 / 제목 / 담당 / 상태 / 먼저 끝나야 하는 것
 
 - W1 [서비스 이름 변경과 기본 누적 10년](W1-rename-10y.md) / Claude Code / 진행 중 / 없음
-- W2 [테스트 30건과 추출 프롬프트](W2-agent-tests.md) / 이동한 / 시작 전 / 없음(30건 실제 실행만 W8 뒤)
+- W2 [테스트 30건과 추출 프롬프트](W2-agent-tests.md) / 이동한 / 30건 파일·평가기 PR, W8 병합 후 실제 재평가 대기 / 없음(30건 실제 실행만 W8 뒤)
 - W3 [공식 계산기 대조](W3-calc-check.md) / 정상훈 / 시작 전 / 없음
 - W4 [소개서, AI 활용내역, Credits](W4-docs-and-intro.md) / 김상해 / 시작 전 / README·ai-usage-log를 고치기 전에 W1(소개서 초안은 먼저 시작, 검증 수치는 W2·W3 뒤)
 - W5 [체감 속도 개선 세 가지](W5-perceived-latency.md) / Claude Code / 제안(대표자 승인 전) / W1, W8

@@ -1,0 +1,21 @@
+{
+ "meta": {
+  "mode": "live",
+  "runAt": "2026-11-22T14:05:56+09:00",
+  "commit": "423b731+작업 중 변경",
+  "prompts": {
+   "extract": "extract_v2",
+   "classify": "classify_v1",
+   "explain": "explain_v1"
+  },
+  "repeat": 1,
+  "model": {
+   "provider": "",
+   "configured": "",
+   "fallbacks": "",
+   "note": "설정값. 어느 모델이 실제로 응답했는지는 기록하지 않음"
+  },
+  "unavailable": "LLM_PROVIDER 가 비어 있음(.env 또는 환경변수)"
+ },
+ "runs": []
+}

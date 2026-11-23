@@ -114,6 +114,7 @@
 ### 일요일
 
 - [ ] **T12. 테스트 30건.** `docs/agent-spec.md` 12장 목록으로 `tests/cases/`를 만들고 실제 LLM(Gemini)으로 돌려 결과표를 남긴다(이동한). 위 "0. 팀원별 작업" 참고.
+  - 11/22 W2 PR: 30건 케이스(`tests/cases/cases.json`), 평가기(`tests/cases/evaluate.py`), 실행 파일(`tests/cases/run_cases.py`), 결과표(`tests/cases/RESULTS.md`). main(extract_v2) 모의와 11/22 공개 배포본(v2) 원격 이력만 있다. **W8 병합 후 실제 재평가 대기**(main 최종 프롬프트로 30건을 한 건씩 실행).
 - [ ] **T13. 샘플 저장본.** (11/21 측정에서 현재 모델 출력과 48/48 일치, 확인만 남음) 실제 LLM 응답으로 `data/samples/*.json`의 `savedExtract`를 바꾼다. LLM 장애 때 쓰는 대체 응답이다.
 - [ ] **T14. 공식 계산기 대조.** `docs/calc-rules.md` 8장 표를 채운다(정상훈).
 - [x] **T15. 월세 스냅샷 동결.** (11/21 버전 `2026-11-21`, `-partial` 아님) 최종 수집본으로 `--partial` 없이 통계를 다시 만들고 버전을 고정한다.

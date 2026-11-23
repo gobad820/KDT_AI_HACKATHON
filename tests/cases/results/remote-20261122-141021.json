@@ -1,0 +1,280 @@
+{
+ "meta": {
+  "mode": "remote",
+  "runAt": "2026-11-22T14:10:21+09:00",
+  "commit": "423b731+작업 중 변경",
+  "prompts": {
+   "extract": "extract_v2",
+   "classify": "classify_v1",
+   "explain": "explain_v1"
+  },
+  "repeat": 1,
+  "baseUrl": "https://nammeun-don.vercel.app",
+  "model": {
+   "note": "팀 현황(CLAUDE.md, 11/21) 기재 설정: gemini-flash-lite-latest → 대체 gemini-3.5-flash-lite → gemini-3.1-flash-lite. 배포 API 응답에는 모델명이 없어 이번 실행에서 직접 확인하지 못함"
+  },
+  "deployedVersion": "API로 확인 불가. commit 은 평가기를 돌린 로컬 저장소의 커밋이며 배포본의 커밋이 아니다",
+  "batch": "원격 2차 보충: T13·T21·T25만 수정된 평가기로 다시 실행(Codex). 1차의 같은 케이스 행을 대체한다",
+  "sourceFile": "remote-supplement.json"
+ },
+ "runs": [
+  [
+   {
+    "id": "T13",
+    "variant": "명세 문구",
+    "mode": "remote",
+    "verdict": "명세 차이",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "location.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "region.undecided",
+      "ok": true,
+      "expected": "후보 확정 아님",
+      "actual": {
+       "codes": [],
+       "ambiguous": true
+      },
+      "skipped": false
+     },
+     {
+      "name": "questions.include:workLocationText",
+      "ok": true,
+      "expected": "workLocationText",
+      "actual": [
+       "companySize",
+       "workLocationText"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.required:workLocationText",
+      "ok": true,
+      "expected": true,
+      "actual": true,
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:workLocationText:여러 곳",
+      "ok": false,
+      "expected": "여러 곳",
+      "actual": "금강기계(가상) 공고의 근무지 '서울 본사 또는 창원 공장'를 지역 표에서 찾지 못했습니다. 시군구까지 적어 주세요.",
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [
+     "questions.textContains:workLocationText:여러 곳"
+    ],
+    "knownGaps": [],
+    "error": null,
+    "note": "지역 표에 걸리는 후보가 없다",
+    "ms": 2091
+   },
+   {
+    "id": "T13",
+    "variant": "후보 1개만 걸림",
+    "mode": "remote",
+    "verdict": "명세 차이",
+    "checks": [
+     {
+      "name": "invariant:extractedHasEvidence",
+      "ok": true,
+      "expected": [],
+      "actual": [],
+      "skipped": false
+     },
+     {
+      "name": "location.status",
+      "ok": true,
+      "expected": "inferred",
+      "actual": "inferred",
+      "skipped": false
+     },
+     {
+      "name": "region.undecided",
+      "ok": false,
+      "expected": "후보 확정 아님",
+      "actual": {
+       "codes": [
+        "11680"
+       ],
+       "ambiguous": false
+      },
+      "skipped": false
+     },
+     {
+      "name": "questions.include:workLocationText",
+      "ok": false,
+      "expected": "workLocationText",
+      "actual": [
+       "companySize"
+      ],
+      "skipped": false
+     },
+     {
+      "name": "questions.required:workLocationText",
+      "ok": false,
+      "expected": true,
+      "actual": null,
+      "skipped": false
+     },
+     {
+      "name": "questions.textContains:workLocationText:여러 곳",
+      "ok": false,
+      "expected": "여러 곳",
+      "actual": null,
+      "skipped": false
+     },
+     {
+      "name": "remote.degraded",
+      "ok": true,
+      "expected": false,
+      "actual": false,
+      "skipped": false
+     }
+    ],
+    "failed": [
+     "region.undecided",
+     "questions.include:workLocationText",
+     "questions.required:workLocationText",
+     "questions.textContains:workLocationText:여러 곳"
+    ],
+    "knownGaps": [],
+    "error": null,
+    "note": "지역 표에는 강남구 하나만 걸린다. 11/22 수정 전에는 질문 없이 11680을 확정 후보로 내보내 화면이 확인 없이 계산했다(questions.py, main.py 수정과 회귀 테스트)",
+    "ms": 2004
+   },
+   {
+    "id": "T21",
+    "variant": "세종(월세 직접 입력)",
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "noticeContains:분류가 정해지지 않아",
+      "ok": true,
+      "expected": "분류가 정해지지 않아",
+      "actual": "AI가 생성한 답변입니다. 금액은 서버의 계산 코드가 산출했습니다. / 2026년 8월 정부 세제개편안 기준입니다. 국회에서 확정되지 않았고 지역 구분은 시행령으로 정해질 예정입니다. / 감면은 회사를 통해 신청해야 하며 대상 여부는 회사와 국세청에서 확인해야 합니다. / 남는 돈에는 식비·교통비 등 생활비가 들어 있지 않습니다. / 세종특별자치시: 정부안의 지역 유형 분류가 정해지지 않아 2유형으로 가정했습니다.",
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": null,
+    "ms": 1675
+   },
+   {
+    "id": "T21",
+    "variant": "세종(월세 통계 부족)",
+    "mode": "remote",
+    "verdict": "미측정",
+    "checks": [],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "고정 월세가 필요해 원격에서 재지 않음 / 고정 월세에서 세종은 6개월 표본 9건, 넓힐 범위가 없어 '확인 불가'로 월세를 되묻는다(needsInput)",
+    "ms": 0
+   },
+   {
+    "id": "T21",
+    "variant": "옛 광주 동구",
+    "mode": "remote",
+    "verdict": "미측정",
+    "checks": [],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "고정 월세가 필요해 원격에서 재지 않음",
+    "ms": 0
+   },
+   {
+    "id": "T25",
+    "variant": "10년",
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "differenceIsHousingTimesYears:none",
+      "ok": true,
+      "expected": 48000000,
+      "actual": 48000000,
+      "skipped": false
+     },
+     {
+      "name": "differenceIsHousingTimesYears:current_law",
+      "ok": true,
+      "expected": 48000000,
+      "actual": 48000000,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "원격은 배포 서버의 실제 월세 대신 월 85만/45만 원을 직접 입력(custom)으로 고정한다",
+    "ms": 1603
+   },
+   {
+    "id": "T25",
+    "variant": "5년(정부안도 감면 연수 같음)",
+    "mode": "remote",
+    "verdict": "통과",
+    "checks": [
+     {
+      "name": "differenceIsHousingTimesYears:none",
+      "ok": true,
+      "expected": 24000000,
+      "actual": 24000000,
+      "skipped": false
+     },
+     {
+      "name": "differenceIsHousingTimesYears:current_law",
+      "ok": true,
+      "expected": 24000000,
+      "actual": 24000000,
+      "skipped": false
+     },
+     {
+      "name": "differenceIsHousingTimesYears:proposal_base",
+      "ok": true,
+      "expected": 24000000,
+      "actual": 24000000,
+      "skipped": false
+     },
+     {
+      "name": "differenceIsHousingTimesYears:proposal_pref",
+      "ok": true,
+      "expected": 24000000,
+      "actual": 24000000,
+      "skipped": false
+     }
+    ],
+    "failed": [],
+    "knownGaps": [],
+    "error": null,
+    "note": "원격은 배포 서버의 실제 월세 대신 월 85만/45만 원을 직접 입력(custom)으로 고정한다",
+    "ms": 1513
+   }
+  ]
+ ]
+}
