@@ -835,6 +835,8 @@
       }
     }
     box.appendChild(line);
+    var reliefNote = currentLawZeroNote(R);
+    if (reliefNote) box.appendChild(h('p', { class: 'relief-note', text: reliefNote }));
     var sub = [];
     if (R.degraded) sub.push(badge('대체 응답', 'warn'));
     var notes = [];
@@ -846,6 +848,30 @@
     notes.forEach(function (n) { box.appendChild(h('p', { class: 'small', text: n })); });
     box.appendChild(h('p', { class: 'small', text: '남는 돈 = 세후 소득 - 주거비. 식비 등 생활비는 들어 있지 않습니다.' }));
     return box;
+  }
+
+  // 현행법 감면이 두 공고 모두 0년이면(2027년 이후 입사) 그 이유와 정부안 결과를 결론 바로 아래에 밝힌다.
+  // 금액은 서버 응답(comparison)의 값만 쓴다.
+  function scenarioYears(job, id) {
+    var s = (job.scenarios || []).filter(function (x) { return x.id === id; })[0];
+    return s ? s.reliefYears : 0;
+  }
+  function currentLawZeroNote(R) {
+    if (!R.jobs || !R.jobs.length) return '';
+    var allZero = R.jobs.every(function (j) { return scenarioYears(j, 'current_law') === 0; });
+    if (!allZero) return '';
+    var text = '현행 청년 소득세 감면은 2026년 12월 31일까지 취업한 사람만 받습니다. 2027년 이후 입사로 계산해 현행법 감면은 0년입니다.';
+    var anyProposal = R.jobs.some(function (j) { return scenarioYears(j, 'proposal_base') > 0 || scenarioYears(j, 'proposal_pref') > 0; });
+    if (!anyProposal) return text;
+    function part(id, label) {
+      var c = compFor(id);
+      if (!c) return '';
+      if (c.difference === 0) return label + ' 차이 없음';
+      return label + ' ' + jobName(c.betterJobId) + '가 약 ' + man(c.difference) + ' 더';
+    }
+    var parts = [part('proposal_base', '우대지역이 아닐 때'), part('proposal_pref', '우대지역으로 지정될 때')].filter(Boolean);
+    if (parts.length) text += ' 2026년 8월 정부 세제개편안(국회 확정 전)이 통과되면 ' + parts.join(', ') + ' 남습니다. 아래 \'정부안\' 탭에서 확인하세요.';
+    return text;
   }
 
   function renderScenarioArea() {
