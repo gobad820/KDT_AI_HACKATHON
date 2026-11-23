@@ -275,8 +275,8 @@ def build_report() -> str:
     if remote and len(remote.get("metas", [])) > 1:
         L.append("- 원격은 여러 배치로 실행했다. 케이스(변형)마다 가장 최근 배치의 결과를 표에 쓴다.")
     if remote:
-        L.append("- 원격 결과는 11/22 공개 배포본(extract_v2)의 동작 이력이다. 이 결과표의 모의 기준인 main 도 extract_v2 라서 "
-                 "원격의 실패가 모의의 명세 차이(knownGaps)와 같은지 대조한다. W8(extract_v3) 병합 뒤 실제 재평가로 새 결과를 더한다.")
+        L.append("- 11/22 원격 결과는 당시 공개 배포본(extract_v2)과 실행 시점의 기대값을 기록한다. "
+                 "T10·T13 수정 후의 동작은 모의 결과와 케이스 메모를 참고한다.")
 
     L += _criteria_summary(data, mi, li, ri)
     rows_main, rows_var, details = [], [], []
@@ -347,7 +347,7 @@ def build_report() -> str:
     L += rows_var
     L += ["", "## 명세 차이 상세 (실패한 검사의 기대값과 실제값)", "", "| 방식 | 케이스 | 검사 | 기대 | 실제 |", "|---|---|---|---|---|"]
     L += list(dict.fromkeys(details)) or ["| | | 없음 | | |"]
-    L += ["", "## 설계와 현 구현 차이 (케이스 메모)", ""]
+    L += ["", "## 케이스 메모", ""]
     for case in data["cases"]:
         if case.get("notes"):
             L.append(f"- **{case['id']}** {case['notes']}")

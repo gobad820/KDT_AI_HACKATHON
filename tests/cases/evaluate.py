@@ -139,7 +139,7 @@ class Runner:
         from app.agent.extract import extract_postings
         from app.agent.llm import FakeLLM
         from app.agent.questions import build_questions
-        from app.data.regions import resolve_region
+        from app.data.regions import resolve_work_location
         from app.schemas import PostingFields, PostingInput, Question, RegionResolution
         if self.mode == "remote":
             body = self._post("/api/extract", {"postings": [{"id": "A", "text": text},
@@ -151,7 +151,7 @@ class Runner:
         llm = Recorder(FakeLLM([make_raw(mock_raw)]) if self.mode == "mock" else self.llm)
         fields = extract_postings([PostingInput(id="A", text=text)], llm)["A"]
         loc = fields.work_location_text.value or ""
-        region = resolve_region(loc) if loc.strip() else RegionResolution(candidates=[], ambiguous=True)
+        region = resolve_work_location(loc, multiple_locations=fields.multiple_locations)
         qs = [q for q in build_questions({"A": fields}, {"A": region}) if q.posting_id]
         return fields, region, qs, [c["user"] for c in llm.calls], False
 
@@ -224,6 +224,10 @@ def check_extract(ck: Checks, exp: dict, text: str, fields, region, qs, payloads
         ck.add("salaryStatusIn", sal.status in exp["salaryStatusIn"], exp["salaryStatusIn"], sal.status)
     if exp.get("salaryEvidenceInSource"):
         ck.add("salaryEvidenceInSource", bool(sal.evidence and evidence_in_source(sal.evidence, masked)), True, sal.evidence)
+    if "salaryConflictEvidence" in exp:
+        quotes = fields.salary_conflict_evidence
+        ck.add("salaryConflictEvidence", quotes == exp["salaryConflictEvidence"]
+               and all(evidence_in_source(q, masked) for q in quotes), exp["salaryConflictEvidence"], quotes)
     if "employmentType" in exp:
         ck.add("employmentType", fields.employment_type.value == exp["employmentType"], exp["employmentType"], fields.employment_type.value)
     if "companySize" in exp:
@@ -232,6 +236,9 @@ def check_extract(ck: Checks, exp: dict, text: str, fields, region, qs, payloads
     if "location" in exp:
         for key, v in exp["location"].items():
             ck.add(f"location.{key}", getattr(fields.work_location_text, key) == v, v, getattr(fields.work_location_text, key))
+    if "multipleLocations" in exp:
+        ck.add("multipleLocations", fields.multiple_locations == exp["multipleLocations"],
+               exp["multipleLocations"], fields.multiple_locations)
     for s in exp.get("othersContain", []):
         ck.add(f"othersContain:{s}", any(s in o for o in fields.benefits.others), s, fields.benefits.others)
     if exp.get("dormitory"):

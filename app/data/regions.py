@@ -132,6 +132,24 @@ def resolve_region(location_text: str) -> RegionResolution:
     return RegionResolution(candidates=candidates, ambiguous=ambiguous)
 
 
+_WORKPLACE_SEPARATOR = re.compile(r"\s+(?:또는|혹은|및|그리고)\s+|\s*[,/·;|\n]\s*")
+
+
+def resolve_work_location(location_text: str, *, multiple_locations: bool = False) -> RegionResolution:
+    if not multiple_locations:
+        return resolve_region(location_text)
+
+    # Resolve each workplace independently so a province or district from one
+    # alternative cannot disambiguate a different workplace.
+    candidates = {}
+    for workplace in _WORKPLACE_SEPARATOR.split(location_text):
+        result = resolve_region(workplace)
+        if not result.ambiguous and len(result.candidates) == 1:
+            candidate = result.candidates[0]
+            candidates[candidate.sgg_code] = candidate
+    return RegionResolution(candidates=list(candidates.values()), ambiguous=True)
+
+
 SHARED_GU_NAMES = {"중구", "동구", "서구", "남구", "북구", "강서구"}
 
 

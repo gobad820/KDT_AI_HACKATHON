@@ -1,5 +1,5 @@
 {
-  "about": "docs/agent-spec.md 12장 테스트 30건. 회사는 모두 가상이다. mockLLM 은 실제 모델 출력이 아니라 Claude Code가 미리 작성한 '모델이 이렇게 읽었다고 가정한 응답'이다. 모의 실행은 이 응답을 넣고 실제 코드(근거 대조, 환산, 지역, 질문, 계산)를 검사한다. 실측(live/remote) 실행은 같은 공고를 실제 모델에 보내고 같은 expect 로 판정한다. knownGaps 는 main(extract_v2) 코드로 모의 실행했을 때 명세와 다르다고 확인한 검사 이름이다(테스트가 이 목록과 결과가 같은지 본다).",
+  "about": "docs/agent-spec.md 12장 테스트 30건. 회사는 모두 가상이다. mockLLM 은 실제 모델 출력이 아니라 Claude Code가 미리 작성한 '모델이 이렇게 읽었다고 가정한 응답'이다. 모의 실행은 이 응답을 넣고 실제 코드(근거 대조, 환산, 지역, 질문, 계산)를 검사한다. 실측(live/remote) 실행은 같은 공고를 실제 모델에 보내고 같은 expect 로 판정한다. knownGaps 는 현재 코드로 모의 실행했을 때 명세와 다르다고 확인한 검사 이름이다(테스트가 이 목록과 결과가 같은지 본다).",
   "partnerPosting": "[보기정밀(가상)] 생산기술 엔지니어 신입 채용\n사업내용: 자동차 부품 제조\n근무지: 부산 부산진구 전포동\n고용형태: 정규직\n급여: 연봉 3,400만원\n복리후생: 통근버스, 경조사 지원",
   "fixedData": {
     "note": "숫자 일치·도구 판단 케이스의 고정 월세(설명용 임의값). tests/test_pipeline.py 와 docs/api-spec.md 예시와 같은 값이다.",
@@ -573,14 +573,29 @@
       "kind": "extract",
       "posting": "[라온식품(가상)] 품질관리 사원 채용\n사업내용: 식품 제조\n근무지: 부산 부산진구 전포동\n고용형태: 정규직\n급여: 연봉 3,800만원\n\n[모집 요강]\n| 직무 | 근무지 | 연봉 |\n| 품질관리 | 부산 | 4,200만원 |",
       "expect": {
-        "salaryStatusIn": [
-          "inferred",
-          "missing"
+        "salary": {
+          "value": null,
+          "status": "missing"
+        },
+        "salaryConflictEvidence": [
+          "급여: 연봉 3,800만원",
+          "| 품질관리 | 부산 | 4,200만원 |"
         ],
         "questions": {
           "include": [
             "annualSalary"
           ],
+          "required": [
+            "annualSalary"
+          ],
+          "inputType": {
+            "annualSalary": "number"
+          },
+          "textContains": {
+            "annualSalary": [
+              "본문과 표"
+            ]
+          },
           "textExcludes": {
             "annualSalary": [
               "범위"
@@ -588,14 +603,12 @@
           }
         }
       },
-      "knownGaps": [
-        "salaryStatusIn",
-        "questions.include:annualSalary"
-      ],
+      "knownGaps": [],
+      "remoteNote": "11/22 공개 배포본은 본문의 3,800만원을 그대로 사용했고 급여 확인 질문이 없었다.",
       "variants": [
         {
           "name": "한쪽 선택",
-          "note": "모델이 3,800만원 한쪽만 읽은 경우. 11/22 Codex가 공개 배포본(extract_v2) API를 직접 호출한 사전 확인에서도 같은 결과(3,800만원 extracted, 급여 질문 없음)",
+          "note": "모델이 본문의 3,800만원만 읽어도 본문과 표의 두 인용문을 보여 주고 연봉을 직접 입력받는다.",
           "mockLLM": {
             "companyName": {
               "value": "라온식품(가상)",
@@ -620,14 +633,11 @@
               "evidence": "사업내용: 식품 제조"
             }
           },
-          "knownGaps": [
-            "salaryStatusIn",
-            "questions.include:annualSalary"
-          ]
+          "knownGaps": []
         },
         {
           "name": "범위로 오인",
-          "note": "모델이 서로 다른 두 금액을 범위(isRange)로 읽은 경우. 질문은 생기지만 '범위로 적혀 있어 하한으로 계산'이라고 잘못 설명한다. T03(진짜 범위)과 구분되지 않는다",
+          "note": "모델이 두 금액을 범위로 읽어도 본문과 표의 불일치로 확인한다. 실제 연봉 범위의 하한 처리는 T03에서 검사한다.",
           "mockLLM": {
             "companyName": {
               "value": "라온식품(가상)",
@@ -654,12 +664,10 @@
               "evidence": "사업내용: 식품 제조"
             }
           },
-          "knownGaps": [
-            "questions.textExcludes:annualSalary:범위"
-          ]
+          "knownGaps": []
         }
       ],
-      "notes": "main(extract_v2) 기준 명세 차이. 추출 스키마(salary)는 금액 하나와 isRange 만 있고 '서로 다른 금액이 여러 곳에 있음'을 나타낼 칸이 없다. extract_v2 프롬프트에도 이 경우의 규칙이 없어 코드가 질문을 만들 수 없다. 보완안(스키마 칸 conflictEvidence, 프롬프트 규칙, 표의 연봉 열 대조, 질문 문구)은 프롬프트·evidence.py·questions.py 담당인 W8 PR 리뷰로 남긴다(W2 3번). 이 PR은 코드를 바꾸지 않는다."
+      "notes": "본문의 고정 급여와 표의 급여 열이 서로 다른 금액을 명시하면 연봉 값을 비운다. API는 두 인용문을 salaryConflictEvidence로 반환하고, 화면은 두 인용문과 필수 연봉 입력을 보여 준다. API 회귀 검사는 같은 금액과 실제 범위도 확인한다."
     },
     {
       "id": "T11",
@@ -769,32 +777,42 @@
       "posting": "[금강기계(가상)] 설비 엔지니어 채용\n사업내용: 산업용 기계 제조\n근무지: 서울 본사 또는 창원 공장\n고용형태: 정규직\n급여: 연봉 3,900만원",
       "expect": {
         "region": {
-          "undecided": true
+          "ambiguous": true,
+          "sggCodes": [
+            "48120"
+          ]
         },
         "location": {
           "status": "inferred"
         },
+        "multipleLocations": true,
         "questions": {
           "include": [
             "workLocationText"
           ],
+          "exclude": [
+            "sggCode"
+          ],
           "required": [
             "workLocationText"
           ],
+          "inputType": {
+            "workLocationText": "text"
+          },
           "textContains": {
             "workLocationText": [
-              "여러 곳"
+              "여러 곳",
+              "시군구 코드"
             ]
           }
         }
       },
-      "knownGaps": [
-        "questions.textContains:workLocationText:여러 곳"
-      ],
+      "knownGaps": [],
       "variants": [
         {
           "name": "명세 문구",
-          "note": "지역 표에 걸리는 후보가 없어 고르지 않고 묻는다(통과 요소). 질문은 일반 문구('지역 표에서 찾지 못했습니다')라 '여러 곳'을 말하지 않는다",
+          "note": "창원(48120)만 찾아 참고로 보여 주고 실제 근무지의 시군구 코드 입력을 요구한다.",
+          "remoteNote": "11/22 공개 배포본은 후보 없이 일반 근무지 질문을 반환했다.",
           "mockLLM": {
             "companyName": {
               "value": "금강기계(가상)",
@@ -820,14 +838,41 @@
               "evidence": "사업내용: 산업용 기계 제조"
             }
           },
-          "knownGaps": [
-            "questions.textContains:workLocationText:여러 곳"
-          ]
+          "knownGaps": []
         },
         {
           "name": "후보 1개만 걸림",
           "posting": "[금강기계(가상)] 설비 엔지니어 채용\n사업내용: 산업용 기계 제조\n근무지: 서울 강남구 본사 또는 창원 공장\n고용형태: 정규직\n급여: 연봉 3,900만원",
-          "note": "지역 표에는 강남구 하나만 걸린다. main 은 모델이 multipleLocations 를 표시해도 질문 없이 11680을 확정 후보로 내보내고, 화면(app.js buildModel·canSkipConfirm)이 sggCode 를 자동으로 채워 확인 없이 계산한다. 11/22 Codex가 공개 배포본에서도 같은 동작을 확인",
+          "note": "기존 결과와 대조하기 위해 변형 이름을 유지한다. 이제 강남구(11680)와 창원(48120)을 찾아 시군구 선택을 요구한다.",
+          "remoteNote": "11/22 공개 배포본은 강남구(11680) 한 곳을 질문 없이 확정했다.",
+          "expect": {
+            "region": {
+              "ambiguous": true,
+              "sggCodes": [
+                "11680",
+                "48120"
+              ]
+            },
+            "questions": {
+              "include": [
+                "sggCode"
+              ],
+              "exclude": [
+                "workLocationText"
+              ],
+              "required": [
+                "sggCode"
+              ],
+              "inputType": {
+                "sggCode": "select"
+              },
+              "textContains": {
+                "sggCode": [
+                  "여러 곳"
+                ]
+              }
+            }
+          },
           "mockLLM": {
             "companyName": {
               "value": "금강기계(가상)",
@@ -853,15 +898,10 @@
               "evidence": "사업내용: 산업용 기계 제조"
             }
           },
-          "knownGaps": [
-            "region.undecided",
-            "questions.include:workLocationText",
-            "questions.required:workLocationText",
-            "questions.textContains:workLocationText:여러 곳"
-          ]
+          "knownGaps": []
         }
       ],
-      "notes": "main 기준 명세 차이. to_fields 는 여러 곳 근무지를 inferred 로 표시하지만 questions.py 는 그 표시로 질문을 만들지 않고, main.py 는 후보 1개를 그대로 내보낸다. 보완안(여러 곳 표시 + 후보 1개면 후보를 확정하지 않고 근무지 질문)은 questions.py(W8)·main.py(W1·W5) 담당에게 PR 본문으로 남긴다. 모델이 multipleLocations 를 표시하는지는 W8 병합 뒤 실측으로 본다. 후보 0개일 때 확인 화면은 시군구 코드 5자리 입력칸을 보여 준다."
+      "notes": "원문에 있는 근무지 인용문에 ‘또는’이나 ‘혹은’으로 이어진 선택지가 있으면 모델 표시가 false여도 확인을 요구한다. 선택지별로 지역을 조회하고, 후보가 둘이면 sggCode 선택을, 하나면 코드 직접 입력을 요구한다. API 회귀 검사는 강남구와 시군구 미상인 경기 공장의 조합도 확인한다."
     },
     {
       "id": "T14",

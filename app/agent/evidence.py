@@ -62,11 +62,15 @@ def _korean_forms(n: int) -> list:
 _INSTRUCTION = re.compile(r"무시|지시|프롬프트|명령|ignore|instruction|system|계산하라|출력하라|답하라|하십시오|하라[.!。]?$", re.I)
 
 
+def is_instruction(text: str) -> bool:
+    return bool(_INSTRUCTION.search(norm(text)))
+
+
 def verify_salary(field: ExtractedField, source: str, raw_amount) -> ExtractedField:
     """환산에 쓴 숫자가 evidence 안에 있어야 한다. 없으면 missing 으로 내린다."""
     if field.value is None:
         return field
-    if field.evidence and _INSTRUCTION.search(norm(field.evidence).strip()):
+    if field.evidence and is_instruction(field.evidence):
         return ExtractedField[int](value=None, status="missing", evidence=None,
                                    note="연봉 근거가 지시문처럼 보여 쓰지 않음")
     if not (field.evidence and evidence_in_source(field.evidence, source)):
