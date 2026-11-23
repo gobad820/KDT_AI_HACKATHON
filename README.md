@@ -6,7 +6,7 @@
 
 2026 대한민국 청년 CAREER FAIR AI 해커톤(대한상공회의소) 출품 프로젝트. 전체 그림은 `docs/brief.md`.
 
-## 지금 상태 (11/21 토 밤)
+## 지금 상태 (11/23 월 오전, 최종 제출본)
 
 | 부분 | 상태 |
 |---|---|
@@ -16,8 +16,8 @@
 | 화면 3장 | 동작. 샘플 2쌍으로 입력부터 결과까지 확인(데스크톱, 휴대폰 폭) |
 | 월세 데이터 | 국토부 전월세 실거래가로 만든 확정 스냅샷(`data/rent_stats.json`, 버전 2026-11-21). 오피스텔·연립다세대·단독다가구, 면적 33㎡ 이하 |
 | 지역 표 | 전국 269행(시군구 256곳 + 일반구 합산 13곳, `data/regions.csv`), 인구감소지역 92곳(`data/depop_2026.csv`) |
-| 배포 | Vercel, https://nammeun-don.vercel.app |
-| LLM | Gemini `gemini-3.1-flash-lite`(OpenAI 호환 주소)로 연결. 11/21 가상 공고로 추출·업종 분류·설명문까지 확인. 장애 때는 샘플 공고만 저장된 추출 결과로 응답하고, 업종은 키워드 규칙, 설명문은 템플릿 |
+| 배포 | Vercel, https://nammeun-don.vercel.app (11/23 10:04 `main` `113d047` 배포. 시크릿 창에서 샘플 2쌍 입력부터 결과까지 확인) |
+| LLM | Gemini `gemini-flash-lite-latest`(OpenAI 호환 주소), 대체 모델 `gemini-3.5-flash-lite` → `gemini-3.1-flash-lite`. 응답 온도 0, 시도당 8초, 429·5xx·시간 초과면 다음 모델. 11/21 가상 공고로 추출·업종 분류·설명문까지 확인. 장애 때는 샘플 공고만 저장된 추출 결과로 응답하고, 업종은 키워드 규칙, 설명문은 템플릿 |
 | 도구 호출 루프, 후속 질문(`/api/followup`) | 아직 없음 |
 
 ## 실행
@@ -82,9 +82,9 @@ Gemini `gemini-flash-lite-latest`를 OpenAI 호환 주소로 부른다(`app/agen
 | pytest (개발용) | MIT | https://github.com/pytest-dev/pytest | 테스트 |
 | Pretendard | SIL Open Font License 1.1 | https://github.com/orioncactus/pretendard | 화면 글꼴 (jsDelivr CDN, v1.3.9) |
 | Nanum Gothic Coding | SIL Open Font License 1.1 | https://fonts.google.com/specimen/Nanum+Gothic+Coding | 결과 화면 공고별 계산서의 고정폭 글꼴 (Google Fonts) |
-| 국토교통부 전월세 실거래가 자료 | 공공데이터포털 이용허락범위 제한 없음(포털 표기, 확인 필요) | https://www.data.go.kr | 원룸 월세 통계 (수집 2026-11-21, 오피스텔·연립다세대·단독다가구) |
-| 행정표준코드관리시스템 법정동 코드 | 확인 필요 | https://www.code.go.kr | 시군구 코드 |
-| 행정안전부 인구감소지역 지정 고시 | 정부 고시(확인 필요) | https://www.mois.go.kr | 인구감소지역 92곳 (`data/depop_2026.csv`) |
+| 국토교통부 전월세 실거래가 자료 | 공공데이터포털 이용허락범위 제한 없음(오피스텔 15126475, 연립다세대 15126473, 단독/다가구 15126472 페이지에서 11/23 확인) | https://www.data.go.kr | 원룸 월세 통계 (수집 2026-11-21, 오피스텔·연립다세대·단독다가구) |
+| 행정표준코드관리시스템 법정동 코드 | 확인 필요(code.go.kr에 이용 조건 표기를 찾지 못함. 같은 코드를 담은 공공데이터포털 「국토교통부_전국 법정동」(15063424)은 이용허락범위 제한 없음) | https://www.code.go.kr | 시군구 코드 |
+| 행정안전부 인구감소지역 지정 고시 | 정부 고시. 저작권법 제7조 2호(국가의 고시·공고는 보호받지 못하는 저작물) | https://www.mois.go.kr | 인구감소지역 92곳 (`data/depop_2026.csv`) |
 | Playwright (개발용) | Apache-2.0 | https://github.com/microsoft/playwright | 쇼릴 프레임 캡처, 화면 확인. 배포물에 포함하지 않음 |
 | FFmpeg (개발용) | LGPL-2.1 / GPL | https://ffmpeg.org | 쇼릴·첫 화면 영상 인코딩 도구로만 사용. 배포물에 포함하지 않음 |
 | 첫 화면 출력 영상 (app/web/img/hero_print.mp4) | 자체 제작 | media/printer/render_hero.py | POS 프린터·감열지 영수증 3D 렌더. Blender 5.3(GPL)은 렌더 도구로만 사용했고 배포물에 포함하지 않음 |
