@@ -323,3 +323,5 @@ a:hover { text-decoration-color: var(--ink); }
 .flow-chips button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
 .flow-note { margin: 0; font-size: .8rem; color: var(--faint); }
 @media (max-width: 720px) { .flow-ctr, .flow-chips { justify-items: start; justify-content: flex-start; } }
+.post-pdf { display: flex; justify-content: flex-end; margin-top: 10px; }
+.post-pdf .pdf-btn { font-size: .85rem; padding: 6px 12px; }
